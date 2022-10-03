@@ -1,0 +1,11 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This CSS file determines to some extent, the looks of the WhatsApp notification provider contact input UI
+*/
+
+
+
+.hc-cayofedpeople-notification-form-based-contact-input.hc-cayofedpeople-notification-contact-input-whatsapp .hc-multi-flex-form input{
+    font-family:archive;
+}

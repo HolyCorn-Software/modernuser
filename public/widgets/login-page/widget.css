@@ -1,0 +1,19 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The Donor Forms Project
+    This stylesheet beautifies the standard consultation page
+*/
+
+
+
+html, body{
+    margin:0px;
+    font-family: k2dThin;
+    position:relative;
+}
+
+.hc-cayofedpeople-login-page >.container >.navbar{
+    position:sticky;
+    top:0px;
+    z-index:2;
+}

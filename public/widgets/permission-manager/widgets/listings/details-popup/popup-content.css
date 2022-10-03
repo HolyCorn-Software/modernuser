@@ -1,0 +1,19 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+
+    This stylesheet determines the looks of the permission-manager listings details widget
+*/
+
+.hc-cayofedpeople-permission-details >.container{
+    display:flex;
+    flex-direction:column;
+    gap:2em;
+}
+
+.hc-cayofedpeople-permission-details >.container >.header{
+    display: flex;
+    gap:0.25em;
+    font-size:1.25em;
+    font-family:k2d;
+}

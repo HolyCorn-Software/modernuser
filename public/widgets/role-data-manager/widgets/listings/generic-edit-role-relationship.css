@@ -1,0 +1,21 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines (to an extent), the looks of the popup where the user can edit the super-roles of a role
+*/
+
+.hc-cayofedpeople-role-relationship-edit-popup-content {
+    max-width:300px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2em;
+}
+
+.hc-cayofedpeople-role-relationship-edit-popup-content .hc-action-button{
+    width:100%;
+}
+
+.hc-cayofedpeople-role-relationship-edit-popup-content .hc-label-list >.container{
+    max-width:300px;
+}

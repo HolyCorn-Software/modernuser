@@ -1,0 +1,17 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+
+    This popup is used for containing the details of permission
+*/
+
+
+/* .hc-hcts-branded-popup .hc-hcts-branded-menu >.container >.main-row */
+
+.hc-cayofedpeople-permission-details-popup .hc-hcts-branded-menu>.container>.main-row {
+    overflow: hidden;
+}
+
+.hc-cayofedpeople-permission-details-popup .hc-cayofedpeople-accordion >.container{
+    flex-grow:1;
+}

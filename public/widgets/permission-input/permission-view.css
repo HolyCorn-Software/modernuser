@@ -1,0 +1,12 @@
+/* 
+    Copyright 2022 HolyCorn Software
+    The Donor Forms Project
+    Check the description of this widget at ./user-view.mjs
+*/
+
+
+.hc-cayofedpeople-permission-input-item >.container{
+    display:flex;
+    flex-direction:column;
+    gap:0.75em;
+}

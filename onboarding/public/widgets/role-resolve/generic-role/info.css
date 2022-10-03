@@ -1,0 +1,21 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet controls the appearance of a textual piece of information, e.g The Zone
+*/
+
+
+.hc-cayofedpeople-role-resolve-info >.container{
+    display:flex;
+    justify-content: space-between;
+    gap:2em;
+    cursor:default;
+}
+
+
+.hc-cayofedpeople-role-resolve-info >.container >.action{
+    color:rgb(67, 118, 185);
+    cursor:pointer;
+    font-weight:bolder;
+}
+

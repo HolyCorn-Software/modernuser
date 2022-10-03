@@ -1,0 +1,40 @@
+/* 
+    Copyright 2022 HolyCorn Software
+    The Donor Forms Project
+    This widget represents a single entry within the payment listings widget
+*/
+
+
+.hc-donorforms-admin-payment-listing .permissions_labels{
+    font-size:0.75em;
+    overflow:hidden;
+    overflow-x:auto;
+    display: flex;
+    gap:1em;
+    scrollbar-width: 5px;
+}
+
+.hc-donorforms-admin-payment-listing .permissions_labels x{
+    background-color:rgba(32, 32, 218, 0.638);
+    border-radius:0.25em;
+    padding:0.25em;
+    color:white;
+    display:inline;
+    white-space:nowrap;
+
+}
+
+.hc-donorforms-admin-payment-listing .permissions_labels x:nth-child(even){
+
+    background-color:rgba(218, 32, 128, 0.638);
+}
+
+.hc-donorforms-admin-payment-listing .permissions_labels::-webkit-scrollbar{
+    background-color: transparent;
+}
+.hc-donorforms-admin-payment-listing .permissions_labels::-webkit-scrollbar-thumb{
+    background-color: rgb(135, 178, 169);
+    border-radius:8px;
+    background-clip:content-box;
+    border:4.75px solid transparent;
+}

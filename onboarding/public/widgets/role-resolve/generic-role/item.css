@@ -1,0 +1,38 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines the looks on the role-resolve widget, of a single role requested 
+*/
+
+
+.hc-cayofedpeople-role-resolve-generic-role >.container {
+    display:flex;
+    flex-direction:column;
+    gap:2em;
+    background-color: rgb(221 243 248);
+    padding:0.75em;
+    border-radius:0.5em;
+}
+
+.hc-cayofedpeople-role-resolve-generic-role >.container >.data-section{
+    display:flex;
+    flex-direction:column;
+    gap:0.5em;
+}
+
+
+.hc-cayofedpeople-role-resolve-generic-role >.container >.actions{
+    display:flex;
+    gap:1em;
+    justify-content:space-between;
+}
+
+.hc-cayofedpeople-role-resolve-generic-role >.container >.actions >.hc-action-button >.container{
+    background-color:rgb(106, 161, 234);
+    color:white;
+    border-radius:0.85em;
+}
+
+.hc-cayofedpeople-role-resolve-generic-role >.container >.actions >.hc-action-button:first-child:last-child{
+    flex-grow:1;
+}

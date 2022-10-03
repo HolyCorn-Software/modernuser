@@ -1,0 +1,72 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System 
+
+    This widget shows the details of a permission being listed
+*/
+
+.hc-cayofedpeople-permission-actions >.container {
+    display:flex;
+    flex-direction:column;
+    gap:1em;
+}
+
+.hc-cayofedpeople-permission-actions >.container >.labeled_property{
+    display:flex;
+    gap:0.45em;
+}
+.hc-cayofedpeople-permission-actions >.container >.labeled_property >.value{
+    color:rgb(4, 4, 107);
+    pointer-events:none;
+}
+
+.hc-cayofedpeople-permission-actions.can-expire >.container >.expires_label >.value{
+    cursor:pointer;
+    pointer-events:all;
+}
+
+.hc-cayofedpeople-permission-actions.can-expire >.container >.expires_label >.value:hover{
+    color:rgb(208, 8, 105);
+}
+
+
+.hc-cayofedpeople-permission-actions.is-zoned >.container >.zone_label >.value{
+    cursor:pointer;
+    pointer-events:all;
+}
+
+.hc-cayofedpeople-permission-actions.is-zoned >.container >.zone_label >.value:hover{
+    color:rgb(208, 8, 105);
+}
+
+
+.hc-cayofedpeople-permission-actions >.container >.main {
+    display:flex;
+    flex-direction: column;
+    gap:2em;
+}
+
+
+.hc-cayofedpeople-permission-actions >.container >.main >.switch-actions{
+    display:flex;
+    gap:2em;
+    margin-top:1em;
+}
+
+.hc-cayofedpeople-permission-actions >.container >.main >.button-actions{
+    display: flex;
+    flex-direction: column;
+    gap:0.75em;
+}
+
+
+.hc-cayofedpeople-permission-actions .hc-dual-switch >.container >.label{
+    text-align: center;
+    font-size:1.25em;
+}
+
+.hc-cayofedpeople-permission-actions .hc-dual-switch >.container {
+    gap:1em;
+    display:flex;
+    flex-direction:column;
+}

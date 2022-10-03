@@ -1,0 +1,11 @@
+{
+    "label": "Modern Faculty of Users",
+    "name": "modernuser",
+    "init": "./exec.mjs",
+    "errors":{
+        "not_permitted":{
+            "message": "You don't have the rights to do this.",
+            "code": 401
+        }
+    }
+}

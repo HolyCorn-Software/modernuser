@@ -1,0 +1,37 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines the looks of the zonation-zone-input widget
+*/
+
+.hc-cayofedpeople-zonation-zone-input {
+    transition: 0.25s 0.125s;
+}
+
+.hc-cayofedpeople-zonation-zone-input>.container {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35em;
+    cursor: default;
+}
+
+.hc-cayofedpeople-zonation-zone-input>.container>.main {
+    padding: 0.75em;
+    border-radius: 0.35em;
+    box-shadow: 0px 0px 12px rgb(192, 202, 206);
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    cursor: pointer;
+}
+
+.hc-cayofedpeople-zonation-zone-input>.container>.main>img {
+    height: 1.75em;
+}
+
+.hc-cayofedpeople-zonation-zone-input.hidden-disabled {
+    opacity: 0;
+    font-size:0px;
+    pointer-events: none;
+}

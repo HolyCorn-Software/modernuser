@@ -1,0 +1,33 @@
+/* 
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet adds some touches to the Welcome Popup widget
+ */
+
+.hc-cayofedpeople-onboarding-welcome-popup >.container{
+    display:flex;
+    flex-direction:column;
+    gap:1.5em;
+    max-width:275px;
+}
+
+.hc-cayofedpeople-onboarding-welcome-popup >.container >.title{
+    font-size:1.5em;
+}
+
+.hc-cayofedpeople-onboarding-welcome-popup >.container >.content{
+    color:#404057;
+    background-color: #f7e2e2;
+    padding:0.25em;
+    border-radius:0.25em;
+}
+
+.hc-cayofedpeople-onboarding-welcome-popup >.container >.actions{
+    display:flex;
+    flex-direction:column;
+}
+
+.hc-cayofedpeople-onboarding-welcome-popup >.container >.actions >.hc-action-button >.container{
+
+    background-color:#d54444;
+}

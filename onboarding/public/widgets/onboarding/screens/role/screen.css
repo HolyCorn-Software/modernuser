@@ -1,0 +1,26 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines to some extent the looks of the screen where a user enters his role
+*/
+
+
+
+.hc-cayofedpeople-onboarding-role-select >.container{
+    display:flex;
+    flex-direction: column;
+    gap:0.5em;
+}
+
+.hc-cayofedpeople-onboarding-role-select >.container {
+    padding-bottom:1.25em;
+}
+
+.hc-cayofedpeople-onboarding-role-select .hc-cayofedpeople-user-n-role-input-item{
+
+    font-size:0.85em;
+}
+
+.hc-cayofedpeople-onboarding-role-select >.container >.zone-input .hc-cayofedpeople-zonation-zone-input >.container{
+    width:100%;
+}

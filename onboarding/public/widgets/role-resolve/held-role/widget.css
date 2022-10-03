@@ -1,0 +1,10 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet beautifies and distinguishes the section of the role-resolve widget that deals with roles already held by the user
+*/
+
+
+.hc-cayofedpeople-role-resolve-generic-role.hc-cayofedpeople-role-resolve-held-role >.container {
+    background-color: rgb(250, 211, 217);
+}

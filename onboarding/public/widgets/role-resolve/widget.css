@@ -1,0 +1,78 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines the looks of the role-resolve widget
+*/
+
+
+.hc-cayofedpeople-role-resolve >.container{
+    display:inline-flex;
+    flex-direction:column;
+    gap:2em;
+
+    font-family: k2dThin;
+    
+    
+    border-radius:1em;
+    box-shadow:0px 0px 20px rgb(205, 207, 208);
+}
+
+
+.hc-cayofedpeople-role-resolve >.container >.main-section{
+    display:flex;
+    flex-direction:column;
+    gap:1.5em;
+    padding:1.5em;
+    
+}
+
+.hc-cayofedpeople-role-resolve >.container >.main-section >:is(.requested-roles,.held-roles) >.title{
+    font-family:k2dExtraBold;
+    font-size:1.25em;
+}
+
+.hc-cayofedpeople-role-resolve >.container >.main-section >:is(.requested-roles,.held-roles){
+    display:flex;
+    flex-direction:column;
+    gap:1em;
+}
+
+.hc-cayofedpeople-role-resolve >.container >.main-section >:is(.requested-roles,.held-roles) >.content{
+    display:flex;
+    flex-direction:column;
+    gap:1.5em;
+}
+
+
+.hc-cayofedpeople-role-resolve >.container >.main-section >.held-roles >.actions{
+    display: flex;
+    flex-direction:column;
+    gap:1em;
+}
+
+.hc-cayofedpeople-role-resolve >.container >.main-section >.held-roles >.actions >.hc-action-button >.container{
+    border-radius:0.75em;
+}
+
+
+.hc-cayofedpeople-role-resolve >.container >.profile{
+    display:flex;
+    gap:1em;
+    justify-content:center;
+    flex-direction:column;
+    align-items: center;
+}
+
+.hc-cayofedpeople-role-resolve >.container >.profile >.text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:0.75em;
+    font-size:1.5em;
+}
+
+.hc-cayofedpeople-role-resolve >.container >.profile >.image >img{
+    width:clamp(200px, 24em, 100vw - 5em);
+    border-radius:0.75em;
+    pointer-events:none;
+}

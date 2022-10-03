@@ -1,0 +1,61 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines the looks of the choose-account widget
+*/
+
+
+.hc-cayofedpeople-choose-account-content >.container {
+    display:flex;
+    flex-direction:column;
+    gap:1em;
+    align-items:center;
+    padding-top:0.75em;
+}
+.hc-cayofedpeople-choose-account-content >.container >.title{
+    width:100%;
+}
+
+
+.hc-cayofedpeople-choose-account-content >.container >.actions{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+
+.hc-cayofedpeople-choose-account-content >.container >.listings{
+    display:flex;
+    flex-direction:column;
+    gap:1em;
+}
+
+
+
+.hc-cayofedpeople-choose-account-item >.container {
+    display:flex;
+    gap:1em;
+    border-radius:10px;
+    box-shadow:0px 0px 18px rgb(176, 186, 191);
+    padding:0.75em;
+    cursor:default;
+}
+
+.hc-cayofedpeople-choose-account-item >.container >.main{
+    display:flex;
+    flex-direction:column;
+    gap:0.25em;
+}
+
+.hc-cayofedpeople-choose-account-item >.container >.main >.label{
+    font-size:1.5em;
+}
+
+.hc-cayofedpeople-choose-account-item >.container >.main >.creation-time{
+    display:flex;
+    gap:0.35em;
+}
+
+.hc-cayofedpeople-choose-account-item >.container >.image >img{
+    width:3em;
+    border-radius:0.25em;
+}

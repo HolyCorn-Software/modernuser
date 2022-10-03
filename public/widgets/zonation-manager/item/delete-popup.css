@@ -1,0 +1,19 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    The Modern Faculty of Users
+
+    This widget allows the user to make up his mind about deleting a zone
+*/
+
+
+.hc-cayofedpeople-zonation-manager-delete-popup {
+    display:flex;
+    flex-direction:column;
+    gap:2em;
+}
+
+.hc-cayofedpeople-zonation-manager-delete-popup >.actions{
+    display:flex;
+    gap:1em;
+}

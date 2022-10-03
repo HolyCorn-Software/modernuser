@@ -1,0 +1,33 @@
+/* 
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    Check the description of this widget at ./user-view.mjs
+*/
+
+
+.hc-cayofedpeople-user-n-role-input-item >.container{
+    display:flex;
+    flex-direction:column;
+    gap:0.5em;
+}
+.hc-cayofedpeople-user-n-role-input-item >.container >.main{
+
+    display:flex;
+    gap:0.5em;
+}
+
+.hc-cayofedpeople-user-n-role-input-item >.container >.main  >img{
+    max-width:2.5em;
+    max-height:3.5em;
+    border-radius:10%;
+}
+
+.hc-cayofedpeople-user-n-role-input-item >.container >.main >.data  {
+    display:flex;
+    flex-direction:column;
+    gap:0.125em;
+}
+
+.hc-cayofedpeople-user-n-role-input-item >.container >.main >.data  >.label{
+    font-size:1.35em;
+}

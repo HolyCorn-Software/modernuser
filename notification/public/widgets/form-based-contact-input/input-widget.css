@@ -1,0 +1,19 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This CSS file determines to some extent, the looks of contact input UIs that are simple and based on forms
+*/
+
+
+.hc-cayofedpeople-notification-form-based-contact-input .hc-multi-flex-form>.container{
+    padding-bottom:0px;
+    padding-top:0px;
+}
+
+.hc-cayofedpeople-notification-form-based-contact-input .hc-multi-flex-form input{
+    font-family:k2d;
+}
+
+.hc-cayofedpeople-notification-form-based-contact-input .hc-multi-flex-form>.container>.hc-multi-flex-form-item{
+    padding-top:0px;
+}

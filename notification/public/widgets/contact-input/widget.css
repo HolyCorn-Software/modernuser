@@ -1,0 +1,22 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet determines how the contact-input widget of the notification module of the Modern Faculty of Users looks
+*/
+
+
+
+.hc-cayofedpeople-notification-contact-input >.container{
+    display:flex;
+    gap:1.5em;
+    padding-left:1.5em;
+    flex-direction:column;
+}
+
+
+
+.hc-cayofedpeople-notification-contact-input >.container >.icons-select{
+    display:flex;
+    justify-content:space-between;
+    gap:1.5em;
+}

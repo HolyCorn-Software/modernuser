@@ -1,0 +1,21 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This is the stylesheet of the onboarding page
+*/
+
+
+
+body >.page-content{
+    min-height:70vh;
+    display:grid;
+    place-content:center;
+    position:relative;
+    padding-top:2em;
+    padding-bottom:2em;
+}
+
+body{
+    font-family:k2d;
+    margin:0px;
+}

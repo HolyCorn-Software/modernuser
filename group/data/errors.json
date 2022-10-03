@@ -1,0 +1,20 @@
+{
+    "groupManager.duplicate": {
+        "backend": {
+            "message": "A call was made to add a group to the system, but another group with the same name exists.",
+            "httpCode": "409"
+        },
+        "frontend": {
+            "message": "Sorry, the group could not be added because there's already a group with the same name"
+        }
+    },
+    "groupManager.notFound": {
+        "backend": {
+            "message": "The group was not found.",
+            "httpCode": "409"
+        },
+        "frontend": {
+            "message": "The group specified was not found"
+        }
+    }
+}

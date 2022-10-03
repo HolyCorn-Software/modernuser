@@ -1,0 +1,9 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The CAYOFED People System
+    This stylesheet (to an extent) determines the looks of the popup where an admin user can add users 
+*/
+
+.hc-cayofedpeople-role-play-add-user-popup .hc-hcts-branded-menu >.container >.main-row >.content{
+    max-width:280px;
+}

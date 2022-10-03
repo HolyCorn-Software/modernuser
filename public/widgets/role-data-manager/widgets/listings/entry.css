@@ -1,0 +1,70 @@
+/* 
+    Copyright 2022 HolyCorn Software
+    The Donor Forms Project
+    This widget represents a single entry within the payment listings widget
+*/
+
+.hc-cayofedpeople-roles-listings-item {
+    padding-top: 2em;
+    padding-bottom: 3em;
+}
+
+.hc-cayofedpeople-roles-listings-item .is_label_list {
+    font-size: 0.75em;
+    overflow: hidden;
+    overflow-x: auto;
+    /* display: flex; */
+    width:100%;
+    gap: 1em;
+    scrollbar-width: 5px;
+}
+
+.hc-cayofedpeople-roles-listings-item .is_label_list x {
+    background-color: rgba(31, 191, 146, 0.638);
+    border-radius: 1em;
+    padding: 0.5em;
+    color: black;
+    display: inline-grid;
+    place-items: center;
+    white-space: nowrap;
+    margin-left:0.25em;
+
+}
+
+.hc-cayofedpeople-roles-listings-item .is_label_list x:nth-child(even) {
+
+    background-color: rgba(218, 32, 128, 0.638);
+}
+
+.hc-cayofedpeople-roles-listings-item .is_label_list::-webkit-scrollbar {
+    background-color: transparent;
+}
+
+.hc-cayofedpeople-roles-listings-item .is_label_list::-webkit-scrollbar-thumb {
+    background-color: rgb(135, 178, 169);
+    border-radius: 8px;
+    background-clip: content-box;
+    border: 4.75px solid transparent;
+}
+
+
+.hc-cayofedpeople-roles-listings-item>*:not(.field.id, .checkbox) {
+    cursor: default;
+    transition: 0.125s;
+    padding-left: 0.75em;
+    min-height: 3.75em;
+}
+
+
+.hc-cayofedpeople-roles-listings-item>*:not(.field.id, .checkbox):hover {
+    background-color: rgba(105, 216, 201, 0.368);
+    border-radius: 1em;
+
+    transition: 0.15s 0.37s;
+}
+
+.hc-cayofedpeople-roles-listings-item>*:not(.field.is_label_list) {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}

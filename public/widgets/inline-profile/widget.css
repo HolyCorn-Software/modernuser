@@ -1,0 +1,38 @@
+/*  
+    Copyright 2022 HolyCorn Software
+    The HCTS Project
+    This stylesheet controls the looks of the inline-profile widget
+*/
+
+
+
+.hc-hcts-modernuser-inline-profile>.container {
+    display: inline-flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.hc-hcts-modernuser-inline-profile>.container>.main {
+    display: flex;
+    gap: 1.25em;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+}
+
+.hc-hcts-modernuser-inline-profile>.container>.main>.icon {
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+
+    background: var(--image);
+    background-position: center;
+    background-size: cover;
+}
+
+.hc-hcts-modernuser-inline-profile>.container>.main >.label{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+    max-width:100%;
+}
