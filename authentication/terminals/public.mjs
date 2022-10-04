@@ -6,9 +6,9 @@
  */
 
 import { Exception } from "../../../../system/errors/backend/exception.js";
-import { ExtendedPublicJSONRPC } from "../../../../common/modules/extended-rpc/rpc.mjs";
 import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import UserAuthenticationController from "../controller.mjs";
+import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
 
 
 const faculty = FacultyPlatform.get();
@@ -38,7 +38,7 @@ export default class UserAuthenticationPublicMethods {
         data = arguments[2];
 
 
-        /** @type {ExtendedPublicJSONRPC} */
+        /** @type {FacultyPublicJSONRPC} */
         const client = arguments[0];
 
 
@@ -81,7 +81,7 @@ export default class UserAuthenticationPublicMethods {
             ...arguments[1]
         });
 
-        /** @type {ExtendedPublicJSONRPC} */ const client = arguments[0]
+        /** @type {FacultyPublicJSONRPC} */ const client = arguments[0]
 
         const session = await client.resumeSessionFromMeta()
 
@@ -117,7 +117,7 @@ export default class UserAuthenticationPublicMethods {
      */
     async whoami(ignoreOnboarding) {
         ignoreOnboarding = arguments[1]
-        /** @type {ExtendedPublicJSONRPC} */
+        /** @type {FacultyPublicJSONRPC} */
         const client = arguments[0]
         const profile = await client.getUserProfile()
         if (!ignoreOnboarding && (!profile.label || !profile.icon)) {

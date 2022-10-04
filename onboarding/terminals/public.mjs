@@ -5,7 +5,7 @@
  * This module provides the general public with features within the scope of the onboarding process
  */
 
-import muser_common from "../../../../common/modules/modernuser.mjs"
+import muser_common from "muser_common"
 import OnboardingController from "../controller.mjs"
 
 

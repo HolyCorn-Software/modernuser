@@ -13,6 +13,7 @@ import UserProfileController from "../profile/controller.mjs";
 import UserAuthenticationProvider from "./lib/provider.mjs"
 import AuthenticationProviderSystemAPI from "./lib/system-api.mjs";
 import { FacultyPlatform } from "../../../system/lib/libFaculty/platform.mjs";
+import { FacultyPublicJSONRPC } from "../../../system/comm/rpc/faculty-public-rpc.mjs";
 
 const faculty = FacultyPlatform.get();
 
@@ -67,7 +68,7 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {object} param0.data
      * @param {string} param0.provider
-     * @returns {Promise<{token: string, expires: number}>}
+     * @returns {Promise<{token: string, expires: number, login_data: import("./types.js").UserLogin}>}
      */
     async login({ data, provider }) {
 
@@ -98,7 +99,8 @@ export default class UserAuthenticationController {
 
         return {
             token: this.issueToken({ userid: login_data.userid }),
-            expires: Date.now() + ((UserAuthenticationController.token_expiry_seconds - 5) * 1000)
+            expires: Date.now() + ((UserAuthenticationController.token_expiry_seconds - 5) * 1000),
+            login_data
         }
     }
 
@@ -221,7 +223,7 @@ export default class UserAuthenticationController {
      * @param {string} param0.userid - This can be omitted
      * @param {object} param0.data
      * @param {string} param0.provider
-     * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} param0.clientRpc
+     * @param {FacultyPublicJSONRPC} param0.clientRpc
      * @returns {Promise<string>}
      */
     async createLogin({ userid, data, provider, clientRpc }) {
@@ -381,7 +383,7 @@ export default class UserAuthenticationController {
      * @param {object} param0
      * @param {string} param0.provider 
      * @param {object} param0.data 
-     * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} param0.clientRpc
+     * @param {FacultyPublicJSONRPC} param0.clientRpc
      */
     async resetLogin({ provider, data, clientRpc }) {
         let providerObject = this.findProvider(provider);

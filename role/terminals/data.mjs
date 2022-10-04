@@ -5,8 +5,7 @@
  * 
  * This functions are strictly related to role_data
  */
-
-import muser_common from "../../../../common/modules/modernuser.mjs";
+import muser_common from "muser_common";
 import RoleDataController from "../data/controller.mjs";
 
 

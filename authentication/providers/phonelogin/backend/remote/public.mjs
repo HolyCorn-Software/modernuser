@@ -5,7 +5,7 @@
  * These methods are provided by phonelogin provider
  */
 
-import muser_common from "../../../../../../../common/modules/modernuser.mjs";
+import muser_common from 'muser_common'
 import { CollectionProxy } from "../../../../../../../system/database/collection-proxy.js";
 import PhoneLoginProvider from "../provider.mjs";
 

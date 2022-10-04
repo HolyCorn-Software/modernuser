@@ -6,6 +6,7 @@ This defines the structure of a login provider
 Therefore, subclasses must follow this pattern
 */
 
+import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
 import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import { BaseModel } from "../../../../system/lib/libFaculty/provider-driver.js"
 import AuthenticationProviderSystemAPI from "./system-api.mjs";
@@ -59,7 +60,7 @@ export default class UserAuthenticationProvider extends BaseModel {
      * @param {string} param0.login_id
      * @param {object} param0.data
      * @param {('login'|'signup'|'reset')} param0.intent
-     * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} param0.clientRpc Could be null
+     * @param {FacultyPublicJSONRPC} param0.clientRpc Could be null
      * @return {Promise<object>}
      */
     async toUniqueCredentials({ data, login_id, intent, clientRpc }) {

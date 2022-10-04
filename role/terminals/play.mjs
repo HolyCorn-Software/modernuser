@@ -4,8 +4,9 @@
  * This module contains public methods related to roleplay
  */
 
+
+import muser_common from "muser_common";
 import PermissionGrantsController from "../../permission/grants/controller.mjs";
-import muser_common from "../../../../common/modules/modernuser.mjs";
 import UserProfileController from "../../profile/controller.mjs";
 import RolePlayController from "../membership/controller.mjs";
 

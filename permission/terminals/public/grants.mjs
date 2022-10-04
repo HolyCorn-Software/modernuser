@@ -4,7 +4,8 @@
  * This module provides the publicly available methods of the Modern Faculty of Users related to managing the assignment of permissions
  */
 
-import muser_common from "../../../../../common/modules/modernuser.mjs";
+import muser_common from "muser_common";
+import { FacultyPublicJSONRPC } from "../../../../../system/comm/rpc/faculty-public-rpc.mjs";
 import { Exception } from "../../../../../system/errors/backend/exception.js";
 import PermissionGrantsController from "../../grants/controller.mjs";
 
@@ -150,7 +151,7 @@ export default class PermissionGrantsPublicMethods {
 /**
  * This method checks if the user has one or more permissions
  * @param {object} param0
- * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} param0.client 
+ * @param {FacultyPublicJSONRPC} param0.client 
  * @param {string} param0.permission 
  * @param {string} param0.zone
  * @param {PermissionGrantsController} param0.controller
@@ -158,7 +159,7 @@ export default class PermissionGrantsPublicMethods {
  */
 const client_can_grant = async ({ client, permission, zone, controller }) => {
 
-    const userid = (await client.getUserProfile()).id
+    const userid = (await muser_common.getUser(client)).id
 
     try {
         await controller.hasPermission(

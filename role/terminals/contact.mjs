@@ -4,7 +4,7 @@
  * This module contains public methods related to rolecontact
  */
 
-import muser_common from "../../../../common/modules/modernuser.mjs";
+import muser_common from "muser_common";
 import UserProfileController from "../../profile/controller.mjs";
 import RoleContactController from "../contact/controller.mjs";
 

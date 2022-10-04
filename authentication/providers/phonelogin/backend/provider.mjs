@@ -12,8 +12,8 @@ import crypto from 'node:crypto'
 import { Exception } from "../../../../../../system/errors/backend/exception.js";
 import shortUUID from "short-uuid";
 import PhoneLoginNotifier from "./notification/logic.mjs";
-import PhoneLoginWhatsAppNotifier from "./notification/whatsapp/notifier.mjs";
 import { FacultyPlatform } from "../../../../../../system/lib/libFaculty/platform.mjs";
+import { FacultyPublicJSONRPC } from "../../../../../../system/comm/rpc/faculty-public-rpc.mjs";
 
 export default class PhoneLoginProvider extends UserAuthenticationProvider {
 
@@ -21,9 +21,6 @@ export default class PhoneLoginProvider extends UserAuthenticationProvider {
     constructor({ }) {
 
         super({ ...arguments[0] });
-
-
-
 
 
     }
@@ -46,7 +43,7 @@ export default class PhoneLoginProvider extends UserAuthenticationProvider {
      * @param {string} param0.login_id
      * @param {object} param0.data
      * @param {('login'|'signup'|'reset')} param0.intent
-     * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} param0.clientRpc
+     * @param {FacultyPublicJSONRPC} param0.clientRpc
      * @return {Promise<object>}
      */
     async toUniqueCredentials({ data, login_id, intent, clientRpc }) {
@@ -182,7 +179,7 @@ export default class PhoneLoginProvider extends UserAuthenticationProvider {
     /**
      * Generates a new unique token and a url which the client can click 
      * @param {object} param0 
-     * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} param0.clientRpc
+     * @param {FacultyPublicJSONRPC} param0.clientRpc
      * @param {string} param0.path
      * @returns {{url: string, token:string}}
      */

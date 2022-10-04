@@ -10,6 +10,8 @@
  * 
  */
 
+import muser_common from "muser_common";
+import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
 import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import ZonationDataController from "../data/controller.mjs";
 import ZoneMembershipController from "../membership/controller.mjs";
@@ -106,11 +108,23 @@ export default class ZonationPublicMethods {
 
 /**
  * This checks if the client has the most important permission of this module: modernuser.zonation.modify
- * @param {import("common/modules/extended-rpc/rpc.mjs").ExtendedPublicJSONRPC} client 
+ * @param {FacultyPublicJSONRPC} client 
  * @returns {Promise<void>}
  */
 async function clientPermitted(client) {
-    await client.isPermitted( ['permissions.modernuser.zonation.admin'], { throwError: true })
+    const userid = (await muser_common.getUser(client)).id;
+
+    await muser_common.whitelisted_permission_check(
+        {
+            userid,
+            permissions: ['permissions.modernuser.zonation.admin'],
+            intent: {
+                freedom: 'use',
+                zones: undefined
+            },
+            throwError: true,
+        }
+    );
 }
 
 

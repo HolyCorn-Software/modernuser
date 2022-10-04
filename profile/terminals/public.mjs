@@ -7,9 +7,9 @@
  */
 
 import PermissionGrantsController from "../../permission/grants/controller.mjs";
-import muser_common from "../../../../common/modules/modernuser.mjs";
 import UserAuthenticationController from "../../authentication/controller.mjs"
 import UserProfileController from "../controller.mjs"
+import muser_common from "muser_common";
 
 
 

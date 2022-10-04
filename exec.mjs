@@ -8,7 +8,6 @@
  */
 
 import { Collection } from "mongodb";
-import { ExtendedPublicJSONRPC } from "../../common/modules/extended-rpc/rpc.mjs";
 import { Exception } from "../../system/errors/backend/exception.js";
 import { HTTPServer } from "../../system/http/server.js";
 import { StrictFileServer } from "../../system/http/strict-file-server.js";
@@ -29,6 +28,7 @@ import PermissionGrantsController, { permissions as grants_permissions } from ".
 import NotificationController from "./notification/controller.mjs";
 import OnboardingController from "./onboarding/controller.mjs";
 import RoleController, { role_permissions } from "./role/controller.mjs";
+import { FacultyPublicJSONRPC } from "../../system/comm/rpc/faculty-public-rpc.mjs";
 
 
 const faculty = FacultyPlatform.get();
@@ -132,7 +132,7 @@ export async function init() {
     http.websocketServer.route({
         path: '/',
         callback: (msg, client) => {
-            new ExtendedPublicJSONRPC(client)
+            new FacultyPublicJSONRPC(client)
         }
     });
 
