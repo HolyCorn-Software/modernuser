@@ -9,6 +9,7 @@ import { Exception } from "../../../../system/errors/backend/exception.js";
 import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import UserAuthenticationController from "../controller.mjs";
 import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
+import muser_common from "muser_common";
 
 
 const faculty = FacultyPlatform.get();
@@ -117,9 +118,8 @@ export default class UserAuthenticationPublicMethods {
      */
     async whoami(ignoreOnboarding) {
         ignoreOnboarding = arguments[1]
-        /** @type {FacultyPublicJSONRPC} */
-        const client = arguments[0]
-        const profile = await client.getUserProfile()
+        
+        const profile = await muser_common.getUser(arguments[0])
         if (!ignoreOnboarding && (!profile.label || !profile.icon)) {
             throw new Exception(`You did not complete the onboarding (registration) process. <a href='/$/${faculty.descriptor.name}/onboarding/static/request/'>Click here</a> to complete it.`)
         }

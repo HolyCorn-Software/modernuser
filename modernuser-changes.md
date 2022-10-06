@@ -1,2 +1,3 @@
 
-    Improved README.md to make it easier for future developers to use modernuser
+
+    Corrected minor issue caused by deprecation of previous ExtendedPublicJSONRPC
