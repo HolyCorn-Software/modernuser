@@ -120,6 +120,7 @@ export default class UserAuthenticationPublicMethods {
         ignoreOnboarding = arguments[1]
         
         const profile = await muser_common.getUser(arguments[0])
+        
         if (!ignoreOnboarding && (!profile.label || !profile.icon)) {
             throw new Exception(`You did not complete the onboarding (registration) process. <a href='/$/${faculty.descriptor.name}/onboarding/static/request/'>Click here</a> to complete it.`)
         }
