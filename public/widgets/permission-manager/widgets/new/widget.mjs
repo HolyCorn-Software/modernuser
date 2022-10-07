@@ -6,8 +6,8 @@
 import UserAndRoleInput from "../../../user-n-role-input/widget.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import DualSwitch from "/$/system/static/lib/hc/dual-switch/switch.js";
-import { PopupForm } from "/$/system/static/lib/hc/popup-form/form.js";
+import DualSwitch from "/$/system/static/html-hc/widgets/dual-switch/switch.mjs";
+import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
 
 export class PermissionGrantPopup extends PopupForm {

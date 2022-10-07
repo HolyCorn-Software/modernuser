@@ -9,7 +9,7 @@ import muserRpc from "../../lib/rpc.mjs";
 import RolePlayManager from "./widget.mjs";
 import AddUserPopup from './add-user-popup.mjs'
 import { handle } from "/$/system/static/errors/error.mjs";
-import BrandedBinaryPopup from "/$/system/static/lib/hc/branded-binary-popup/widget.mjs";
+import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
 import * as zm_utils from '../zonation-manager/util.mjs'
 
 

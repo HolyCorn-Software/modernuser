@@ -7,7 +7,7 @@
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import ZoneInput from "/$/modernuser/static/widgets/zone-input/widget.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import LabelList from "/$/system/static/lib/hc/label-list/widget.mjs";
+import LabelList from "/$/system/static/html-hc/widgets/label-list/widget.mjs";
 
 
 

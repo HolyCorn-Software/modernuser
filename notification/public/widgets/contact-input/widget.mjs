@@ -10,9 +10,9 @@ import ContactInputItem from "./item.mjs";
 import ContactInputOverview from "./overview/overview.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { AlarmObject } from "/$/system/static/lib/hc/lib/util/alarm.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class ContactInput extends Widget {

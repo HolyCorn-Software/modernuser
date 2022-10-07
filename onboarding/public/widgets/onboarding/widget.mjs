@@ -8,10 +8,10 @@ import Progress from "./progress.form.multiform.js";
 import WelcomePopup from "./welcome-popup/widget.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
-import { SlideContainer } from "/$/system/static/lib/hc/slide-container/container.mjs";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { SlideContainer } from "/$/system/static/html-hc/widgets/slide-container/container.mjs";
 
 
 

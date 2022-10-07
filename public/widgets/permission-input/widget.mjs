@@ -6,7 +6,7 @@
 
 import userRpc from "../../lib/rpc.mjs";
 import PermissionInputView from "./permission-view.mjs";
-import { SearchInput } from "/$/system/static/lib/hc/search-input/widget.mjs";
+import { SearchInput } from "/$/system/static/html-hc/widgets/search-input/widget.mjs";
 
 
 export default class PermissionInput extends SearchInput {

@@ -7,10 +7,10 @@
 
 import { fetchZones, toFileStructure } from "../zonation-manager/util.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import { HCTSBrandedPopup } from "/$/system/static/lib/hc/branded-popup/popup.js";
-import FileExplorer from "/$/system/static/lib/hc/file-explorer/widget.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
+import FileExplorer from "/$/system/static/html-hc/widgets/file-explorer/widget.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 hc.importModuleCSS(import.meta.url);//TODO: Fix importModuleCSS(). It sometimes imports the same thing too many times
 

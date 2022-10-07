@@ -5,7 +5,7 @@
  * This module (types) contains type definitions for it's parent module (contact-input/overview)
  */
 
-import { AlarmObject } from "/$/system/static/lib/hc/lib/util/alarm-types"
+import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 
 export declare interface OverviewItemData {

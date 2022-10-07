@@ -6,7 +6,7 @@
 import CAYOFEDOnboarding from "../widgets/onboarding/widget.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import Footer from "/$/web/html/widgets/footer/widget.mjs";
 import Navbar from "/$/web/html/widgets/navbar/widget.mjs";
 

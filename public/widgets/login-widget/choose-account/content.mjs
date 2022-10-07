@@ -5,10 +5,10 @@
  * This widget is the main section of the choose-account widget.
  */
 
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import { Checkbox } from "/$/system/static/lib/hc/checkbox/checkbox.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import { Checkbox } from "/$/system/static/html-hc/widgets/checkbox/checkbox.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 

@@ -7,8 +7,8 @@
  */
 
 import PermissionActions from "./actions.mjs";
-import AccordionItem from "/$/system/static/lib/hc/arcordion/item.mjs";
-import Accordion from "/$/system/static/lib/hc/arcordion/widget.mjs";
+import AccordionItem from "/$/system/static/html-hc/widgets/arcordion/item.mjs";
+import Accordion from "/$/system/static/html-hc/widgets/arcordion/widget.mjs";
 
 
 

@@ -4,9 +4,9 @@
  * This is the screen where the new user selects his name
  */
 
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
-import { MultiFlexForm } from "/$/system/static/lib/hc/multi-flex-form/flex.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import MultiFlexForm from "/$/system/static/html-hc/widgets/multi-flex-form/flex.mjs";
 
 
 export default class ContactsScreen extends Widget {

@@ -8,7 +8,7 @@
 import { PermissionGrant } from '../../../../../permission/grants/types.js'
 import { PermissionData } from '../../../../../permission/data/types.js'
 
-import { AlarmObject } from '/$/system/static/lib/hc/lib/util/alarm-types.js'
+import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 
 

@@ -56,7 +56,7 @@ export default class UserAuthenticationController {
 
         //Now, let's make sure whenever a profile is deleted, we delete associated logins
         faculty.events.addListener(`${faculty.descriptor.name}.profile-delete`, (id) => {
-            this[token_collection_symbol].deleteMany({ userid })
+            this[token_collection_symbol].deleteMany({ userid: id })
         })
 
     }

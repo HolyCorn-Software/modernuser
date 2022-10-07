@@ -5,10 +5,10 @@
  */
 
 import { handle } from "/$/system/static/errors/error.mjs";
-import { Checkbox } from "/$/system/static/lib/hc/checkbox/checkbox.mjs";
-import { Spinner } from "/$/system/static/lib/hc/infinite-spinner/spinner.js";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import { Checkbox } from "/$/system/static/html-hc/widgets/checkbox/checkbox.mjs";
+import Spinner from "/$/system/static/html-hc/widgets/infinite-spinner/widget.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class ContactInputItem extends Widget {

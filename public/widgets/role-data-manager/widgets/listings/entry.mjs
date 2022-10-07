@@ -5,10 +5,10 @@
  */
 
 
-import { Checkbox } from "/$/system/static/lib/hc/checkbox/checkbox.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
-import { AlarmObject } from "/$/system/static/lib/hc/lib/util/alarm.js";
+import { Checkbox } from "/$/system/static/html-hc/widgets/checkbox/checkbox.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
 import RoleEditPopup from "./generic-edit-popup.mjs";
 import RolesListings from "./widget.mjs";
 import SuperRolesEditPopup from "./edit-super-roles.mjs";

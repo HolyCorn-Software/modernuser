@@ -5,8 +5,8 @@
  * 
  */
 
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 import Footer from '/$/web/html/widgets/footer/widget.mjs'
 import Navbar from '/$/web/html/widgets/navbar/widget.mjs'

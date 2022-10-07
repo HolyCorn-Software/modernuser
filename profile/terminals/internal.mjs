@@ -38,6 +38,9 @@ export default class UserProfileInternalMethods {
      */
     async get_profile({ id, token }) {
 
+        if(!arguments[1]){
+            console.trace (`How did this happen ? `.red)
+        }
         id = arguments[1].id
         token = arguments[1].token
 

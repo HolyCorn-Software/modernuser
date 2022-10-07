@@ -6,9 +6,9 @@
 
 import MultiRolePlayInput from "/$/modernuser/role/static/widgets/multi-roleplay-input/widget.mjs";
 import UserAndRoleInput from "/$/modernuser/static/widgets/user-n-role-input/widget.mjs";
-import LabelList from "/$/system/static/lib/hc/label-list/widget.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import LabelList from "/$/system/static/html-hc/widgets/label-list/widget.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class RoleSelectScreen extends Widget {

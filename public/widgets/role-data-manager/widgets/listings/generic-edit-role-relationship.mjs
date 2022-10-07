@@ -6,11 +6,11 @@
 
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import { HCTSBrandedPopup } from "/$/system/static/lib/hc/branded-popup/popup.js";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
 
-import LabelList from '/$/system/static/lib/hc/label-list/widget.mjs'
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import LabelList from '/$/system/static/html-hc/widgets/label-list/widget.mjs'
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class RoleRelationshipEditPopup extends HCTSBrandedPopup {

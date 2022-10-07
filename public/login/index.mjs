@@ -4,7 +4,7 @@
  * A patient comes to this page to consult
  */
 
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import LoginPage from "../widgets/login-page/widget.mjs";
 
 let widget = new LoginPage();

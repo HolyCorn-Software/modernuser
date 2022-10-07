@@ -10,7 +10,7 @@
 
 import muserRpc from "../../lib/rpc.mjs";
 import ItemView from "./item-view.mjs";
-import SearchInput from "/$/system/static/lib/hc/search-input/widget.mjs";
+import SearchInput from "/$/system/static/html-hc/widgets/search-input/widget.mjs";
 
 
 

@@ -6,7 +6,7 @@
  * This popup-based widget allows a user to rename an item
  */
 
-import { PopupForm } from "/$/system/static/lib/hc/popup-form/form.js";
+import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
 
 export default class CreatePopup extends PopupForm {

@@ -6,7 +6,7 @@
 
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { PopupForm } from "/$/system/static/lib/hc/popup-form/form.js";
+import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
 
 export default class ExpiresEditPopup extends PopupForm {

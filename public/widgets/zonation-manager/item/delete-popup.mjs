@@ -6,9 +6,9 @@
  * This popup-based widget allows a user to rename an item
  */
 
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import { HCTSBrandedPopup } from "/$/system/static/lib/hc/branded-popup/popup.js";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import *as zm_utils from '../util.mjs'
 import { handle } from "/$/system/static/errors/error.mjs";
 

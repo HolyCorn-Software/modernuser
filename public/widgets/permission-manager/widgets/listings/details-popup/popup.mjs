@@ -4,8 +4,8 @@
  * This widget is a popup that allows managing the details of permission
  */
 
-import { HCTSBrandedPopup } from "/$/system/static/lib/hc/branded-popup/popup.js";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class PermissionDetailsPopup extends HCTSBrandedPopup{

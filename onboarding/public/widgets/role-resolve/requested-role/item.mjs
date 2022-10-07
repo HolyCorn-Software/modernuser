@@ -8,8 +8,8 @@
 import GenericRole from "../generic-role/item.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import BrandedBinaryPopup from "/$/system/static/lib/hc/branded-binary-popup/widget.mjs";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
 
 
 export default class RequestedRole extends GenericRole {

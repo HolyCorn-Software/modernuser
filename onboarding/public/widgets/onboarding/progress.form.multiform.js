@@ -6,9 +6,7 @@ This widget can count 1,2,3,4, ... to show the progress of the user filling the 
 
 */
 
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
-import '/$/system/static/lib/hc/fonts/fonts.js';
-import * as hc from '/$/system/static/lib/hc/lib/lib.js';
+import { hc, Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 hc.importModuleCSS(import.meta.url);
 

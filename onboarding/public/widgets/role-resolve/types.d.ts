@@ -9,7 +9,7 @@ import { AdminOnboardingData } from "faculty/modernuser/onboarding/types";
 import { RoleData } from "faculty/modernuser/role/data/types";
 import { RolePlay } from "faculty/modernuser/role/membership/types";
 import { ZoneData } from "faculty/modernuser/zonation/data/types";
-import { AlarmObject } from "/$/system/static/lib/hc/lib/util/alarm-types";
+import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 
 

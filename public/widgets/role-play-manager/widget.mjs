@@ -7,9 +7,9 @@
 import muserRpc from "../../lib/rpc.mjs";
 import logic from "./logic.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import FileExplorer from "/$/system/static/lib/hc/file-explorer/widget.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import FileExplorer from "/$/system/static/html-hc/widgets/file-explorer/widget.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 export default class RolePlayManager extends Widget {
 

@@ -7,7 +7,7 @@
  */
 
 import FormBasedContactInput from "/$/modernuser/notification/static/widgets/form-based-contact-input/input-widget.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 hc.importModuleCSS()
 

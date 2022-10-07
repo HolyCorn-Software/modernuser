@@ -13,7 +13,7 @@ import CreatePopup from "./create-popup.mjs";
 // import ZonationExplorer from "../zone-explorer/widget.mjs";
 import NavigationItemRenamePopup from "./item/edit-popup.mjs";
 import NavigationItemDeletePopup from './item/delete-popup.mjs';
-import FileExplorer from '/$/system/static/lib/hc/file-explorer/widget.mjs';
+import FileExplorer from '/$/system/static/html-hc/widgets/file-explorer/widget.mjs';
 
 
 

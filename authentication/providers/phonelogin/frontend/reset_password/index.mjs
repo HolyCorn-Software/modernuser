@@ -9,7 +9,7 @@
 
 import ActionPopup from "../widgets/action-popup/widget.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 

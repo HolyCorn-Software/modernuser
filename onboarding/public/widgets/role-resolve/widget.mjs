@@ -9,11 +9,11 @@ import RequestedRole from "./requested-role/item.mjs";
 import NewRole from "./new/widget.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { ActionButton } from "/$/system/static/lib/hc/action-button/button.js";
-import { Spinner } from "/$/system/static/lib/hc/infinite-spinner/spinner.js";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { AlarmObject } from "/$/system/static/lib/hc/lib/util/alarm.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
+import Spinner from "/$/system/static/html-hc/widgets/infinite-spinner/widget.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import HeldRole from "./held-role/widget.mjs";
 
 

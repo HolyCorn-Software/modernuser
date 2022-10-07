@@ -6,7 +6,7 @@ The Modern Faculty of Users
 This module defines a minimum structure that must be implemented by all authentication provider widgets in the system
 */
 
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js"
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 

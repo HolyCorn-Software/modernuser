@@ -6,8 +6,8 @@
 
 import muserRpc from "../../lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { PopupForm } from "/$/system/static/lib/hc/popup-form/form.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
 
 

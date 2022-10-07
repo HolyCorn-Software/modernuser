@@ -6,8 +6,8 @@
  */
 
 
-import { Widget } from '/$/system/static/lib/hc/lib/widget.js'
 import {logic} from './logic.mjs'
+import { Widget } from '/$/system/static/html-hc/lib/widget/index.mjs'
 
 
 export type ProvidedWidget = Widget & {

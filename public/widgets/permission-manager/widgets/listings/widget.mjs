@@ -8,9 +8,9 @@
 import PermissionsListing from "./entry.mjs";
 import logic from "./logic.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { Checkbox } from "/$/system/static/lib/hc/checkbox/checkbox.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
-import { Widget } from "/$/system/static/lib/hc/lib/widget.js";
+import { Checkbox } from "/$/system/static/html-hc/widgets/checkbox/checkbox.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class PermissionListings extends Widget {

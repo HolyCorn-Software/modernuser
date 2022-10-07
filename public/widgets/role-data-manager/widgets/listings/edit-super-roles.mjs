@@ -6,7 +6,7 @@
 
 import RoleRelationshipEditPopup from "./generic-edit-role-relationship.mjs";
 import logic from "./logic.mjs";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export default class SuperRolesEditPopup extends RoleRelationshipEditPopup {

@@ -7,8 +7,8 @@
 import LoginProviderWidget from "../../../lib/widget-model.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
-import { Spinner } from "/$/system/static/lib/hc/infinite-spinner/spinner.js";
-import { hc } from "/$/system/static/lib/hc/lib/index.js";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import Spinner from "/$/system/static/html-hc/widgets/infinite-spinner/widget.mjs";
 
 
 hc.importModuleCSS(import.meta.url);
