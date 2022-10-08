@@ -38,8 +38,8 @@ export default class UserProfileInternalMethods {
      */
     async get_profile({ id, token }) {
 
-        if(!arguments[1]){
-            console.trace (`How did this happen ? `.red)
+        if (!arguments[1]) {
+            console.trace(`How did this happen ? `.red)
         }
         id = arguments[1].id
         token = arguments[1].token
@@ -112,7 +112,7 @@ export default class UserProfileInternalMethods {
         const token = await this[authentication_controller_symbol].issueToken({ userid })
 
         return {
-            profile: await this.get_profile({ id: userid }),
+            profile: await this.get_profile(arguments[0], { id: userid }),
             token
         }
 
