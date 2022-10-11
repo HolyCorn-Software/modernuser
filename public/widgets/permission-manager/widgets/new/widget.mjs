@@ -28,7 +28,7 @@ export class PermissionGrantPopup extends PopupForm {
                         label: `View`,
                         name: `is_role`,
                         type: 'customWidget',
-                        customWidgetUrl: "/$/system/static/lib/hc/dual-switch/switch.js",
+                        customWidgetUrl: "/$/system/static/html-hc/widgets/dual-switch/switch.mjs",
                         positive: `Roles`,
                         negative: `Users`
                     }
