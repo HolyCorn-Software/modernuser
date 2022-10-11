@@ -68,7 +68,7 @@ export default class MultiRolePlayInput extends LabelList {
 
                 this[data_symbol] = await muserRpc.modernuser.role.data.getAll()
 
-                /** @type {[import("/$/system/static/lib/hc/label-list/types.js").LabelListItemData]} */
+                /** @type {[import("/$/system/static/html-hc/widgets/label-list/types.js").LabelListItemData]} */
                 const store_data = this[data_symbol].map(x => {
                     return {
                         id: x.id,
@@ -121,7 +121,7 @@ export default class MultiRolePlayInput extends LabelList {
         (async () => {
             await this.ready()
 
-            /** @type {[import("/$/system/static/lib/hc/label-list/types.js").LabelListItemData]} */
+            /** @type {[import("/$/system/static/html-hc/widgets/label-list/types.js").LabelListItemData]} */
             const newValue = value.map(x => {
                 return {
                     id: x.role,

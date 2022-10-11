@@ -62,7 +62,7 @@ export default class PermissionActions extends Widget {
 
         //First things first, we deal with the storage of data
 
-        /** @type {import("/$/system/static/lib/hc/lib/util/alarm-types.js").AlarmObject<{data: import("../types.js").FrontendPermissionGrant, subject:import("../types.js").FrontendPermissionSubjectData}>} */ this.data
+        /** @type {import("/$/system/static/html-hc/lib/alarm/alarm-types.js").AlarmObject<{data: import("../types.js").FrontendPermissionGrant, subject:import("../types.js").FrontendPermissionSubjectData}>} */ this.data
         const data_store = new AlarmObject();
 
         Reflect.defineProperty(this, 'data', {

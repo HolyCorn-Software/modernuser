@@ -1,0 +1,12 @@
+{
+    "compilerOpions": {
+        "paths": {
+            "/$/modernuser/static/*": [
+                "faculty/modernuser/public/*"
+            ],
+            "/$/modernuser/role/static/*": [
+                "faculty/modernuser/role/public/*"
+            ]
+        }
+    }
+}

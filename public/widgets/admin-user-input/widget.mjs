@@ -14,7 +14,7 @@ export default class AdminUserInput extends SearchInput {
     constructor({ name, label, ...rest } = {}) {
         super({ ...rest });
 
-        /** @type {import("/$/system/static/lib/hc/search-input/types.js").SearchInputHooks} */
+        /** @type {import("/$/system/static/html-hc/widgets/search-input/types.js").SearchInputHooks} */
         this.hooks = {
             fetchItems: async (filter) => {
                 //Fetch users from the backend

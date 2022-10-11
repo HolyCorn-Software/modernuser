@@ -51,7 +51,7 @@ export async function fetchZones() {
 /**
  * Converts data from from zone structure into something in the nature of a directory structure
  * @param {[import("faculty/modernuser/zonation/data/types.js").ZoneData]} data
- * @returns {[import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData]}
+ * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
  */
 export function toFileStructure(data) {
     return data.map(zone => {

@@ -58,7 +58,7 @@ export default class GenericRole extends Widget {
             }).html
         ]
 
-        /** @type {import("/$/system/static/lib/hc/lib/util/alarm-types.js").AlarmObject<import("../types.js").FrontendRoleData>} */
+        /** @type {import("/$/system/static/html-hc/lib/alarm/alarm-types.js").AlarmObject<import("../types.js").FrontendRoleData>} */
         this.statedata = new AlarmObject()
 
 

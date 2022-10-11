@@ -21,7 +21,7 @@ import * as zm_utils from '../zonation-manager/util.mjs'
  * @param {[import("faculty/modernuser/role/contact/types.js").RoleContact]} role_contact0
  * @param {RoleContactManager} widget
  * 
- * @returns {[import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData]}
+ * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
  */
 function draw_actions_for_all_roles(role_data, widget) {
     /**
@@ -35,7 +35,7 @@ function draw_actions_for_all_roles(role_data, widget) {
     const role_data1 = copy(role_data)
 
     /**
-     * @type {[import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData]}
+     * @type {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
      */
     let final = role_data1.map(rd => {
 
@@ -194,7 +194,7 @@ async function draw_people_actions(role_item, widget) {
  * @param {string} param0.path
  * @param {import("faculty/modernuser/profile/types.js").UserProfileData} param0.profile
  * @param {RoleContactManager} param0.widget
- * @returns {import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData}
+ * @returns {import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData}
  */
 function add_user_action({ path, profile, role, zone, widget }) {
 

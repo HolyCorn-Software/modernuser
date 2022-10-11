@@ -21,7 +21,7 @@ import * as zm_utils from '../zonation-manager/util.mjs'
  * @param {[import("faculty/modernuser/role/membership/types.js").RolePlay]} role_play
  * @param {RolePlayManager} widget
  * 
- * @returns {[import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData]}
+ * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
  */
 function draw_actions_for_all_roles(role_data0, role_play0, widget) {
     /**
@@ -38,7 +38,7 @@ function draw_actions_for_all_roles(role_data0, role_play0, widget) {
     const role_play = copy(role_play0)
 
     /**
-     * @type {[import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData]}
+     * @type {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
      */
     let final = role_data.map(rd => {
 
@@ -196,7 +196,7 @@ async function draw_people_actions(role_item, widget) {
  * @param {string} param0.path
  * @param {import("faculty/modernuser/profile/types.js").UserProfileData} param0.profile
  * @param {RolePlayManager} param0.widget
- * @returns {import("/$/system/static/lib/hc/file-explorer/types.js").DirectoryData}
+ * @returns {import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData}
  */
 function add_user_action({ path, profile, role, zone, widget }) {
 
