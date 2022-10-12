@@ -1,3 +1,3 @@
 
 
-    Updated paths that depend on html-hc library to point to the new path of html-hc in the soul system
+    Improved tolerance to error. The faculty doesn't crash when providers don't load
