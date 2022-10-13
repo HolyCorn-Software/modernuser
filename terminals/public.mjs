@@ -100,21 +100,6 @@ export default class UserPublicMethods extends FacultyPublicMethods {
                 clientRpc
             });
 
-            //Now, if this is the first profile, then grant it the superuser permission
-            if (await this[profile_controller_symbol].onlyOneProfileExists()) {
-                this[permission_grants_controller_symbol].setPermission({
-                    subject: userid,
-                    freedom: {
-                        grant: true,
-                        use: true,
-                    },
-                    permission: ULTIMATE_PERMISSION.name,
-                    subject_type: 'user',
-                    zone: '0',
-                    expires: (Date.now() + (30 * 24 * 60 * 60 * 1000)) //Grant him those permissions for a period of thirty(30) days so he can setup the platform,
-                })
-            }
-
             return token
         } catch (e) {
             console.error(`Failed to create a login, deleting the profile ${userid}\nDetails of the error\n`, e)

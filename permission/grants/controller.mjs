@@ -13,7 +13,7 @@
 import { checkArgs } from "../../../../system/util/util.js";
 import { Exception } from "../../../../system/errors/backend/exception.js";
 import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
-import PermissionDataController from "../data/controller.mjs";
+import PermissionDataController, { ULTIMATE_PERMISSION } from "../data/controller.mjs";
 
 const faculty = FacultyPlatform.get();
 
@@ -40,6 +40,22 @@ export default class PermissionGrantsController {
 
         this[data_controller_symbol] = data_controller
         this[zonation_data_controller_symbol] = zonation_data_controller
+
+
+
+        faculty.connectionManager.events.addListener(`${faculty.descriptor.name}.profile-genesis`, (userid) => {
+            this.setPermission({
+                subject: userid,
+                freedom: {
+                    grant: true,
+                    use: true,
+                },
+                permission: ULTIMATE_PERMISSION.name,
+                subject_type: 'user',
+                zone: '0',
+                expires: (Date.now() + (30 * 24 * 60 * 60 * 1000)) //Grant him those permissions for a period of thirty(30) days so he can setup the platform,
+            })
+        })
     }
 
 

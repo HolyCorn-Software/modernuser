@@ -98,6 +98,10 @@ export default class UserProfileController {
             ...pickOnlyDefined(data || {}, ['label', 'icon'])
         })
 
+        //Now, if this is the first profile, then let the other components know. They could need this information, for example, to automatically grant permissions
+        if (await this.onlyOneProfileExists()) {
+            faculty.connectionManager.events.emit(`${faculty.descriptor.name}.profile-genesis`, id)
+        }
         return id;
     }
 
@@ -113,7 +117,7 @@ export default class UserProfileController {
             return global_only_one_profile
         }
 
-        return global_only_one_profile = (await this[collection_symbol].find({}, { limit: 2 }).toArray()).length < 2
+        return global_only_one_profile = ((await this[collection_symbol].find({}, { limit: 2 }).toArray()).length || 0) < 2
 
     }
 

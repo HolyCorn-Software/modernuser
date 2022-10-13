@@ -19,6 +19,11 @@ export default class PermissionDataInternalMethods {
         this[controller_symbol] = controller;
     }
 
+    /**
+     * This method is used to create a permission
+     * @param {import("../../data/types.js").PermissionDataInput} param0 
+     * @returns {Promise<void>}
+     */
     createPermission({ name, label }) {
         this[controller_symbol].createPermission(arguments[1])
     }

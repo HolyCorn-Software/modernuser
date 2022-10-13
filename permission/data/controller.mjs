@@ -37,15 +37,10 @@ export default class PermissionDataController {
 
     /**
      * This method creates a permission
-     * @param {object} param0 
-     * @param {string} param0.name The unique name of the permission
-     * @param {string} param0.label The human-friendly name of the permission
-     * @param {[string]} param0.inherit
-     * 
+     * @param {import("./types.js").PermissionDataInput} param0 
      * @returns {Promise<void>}
      */
     async createPermission({ name, label, inherit }) {
-
 
         await this.collection.updateOne(
             {
