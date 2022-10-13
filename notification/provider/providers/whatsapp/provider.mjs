@@ -62,7 +62,7 @@ export default class WhatsAppNotificationProvider extends NotificationProviderMo
             throw new Exception(
                 `Please complete the ${'template_map'.yellow.dim} field of the whatsapp notification provider credentials by:\n\n`
                 + missing_keys.map(
-                    (key, index) => ` ${(index+1).toString().blue}) indicating the template message that is to play the role of ${key.yellow}.\n${template_descriptions[key].cyan}.\nSpecify the WhatsApp business messaging template to use for the role.\nFor example, to specify, you can edit the credentials such that we have ${`{template_map:{${key.blue}:${`'cayofedpeople_${key}'`.yellow}}}`.green}`
+                    (key, index) => ` ${(index+1).toString().blue}) indicating the template message that is to play the role of ${key.yellow}.\n${template_descriptions[key].cyan}\nSpecify the WhatsApp business messaging template to use for the role.\nFor example, to specify, you can edit the credentials such that we have ${`{template_map:{${key.blue}:${`'cayofedpeople_${key}'`.yellow}}}`.green}`
                 ).join('\n\n')
                 + `\nFor the complete description of templates, refer to ${new URL('../../../lib/template_descriptions.mjs', import.meta.url).href.blue}`
             )

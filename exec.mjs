@@ -269,7 +269,7 @@ async function init_providers(collection, http, auth_controller) {
     let results = await loader.load();
 
     if (results.errors.length !== 0) {
-        console.warn(`Errors where encountered while loading providers\n${results.errors.map(err => `${err.stack || err}`).join('\n-------------------\n')}`, { code: 'error.system.unplanned' })
+        console.warn(`${'Errors where encountered while loading authentication providers'.underline}\n\n\n${results.errors.map(err => `${err.stack || err}`).join(`\n\n${'-'.repeat(process.stdout.columns)}\n\n`)}`)
     }
 
     //Setup access to the public files of each provider
