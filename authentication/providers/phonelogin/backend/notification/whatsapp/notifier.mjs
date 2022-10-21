@@ -8,7 +8,6 @@
 
 
 import fetch from 'node-fetch'
-import { Exception } from '../../../../../../../../system/errors/backend/exception.js';
 
 const template_map_symbol = Symbol()
 

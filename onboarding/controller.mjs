@@ -6,8 +6,7 @@
  * This module (controller) determines the overall generalistic and superficial logic governing the onboarding module
  */
 
-import { StrictFileServer } from "../../../system/http/strict-file-server.js"
-import { Exception } from "../../../system/errors/backend/exception.js"
+
 import { checkArgs } from "../../../system/util/util.js"
 import NotificationController from "../notification/controller.mjs"
 import UserProfileController from "../profile/controller.mjs"
@@ -49,7 +48,7 @@ export default class OnboardingController {
 
     /**
      * This method is used to initialized the Onboarding controller
-     * @param {import('system/http/server.js').HTTPServer} http 
+     * @param {HTTPServer} http 
      * @returns {Promise<void>}
      */
     async init(http) {

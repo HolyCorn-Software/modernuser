@@ -5,8 +5,6 @@
  * This module provides remote methods to the public for the purpose of authenticating users
  */
 
-import { Exception } from "../../../../system/errors/backend/exception.js";
-import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import UserAuthenticationController from "../controller.mjs";
 import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
 import muser_common from "muser_common";

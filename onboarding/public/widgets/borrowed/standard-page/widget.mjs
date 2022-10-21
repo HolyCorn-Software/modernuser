@@ -5,11 +5,10 @@
  * 
  */
 
+import Footer from "/$/modernuser/static/widgets/borrowed/footer/widget.mjs";
+import Navbar from "/$/modernuser/static/widgets/borrowed/navbar/widget.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
-
-import Footer from '/$/web/html/widgets/footer/widget.mjs'
-import Navbar from '/$/web/html/widgets/navbar/widget.mjs'
 
 
 

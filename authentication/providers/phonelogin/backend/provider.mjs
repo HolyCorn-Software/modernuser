@@ -9,10 +9,8 @@ import UserAuthenticationProvider from "../../../lib/provider.mjs";
 import PhoneLoginPublicMethods from "./remote/public.mjs";
 
 import crypto from 'node:crypto'
-import { Exception } from "../../../../../../system/errors/backend/exception.js";
 import shortUUID from "short-uuid";
 import PhoneLoginNotifier from "./notification/logic.mjs";
-import { FacultyPlatform } from "../../../../../../system/lib/libFaculty/platform.mjs";
 import { FacultyPublicJSONRPC } from "../../../../../../system/comm/rpc/faculty-public-rpc.mjs";
 
 export default class PhoneLoginProvider extends UserAuthenticationProvider {

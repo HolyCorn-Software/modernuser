@@ -11,8 +11,6 @@
 
 
 import { checkArgs } from "../../../../system/util/util.js";
-import { Exception } from "../../../../system/errors/backend/exception.js";
-import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import PermissionDataController, { ULTIMATE_PERMISSION } from "../data/controller.mjs";
 
 const faculty = FacultyPlatform.get();

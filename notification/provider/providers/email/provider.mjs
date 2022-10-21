@@ -4,7 +4,6 @@
  * This module allows the system to send notifications to users over Email
  */
 
-import { Exception } from "../../../../../../system/errors/backend/exception.js";
 import NotificationProviderModel from "../../model.mjs";
 import nodeMailer from 'nodemailer'
 

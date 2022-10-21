@@ -8,10 +8,6 @@
  */
 
 import { Collection } from "mongodb";
-import { Exception } from "../../system/errors/backend/exception.js";
-import { HTTPServer } from "../../system/http/server.js";
-import { StrictFileServer } from "../../system/http/strict-file-server.js";
-import { FacultyPlatform } from "../../system/lib/libFaculty/platform.mjs"
 import { ProviderLoader } from "../../system/lib/libFaculty/provider-driver.js";
 import UserLoginProvider from "./authentication/lib/provider.mjs";
 import collections from "./collections.mjs";

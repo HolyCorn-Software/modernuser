@@ -7,8 +7,6 @@ This provider allows the system to make use of google sign in
 
 import UserAuthenticationProvider from "../../../lib/provider.mjs";
 import { OAuth2Client } from 'google-auth-library';
-import { FacultyPlatform } from "../../../../../../system/lib/libFaculty/platform.mjs";
-import { Exception } from "../../../../../../system/errors/backend/exception.js";
 import GooglePublicMethods from "./remote/public.mjs";
 import GoogleInternalMethods from "./remote/internal.mjs";
 

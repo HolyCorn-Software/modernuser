@@ -7,8 +7,6 @@
  */
 
 import shortUUID from "short-uuid";
-import { StrictFileServer } from "../../../system/http/strict-file-server.js";
-import { Exception } from "../../../system/errors/backend/exception.js";
 import { ProviderLoader } from "../../../system/lib/libFaculty/provider-driver.js";
 import NotificationProviderModel from "./provider/model.mjs";
 
@@ -34,7 +32,7 @@ export default class NotificationController {
 
     /**
      * 
-     * @param {import("system/http/server.js").HTTPServer} http 
+     * @param {HTTPServer} http 
      */
     async init(http) {
 
@@ -82,7 +80,7 @@ class NotificationProvidersController {
 
     /**
      * This method will initialize providers and access to provider public files
-     * @param {import("system/http/server.js").HTTPServer} http 
+     * @param {HTTPServer} http 
      */
     async init(http) {
         const providers_path = './provider/providers/';

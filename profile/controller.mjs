@@ -8,8 +8,6 @@
 
 import shortUUID from "short-uuid"
 import { pickOnlyDefined } from "../../../system/util/util.js";
-import { Exception } from "../../../system/errors/backend/exception.js"
-import { FacultyPlatform } from "../../../system/lib/libFaculty/platform.mjs";
 
 
 let global_only_one_profile = undefined;

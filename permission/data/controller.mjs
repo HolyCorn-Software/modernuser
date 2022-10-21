@@ -8,7 +8,6 @@
  */
 
 import { Collection } from "mongodb"
-import { Exception } from "../../../../system/errors/backend/exception.js"
 
 export const ULTIMATE_PERMISSION = {
     label: `Superuser Permission`,

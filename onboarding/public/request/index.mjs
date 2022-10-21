@@ -5,10 +5,10 @@
 
 import CAYOFEDOnboarding from "../widgets/onboarding/widget.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import Footer from "/$/modernuser/static/widgets/borrowed/footer/widget.mjs";
+import Navbar from "/$/modernuser/static/widgets/borrowed/navbar/widget.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
-import Footer from "/$/web/html/widgets/footer/widget.mjs";
-import Navbar from "/$/web/html/widgets/navbar/widget.mjs";
 
 
 

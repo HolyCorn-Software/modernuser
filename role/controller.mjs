@@ -6,9 +6,6 @@
  * This controller is responsible for the logic behind user roles, both for keeping information about roles as well as information on who plays which role
  */
 
-import { FacultyPlatform } from "../../../system/lib/libFaculty/platform.mjs";
-import { HTTPServer } from "../../../system/http/server.js";
-import { StrictFileServer } from "../../../system/http/strict-file-server.js";
 import PermissionGrantsController from "../permission/grants/controller.mjs";
 import ZonationDataController from "../zonation/data/controller.mjs";
 import RoleContactController, { contact_permissions } from "./contact/controller.mjs";

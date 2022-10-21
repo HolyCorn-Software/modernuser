@@ -5,7 +5,6 @@
  * 
  */
 
-import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import UserAuthenticationController from "../controller.mjs";
 import UserAuthenticationProvider from "./provider.mjs";
 

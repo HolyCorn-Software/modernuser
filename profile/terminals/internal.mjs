@@ -6,7 +6,6 @@
  * This module provides methods to other faculties. Methods related to retrieving user profiles
  */
 
-import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import UserAuthenticationController from "../../authentication/controller.mjs"
 import UserProfileController from "../controller.mjs"
 

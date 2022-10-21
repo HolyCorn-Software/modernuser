@@ -11,7 +11,6 @@
 
 import { Collection } from "mongodb"
 import shortUUID from "short-uuid";
-import { Exception } from "../../../../system/errors/backend/exception.js"
 
 
 export default class GroupDataController {

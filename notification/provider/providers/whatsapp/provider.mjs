@@ -5,7 +5,6 @@
  */
 
 import template_descriptions from "../../../lib/template_descriptions.mjs";
-import { Exception } from "../../../../../../system/errors/backend/exception.js";
 import NotificationProviderModel from "../../model.mjs";
 import { WhatsAppNotificationCore } from "./core.mjs";
 

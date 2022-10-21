@@ -8,11 +8,9 @@
 
 import shortUUID from "short-uuid";
 import { checkArgs, pickOnlyDefined } from "../../../system/util/util.js";
-import { Exception } from "../../../system/errors/backend/exception.js";
 import UserProfileController from "../profile/controller.mjs";
 import UserAuthenticationProvider from "./lib/provider.mjs"
-import AuthenticationProviderSystemAPI from "./lib/system-api.mjs";
-import { FacultyPlatform } from "../../../system/lib/libFaculty/platform.mjs";
+import AuthenticationProviderSystemAPI from "./lib/system-api.mjs"
 import { FacultyPublicJSONRPC } from "../../../system/comm/rpc/faculty-public-rpc.mjs";
 
 const faculty = FacultyPlatform.get();

@@ -12,7 +12,6 @@
 
 import muser_common from "muser_common";
 import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
-import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import ZonationDataController from "../data/controller.mjs";
 import ZoneMembershipController from "../membership/controller.mjs";
 

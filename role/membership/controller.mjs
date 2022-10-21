@@ -9,7 +9,6 @@
 
 import PermissionGrantsController from "../../permission/grants/controller.mjs";
 import ZonationDataController from "../../zonation/data/controller.mjs";
-import { Exception } from "../../../../system/errors/backend/exception.js";
 import { checkArgs } from "../../../../system/util/util.js";
 import RoleDataController from "../data/controller.mjs";
 

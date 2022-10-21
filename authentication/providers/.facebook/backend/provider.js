@@ -11,10 +11,8 @@ import fetch from 'node-fetch'
 
 import { URLSearchParams } from 'url';
 import { SystemError } from "../../../logic/errors.js";
-import { FacultyPlatform } from "../../../../../system/lib/libFaculty/platform.js";
-import { Exception } from "../../../../../system/errors/backend/exception.js";
 
-const platform = FacultyPlatform.get();
+const platform = FacultyPlatform.get()
 
 
 export default class FacebookProvider extends Provider {

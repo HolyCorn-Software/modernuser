@@ -11,7 +11,6 @@
 import ZonationDataController from "../../zonation/data/controller.mjs";
 import { checkArgs } from "../../../../system/util/util.js";
 import RolePlayController from "../membership/controller.mjs";
-import { Exception } from "../../../../system/errors/backend/exception.js";
 import RoleDataController from "../data/controller.mjs";
 import PermissionGrantsController from "../../permission/grants/controller.mjs";
 

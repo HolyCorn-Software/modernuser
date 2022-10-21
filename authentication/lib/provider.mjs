@@ -7,7 +7,6 @@ Therefore, subclasses must follow this pattern
 */
 
 import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
-import { FacultyPlatform } from "../../../../system/lib/libFaculty/platform.mjs";
 import { BaseModel } from "../../../../system/lib/libFaculty/provider-driver.js"
 import AuthenticationProviderSystemAPI from "./system-api.mjs";
 
