@@ -32,7 +32,6 @@ const faculty = FacultyPlatform.get();
 export async function init() {
 
 
-    setTimeout(() => console.log(`Welcome to ${faculty.descriptor.label.magenta}`), 5000);
 
     let http = await HTTPServer.new()
 
@@ -235,6 +234,8 @@ export async function init() {
 
     }
 
+
+    console.log(`Welcome to ${faculty.descriptor.label.magenta}`)
 
 }
 
