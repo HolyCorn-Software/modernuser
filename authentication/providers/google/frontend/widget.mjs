@@ -103,7 +103,7 @@ export default class GoogleAuthenticationWidget extends LoginProviderWidget {
     }
 
     onSystemAction({ action, data }) {
-        alert(`Login successful`)
+        
     }
 
     /**

@@ -60,8 +60,14 @@ export default class LoginWidget extends Widget {
                         action_promise.finally(() => {
                             widget.loadUnblock()
                         })
-                        action_promise.then((data) => {
-                            widget.onSystemAction({ action: action, data: data })
+                        action_promise.then(async (data) => {
+                            try {
+                                await widget.onSystemAction({ action: action, data: data })
+                                window.location = document.referrer || '/'
+                            } catch (e) {
+                                handle(e)
+                            }
+
                         });
                     });
 

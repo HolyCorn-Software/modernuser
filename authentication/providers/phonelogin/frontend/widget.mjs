@@ -127,7 +127,6 @@ export default class PhoneLogin extends LoginProviderWidget {
             }
 
             case 'login': {
-                window.location = '/';
                 break;
             }
 

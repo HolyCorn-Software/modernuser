@@ -469,7 +469,7 @@ export default class UserAuthenticationController {
         });
 
         if (!auth_data) {
-            throw new Exception(`You are not authorized. Please log in to continue. <a href='/$/modernuser/static/login/' target='_blank'>Click to login</a>`, {
+            throw new Exception(`You are not authorized. Please log in to continue. <a href='/$/modernuser/static/login/?return'>Click to login</a>`, {
                 code: 'error.modernuser.authError'
             })
         }
