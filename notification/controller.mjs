@@ -101,7 +101,7 @@ class NotificationProvidersController {
         let results = await loader.load()
 
         if (results.errors.length !== 0) {
-            console.warn(`${'Could not load all notification providers'.underline}\n\n\n${results.errors.map(err => `${err.stack || err.message}`).join(`\n\n${'-'.repeat(process.stdout.columns)}\n\n`)}`)
+            console.error(`${'Could not load all notification providers'.underline}\n\n\n${results.errors.map(err => ` ${err.stack || err.message}`).join(`\n\n${'-'.repeat(process.stdout.columns)}\n\n`)}`)
         }
 
         this[providers_symbol].push(...results.providers)

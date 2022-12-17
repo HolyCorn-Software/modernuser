@@ -50,7 +50,7 @@ export default class Progress extends Widget {
 
         })
 
-        this.fire('length_change');
+        this.dispatchEvent(new CustomEvent('length_change'));
     }
 
     /** 
@@ -59,7 +59,7 @@ export default class Progress extends Widget {
     remove(point) {
         point.html.remove();
         this.points = this.points.filter(x => x != point);
-        this.fire('length_change');
+        this.dispatchEvent(new CustomEvent('length_change'));
     }
 
     /**
@@ -83,7 +83,7 @@ export default class Progress extends Widget {
     /**
      * @returns {number}
      */
-    get length(){
+    get length() {
         return this.points.length
     }
 
@@ -99,7 +99,7 @@ export default class Progress extends Widget {
      */
     set value(v) {
         this.silent_value = v
-        this.fire('value_change');
+        this.dispatchEvent(new CustomEvent('value_change'));
     }
 
     /**
@@ -188,15 +188,15 @@ export class Point extends Widget {
         })
 
         this.htmlProperty('.container .data', 'value', 'innerHTML', c => {
-            this.fire('change');
+            this.dispatchEvent(new CustomEvent('change'));
         }); //Check source ../lib/widget.js
 
         //Bind the 'active' attribute to the element's class, so that CSS can provide different styling
         Widget.__htmlProperty(this, this.html, 'active', 'class', c => {
-            this.fire('change');
+            this.dispatchEvent(new CustomEvent('change'));
         });
 
-        super.apply_attributes(arguments[0])
+        Object.assign(this, arguments[0])
 
 
     }

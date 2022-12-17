@@ -53,7 +53,7 @@ export default class RoleSelectScreen extends Widget {
         
 
     }
-    get value() { //TODO: Deal with multiple roles
+    get value() {
         return this.roleInput.value
     }
 

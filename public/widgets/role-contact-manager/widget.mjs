@@ -56,7 +56,6 @@ export default class RoleContactManager extends Widget {
      * This method fetches the data and puts it on the UI
      */
     async populate_ui() {
-        //TODO: Develop a store for role information
         let role_data = await muserRpc.modernuser.role.data.getAll()
 
         let explorable = logic.draw_actions_for_all_roles(role_data, this)

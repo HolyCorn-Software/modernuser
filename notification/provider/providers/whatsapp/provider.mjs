@@ -100,7 +100,6 @@ export default class WhatsAppNotificationProvider extends NotificationProviderMo
         if ((data.phone?.length || '') < 5) { //At least, there's no country with less than 5 digits for phone numbers
             throw new Exception(`Invalid input encountered when processing a WhatsApp contact. Make sure you have entered your phone number`)
         }
-        //TODO: Detect country code and check the phone number accordingly
     }
 
     /**

@@ -67,7 +67,7 @@ export default class RolesListings extends Widget {
                 /** @returns {import("./types.js").FrontendRoleData} */
                 get: (html) => {
                     /** @type {RolesListing} */
-                    const widget = html?.widgetObject //TODO: Work on this
+                    const widget = html?.widgetObject
                     return widget?.data
 
                 }

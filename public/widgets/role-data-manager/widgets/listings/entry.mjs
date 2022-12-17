@@ -120,7 +120,6 @@ export default class RolesListing extends Widget {
         //Configure the action of editing the super roles
 
         this.html.$('.field.super_roles_labels').addEventListener('click', () => {
-            //TODO: Implement cyclic dependency check
             let popup = new SuperRolesEditPopup({ id: this.data.id, super_roles: this.super_roles, all_roles: parent.itemsData })
             popup.show();
             popup.addEventListener('complete', () => {
@@ -131,7 +130,6 @@ export default class RolesListing extends Widget {
         //Configure the action of editing the supervised roles
 
         this.html.$('.field.supervised_roles_labels').addEventListener('click', () => {
-            //TODO: Implement cyclic dependency check
             let popup = new SupervisedRolesEditPopup({ id: this.data.id, supervised_roles: this.supervised_roles, all_roles: parent.itemsData })
             popup.show();
             popup.addEventListener('complete', () => {

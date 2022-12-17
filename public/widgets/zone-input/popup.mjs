@@ -12,7 +12,7 @@ import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/pop
 import FileExplorer from "/$/system/static/html-hc/widgets/file-explorer/widget.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
-hc.importModuleCSS(import.meta.url);//TODO: Fix importModuleCSS(). It sometimes imports the same thing too many times
+hc.importModuleCSS(import.meta.url);
 
 
 
