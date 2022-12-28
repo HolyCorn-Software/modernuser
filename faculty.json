@@ -14,7 +14,9 @@
             "${fPath}/role/static": "./role/public",
             "${fPath}/static/authentication/lib/":"./authentication/lib/",
             "${fPath}/notification/static": "./notification/public",
-            "${fPath}/onboarding/static":"./onboarding/public"
+            "${fPath}/onboarding/static":"./onboarding/public",
+            "${fPath}/static/authentication/providers/*/": "./authentication/providers/*/",
+            "${fPath}/notification/provider/providers/*/public": "./notification/provider/providers/*/public"
         }
     }
 }

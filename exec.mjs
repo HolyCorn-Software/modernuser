@@ -85,7 +85,7 @@ export default async function init() {
 
     const notification_controller = new NotificationController(collections.notification_provider_crendentials, collections.notification_contacts)
 
-    notification_controller.init(http).then(() => {
+    notification_controller.init().then(() => {
         console.log(`Notification Controller initialized!`)
     }).catch(e => {
         console.warn(`Failed to initialize notification controller \n`, e)
@@ -251,17 +251,6 @@ async function init_providers(collection, http, auth_controller) {
 
     if (results.errors.length !== 0) {
         console.warn(`${'Errors where encountered while loading authentication providers'.underline}\n\n\n${results.errors.map(err => ` ${err.stack || err}`).join(`\n\n${'-'.repeat(process.stdout.columns)}\n\n`)}`)
-    }
-
-    //Setup access to the public files of each provider
-    let file_server = new StrictFileServer({
-        http,
-        urlPath: '/static/authentication/providers/',
-        refFolder: './authentication/providers/'
-    })
-
-    for (let provider of results.providers) {
-        file_server.add(`${providers_path}${provider.$data.name}/frontend/`)
     }
 
 

@@ -31,12 +31,11 @@ export default class NotificationController {
 
 
     /**
-     * 
-     * @param {HTTPServer} http 
+     * This method initializes the notification controller
      */
-    async init(http) {
+    async init() {
 
-        this.providers.init(http)
+        await this.providers.init()
 
     }
 
@@ -69,10 +68,9 @@ class NotificationProvidersController {
 
 
     /**
-     * This method will initialize providers and access to provider public files
-     * @param {HTTPServer} http 
+     * This method will initialize providers
      */
-    async init(http) {
+    async init() {
         const providers_path = './provider/providers/';
         //First things first, we load the providers
 
@@ -95,19 +93,6 @@ class NotificationProvidersController {
         }
 
         this[providers_symbol].push(...results.providers)
-
-
-        //Setup access to the public files of each provider
-        let file_server = new StrictFileServer({
-            http,
-            urlPath: '/notification/providers/',
-            refFolder: './provider/providers/'
-        })
-
-        for (let provider of results.providers) {
-            file_server.add(`${providers_path}${provider.$data.name}/public/`)
-        }
-
 
     }
 
