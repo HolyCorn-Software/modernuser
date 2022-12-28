@@ -7,8 +7,6 @@
  * 
  */
 
-import { checkArgs } from "../../../../system/util/util.js";
-
 
 
 export default class GroupMembershipController {
@@ -67,7 +65,7 @@ export default class GroupMembershipController {
         //The reason we are checking for the presence of these strings is because it is deadly to have an empty userid or an empty group name
         //For example, empty userid will remove the user from all his groups, or an innocent user from the group
         //An empty group id will delete all users from the group, or remove the user from the wrong group
-        checkArgs(arguments[0], {
+        soulUtils.checkArgs(arguments[0], {
             userid: 'string',
             group: 'string'
         })

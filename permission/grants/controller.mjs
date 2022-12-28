@@ -10,7 +10,7 @@
  */
 
 
-import { checkArgs } from "../../../../system/util/util.js";
+
 import PermissionDataController, { ULTIMATE_PERMISSION } from "../data/controller.mjs";
 
 const faculty = FacultyPlatform.get();
@@ -229,7 +229,7 @@ export default class PermissionGrantsController {
      */
     async unsetPermission({ subject, permission, zone }) {
 
-        checkArgs(arguments[0], {
+        soulUtils.checkArgs(arguments[0], {
             subject: 'string',
             permission: 'string',
             zone: 'string'
@@ -250,7 +250,7 @@ export default class PermissionGrantsController {
      */
     async unsetAllPermissions({ subject }) {
 
-        checkArgs(arguments[0], {
+        soulUtils.checkArgs(arguments[0], {
             subject: 'string'
         })
 

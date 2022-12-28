@@ -99,9 +99,6 @@ export default async function init() {
         roleplay_controller: role_controller.roleplay
     })
 
-    onboarding_controller.init(http)
-    role_controller.init(http)
-
 
     //Setup public methods
     faculty.remote.public = new UserPublicMethods({
@@ -173,19 +170,6 @@ export default async function init() {
 
 
     // Setup access to static public files
-    new StrictFileServer({
-        http,
-        urlPath: '/static/',
-        refFolder: './public/'
-    }).add('./public/');
-
-
-    new StrictFileServer({
-        http,
-        urlPath: '/static/authentication/lib/',
-        refFolder: './authentication/lib/'
-    }).add(`./authentication/lib/`);
-
 
 
     //Now set the permissions that are ours (modernuser)

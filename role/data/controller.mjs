@@ -8,7 +8,6 @@
 
 import { Collection } from "mongodb"
 import shortUUID from "short-uuid";
-import util, { checkArgs } from "../../../../system/util/util.js";
 import commonlogic from "../../public/common/role/logic.mjs";
 
 
@@ -63,7 +62,7 @@ export default class RoleDataController {
         }
         const id = shortUUID.generate();
 
-        checkArgs(arguments[0], { label: 'string', description: 'string' }, 'input')
+        soulUtils.checkArgs(arguments[0], { label: 'string', description: 'string' }, 'input')
 
         await this[collection_symbol].insertOne({
             id: id,
@@ -146,7 +145,7 @@ export default class RoleDataController {
         await this.rolePermissionCheck({ userid, role: id })
 
 
-        data = util.pickOnlyDefined(data, ['label', 'description', 'owners', 'super_roles', 'supervised_roles'])
+        data = soulUtils.pickOnlyDefined(data, ['label', 'description', 'owners', 'super_roles', 'supervised_roles'])
 
         data.id = id;
 

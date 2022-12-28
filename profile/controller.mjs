@@ -7,7 +7,6 @@
  */
 
 import shortUUID from "short-uuid"
-import { pickOnlyDefined } from "../../../system/util/util.js";
 
 
 let global_only_one_profile = undefined;
@@ -93,7 +92,7 @@ export default class UserProfileController {
         await this[collection_symbol].insertOne({
             id,
             time: Date.now(),
-            ...pickOnlyDefined(data || {}, ['label', 'icon'])
+            ...soulUtils.pickOnlyDefined(data || {}, ['label', 'icon'])
         })
 
         //Now, if this is the first profile, then let the other components know. They could need this information, for example, to automatically grant permissions

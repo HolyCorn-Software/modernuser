@@ -52,26 +52,6 @@ export default class RoleController {
 
     }
 
-    /**
-     * This method initializes the controller
-     * @param {HTTPServer} http 
-     * @returns {Promise<void>}
-     */
-    async init(http) {
-
-        //The only thing we need to do is setup routing for static files
-        new StrictFileServer(
-            {
-                http,
-                urlPath: '/role/static/',
-                refFolder: './public/',
-            }
-        ).add('./public/')
-
-    }
-
-
-
 
 }
 

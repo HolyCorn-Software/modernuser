@@ -2,10 +2,19 @@
     "compilerOpions": {
         "paths": {
             "/$/modernuser/static/*": [
-                "faculty/modernuser/public/*"
+                "./public/*"
             ],
             "/$/modernuser/role/static/*": [
-                "faculty/modernuser/role/public/*"
+                "./role/public/*"
+            ],
+            "/$/modernuser/static/authentication/lib/*": [
+                "./authentication/lib/*"
+            ],
+            "/$/modernuser/notification/static/*": [
+                "./notification/public/*"
+            ],
+            "/$/modernuser/onboarding/static/*": [
+                "./onboarding/public/*"
             ]
         }
     }

@@ -7,5 +7,14 @@
             "message": "You don't have the rights to do this.",
             "code": 401
         }
+    },
+    "http": {
+        "staticPaths": {
+            "${fPath}/static":"./public",
+            "${fPath}/role/static": "./role/public",
+            "${fPath}/static/authentication/lib/":"./authentication/lib/",
+            "${fPath}/notification/static": "./notification/public",
+            "${fPath}/onboarding/static":"./onboarding/public"
+        }
     }
 }

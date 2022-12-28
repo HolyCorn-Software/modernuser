@@ -7,7 +7,6 @@
  */
 
 
-import { checkArgs } from "../../../system/util/util.js"
 import NotificationController from "../notification/controller.mjs"
 import UserProfileController from "../profile/controller.mjs"
 import shortUUID from "short-uuid"
@@ -47,22 +46,6 @@ export default class OnboardingController {
     }
 
     /**
-     * This method is used to initialized the Onboarding controller
-     * @param {HTTPServer} http 
-     * @returns {Promise<void>}
-     */
-    async init(http) {
-        new StrictFileServer(
-            {
-                http,
-                urlPath: '/onboarding/static/',
-                refFolder: './public/'
-            },
-            import.meta.url
-        ).add('./public/')
-    }
-
-    /**
      * This method is used to perform some initializations with the consent of the client.
      * For example setting account names, picture and notification data
      * @param {object} param0
@@ -73,7 +56,7 @@ export default class OnboardingController {
     async onboard({ data, userid }) {
         //So how do we onboard, we send messages to all role contacts within the zone, and then impute the necessary information
 
-        checkArgs(data, {
+        soulUtils.checkArgs(data, {
             profile: {
                 icon: 'string',
                 label: 'string'
@@ -100,7 +83,7 @@ export default class OnboardingController {
 
         for (let notification of data.notification) {
 
-            checkArgs(notification, {
+            soulUtils.checkArgs(notification, {
                 provider: 'string'
             }, 'notification')
 

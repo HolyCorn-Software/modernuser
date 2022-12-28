@@ -38,16 +38,6 @@ export default class NotificationController {
 
         this.providers.init(http)
 
-        //Access to the public folder of the entire module
-        new StrictFileServer(
-            {
-                http,
-                urlPath: '/notification/static/',
-                refFolder: './public/',
-            }
-        ).add('./public/')
-
-
     }
 
 }

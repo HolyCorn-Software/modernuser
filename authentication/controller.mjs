@@ -7,7 +7,6 @@
  */
 
 import shortUUID from "short-uuid";
-import { checkArgs, pickOnlyDefined } from "../../../system/util/util.js";
 import UserProfileController from "../profile/controller.mjs";
 import UserAuthenticationProvider from "./lib/provider.mjs"
 import AuthenticationProviderSystemAPI from "./lib/system-api.mjs"
@@ -150,7 +149,7 @@ export default class UserAuthenticationController {
      */
     async advancedLogin({ data, provider, userid }) {
 
-        checkArgs(arguments[0], {
+        soulUtils.checkArgs(arguments[0], {
             provider: 'string',
             userid: 'string'
         })
@@ -210,7 +209,7 @@ export default class UserAuthenticationController {
 
             return {
                 name: provider.$data.name,
-                credentials: pickOnlyDefined(provider.$data.credentials, [...provider.$data.class.client_credential_fields])
+                credentials: soulUtils.pickOnlyDefined(provider.$data.credentials, [...provider.$data.class.client_credential_fields])
             }
         })
     }

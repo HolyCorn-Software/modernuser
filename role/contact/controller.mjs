@@ -9,7 +9,6 @@
  */
 
 import ZonationDataController from "../../zonation/data/controller.mjs";
-import { checkArgs } from "../../../../system/util/util.js";
 import RolePlayController from "../membership/controller.mjs";
 import RoleDataController from "../data/controller.mjs";
 import PermissionGrantsController from "../../permission/grants/controller.mjs";
@@ -320,7 +319,7 @@ export default class RoleContactController {
         //The reason we are checking for the presence of these strings is because it is deadly to have an empty userid or an empty role name
         //For example, empty userid will remove a given role from all users
         //An empty role id will delete all roles from the user, or remove the wrong role from the user
-        checkArgs(arguments[0], {
+        soulUtils.checkArgs(arguments[0], {
             subject: 'string',
             role: 'string',
             zone: 'string'
