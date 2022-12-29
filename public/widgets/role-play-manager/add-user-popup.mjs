@@ -25,7 +25,7 @@ export default class AddUserPopup extends PopupForm {
                     {
                         customWidgetUrl: "/$/modernuser/static/widgets/user-n-role-input/widget.mjs",
                         label: 'User',
-                        name: 'userid',
+                        name: 'user',
                         type: 'customWidget',
                         mode: 'users'
                     }
@@ -37,12 +37,12 @@ export default class AddUserPopup extends PopupForm {
             title: `Add User`,
             execute: async () => {
 
-                if (!this.value.userid) {
+                if (!this.value.user.id) {
                     throw new Error(`Please make sure you selected a user from the list. Typing the name is not enough`)
                 }
 
                 await muserRpc.modernuser.role.role_play.addRoleToUser({
-                    subject: this.value.userid,
+                    subject: this.value.user.id,
                     role: roledata.id,
                     zone: zone
                 });

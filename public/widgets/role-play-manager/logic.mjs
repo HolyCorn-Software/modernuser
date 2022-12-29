@@ -159,7 +159,9 @@ async function draw_people_actions(role_item, widget) {
                             zone: zone,
                             widget
                         }
-                    )
+                    );
+
+                    setTimeout(() => popup.hide(), 1300)
 
                 })
 
@@ -201,7 +203,9 @@ async function draw_people_actions(role_item, widget) {
 function add_user_action({ path, profile, role, zone, widget }) {
 
     const path_id = `${role.id}$${zone.id}$${profile.id}`
-    
+
+    widget.explorer.deleteItem(path_id)
+
     widget.explorer.statedata.items.push(
         {
             label: profile.label,
@@ -226,7 +230,7 @@ function add_user_action({ path, profile, role, zone, widget }) {
                                         zone: zone.id
                                     }
                                 )
-                                widget.explorer.statedata.items = widget.explorer.statedata.items.filter(x=>x.id !== path_id)
+                                widget.explorer.statedata.items = widget.explorer.statedata.items.filter(x => x.id !== path_id)
                             }
                         });
 
