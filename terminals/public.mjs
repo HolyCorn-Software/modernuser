@@ -25,7 +25,7 @@ import NotificationController from "../notification/controller.mjs";
 import OnboardingPublicMethods from "../onboarding/terminals/public.mjs";
 import OnboardingController from "../onboarding/controller.mjs";
 import RoleController from "../role/controller.mjs";
-import { FacultyPublicJSONRPC } from "../../../system/comm/rpc/faculty-public-rpc.mjs";
+
 
 const faculty = FacultyPlatform.get()
 

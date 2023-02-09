@@ -10,7 +10,7 @@ import shortUUID from "short-uuid";
 import UserProfileController from "../profile/controller.mjs";
 import UserAuthenticationProvider from "./lib/provider.mjs"
 import AuthenticationProviderSystemAPI from "./lib/system-api.mjs"
-import { FacultyPublicJSONRPC } from "../../../system/comm/rpc/faculty-public-rpc.mjs";
+
 
 const faculty = FacultyPlatform.get();
 

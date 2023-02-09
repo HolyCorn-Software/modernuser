@@ -5,7 +5,7 @@
  */
 
 import muser_common from "muser_common";
-import { FacultyPublicJSONRPC } from "../../../../../system/comm/rpc/faculty-public-rpc.mjs";
+
 import PermissionGrantsController from "../../grants/controller.mjs";
 
 

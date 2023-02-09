@@ -18,5 +18,17 @@
             "${fPath}/static/authentication/providers/*/": "./authentication/providers/*/",
             "${fPath}/notification/provider/providers/*/public": "./notification/provider/providers/*/public"
         }
+    },
+    "plugin":{
+        "plugins":{
+            "auth":{
+                "model": "AuthenticationPlugin",
+                "test":{
+                    "module": {
+                        
+                    }
+                }
+            }
+        }
     }
 }

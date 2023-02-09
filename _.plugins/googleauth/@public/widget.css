@@ -1,0 +1,55 @@
+/**
+Copyright 2022 HolyCorn Software
+Custom Google Sign In button
+*/
+
+.hc-cayofedpeople-google-widget {
+    display: flex;
+    justify-content: center;
+    padding-bottom:1em;
+    transition:0.5s 0.25s;
+}
+.hc-cayofedpeople-google-widget.disabled{
+    opacity:0.2;
+    pointer-events:none;
+}
+
+.hc-cayofedpeople-google-widget >.container{
+    min-width:250px;
+    max-height:10px;
+    border-radius:10px;
+    cursor:pointer;
+    background-color:white;
+
+    display:flex;
+    align-items:center;
+    padding:0.5em;
+    padding-top:1.5em;
+    padding-bottom:1.5em;
+    padding-right:0.75em;
+}
+
+
+
+
+.hc-cayofedpeople-google-widget >.container >.img{
+    background-image:url('./res/google-logo-G-white.svg');
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:1;
+    width:4em;
+    height:4em;
+    flex-grow:20;
+}
+.hc-cayofedpeople-google-widget >.container >.text{
+    flex-grow:80;
+    text-align: center;
+    font-family:blogger;
+    font-size:1.5em;
+}
+
+
+.hc-cayofedpeople-google-widget .hc-infinite-spinner-blocker{
+    font-size:0.5em;
+}

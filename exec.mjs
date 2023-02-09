@@ -24,7 +24,7 @@ import PermissionGrantsController, { permissions as grants_permissions } from ".
 import NotificationController from "./notification/controller.mjs";
 import OnboardingController from "./onboarding/controller.mjs";
 import RoleController, { role_permissions } from "./role/controller.mjs";
-import { FacultyPublicJSONRPC } from "../../system/comm/rpc/faculty-public-rpc.mjs";
+
 
 
 const faculty = FacultyPlatform.get();

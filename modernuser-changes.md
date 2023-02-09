@@ -1,3 +1,3 @@
 .
 
-Updated to a better way of dealing with external widgets: pulling them from /$/shared/static/
+Removed unneccessary imports, and using globally accessible utility classes

@@ -11,7 +11,7 @@ import PhoneLoginPublicMethods from "./remote/public.mjs";
 import crypto from 'node:crypto'
 import shortUUID from "short-uuid";
 import PhoneLoginNotifier from "./notification/logic.mjs";
-import { FacultyPublicJSONRPC } from "../../../../../../system/comm/rpc/faculty-public-rpc.mjs";
+
 
 export default class PhoneLoginProvider extends UserAuthenticationProvider {
 

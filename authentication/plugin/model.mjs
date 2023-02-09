@@ -1,19 +1,18 @@
 /*
-Copyright 2021 HolyCorn Software
-The HCTS Project
-This defines the structure of a login provider
+Copyright 2023 HolyCorn Software
 
-Therefore, subclasses must follow this pattern
+This module defines the structure of an authentication plugin
+
 */
 
-
+import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
 import { BaseModel } from "../../../../system/lib/libFaculty/provider-driver.js"
 import AuthenticationProviderSystemAPI from "./system-api.mjs";
 
 const faculty = FacultyPlatform.get();
 
 
-export default class UserAuthenticationProvider extends BaseModel {
+export default class AuthenticationPlugin extends BaseModel {
 
     /**
      * Sub classes should use the fields of the object provided do some necessary initializations
