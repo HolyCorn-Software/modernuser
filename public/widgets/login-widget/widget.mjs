@@ -11,7 +11,7 @@ import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import logic from "./logic.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import LoginWidgetNavigations from "./navigations.mjs";
-import { provider_data_symbol } from "/$/modernuser/static/authentication/lib/widget-model.mjs";
+import { pluginData } from "/$/modernuser/static/authentication/lib/widget-model.mjs";
 
 
 export default class LoginWidget extends Widget {
@@ -42,7 +42,7 @@ export default class LoginWidget extends Widget {
             transforms: {
                 /**
                  * 
-                 * @param { import("../../../authentication/lib/widget-model.mjs").default} widget 
+                 * @param { import("../../../authentication/lib/widget-model.mjs").LoginWidget} widget 
                  */
                 set: (widget) => {
                     widget.addEventListener('complete', () => {
@@ -50,7 +50,7 @@ export default class LoginWidget extends Widget {
                         widget.loadBlock();
 
                         let action_promise = (async () => {
-                            return await logic.executeAction({ action, provider: widget[provider_data_symbol].name, data: widget.values });
+                            return await logic.executeAction({ action, plugin: widget[pluginData].name, data: widget.values });
                         })();
 
                         action_promise.catch(e => {
@@ -145,7 +145,7 @@ export default class LoginWidget extends Widget {
 
         this.loadBlock();
         try {
-            this.providers = await logic.fetchProviderWidgets()
+            this.providers = await logic.fetchLoginWidgets()
         } catch (e) {
             handle(new Error(`Could not load because\n${e}`))
         }

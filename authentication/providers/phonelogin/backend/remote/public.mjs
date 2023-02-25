@@ -6,15 +6,8 @@
  */
 
 import muser_common from 'muser_common'
-import { CollectionProxy } from "../../../../../../../system/database/collection-proxy.js";
 import PhoneLoginProvider from "../provider.mjs";
 
-
-
-/** @type {import("../types.js").PhoneLoginPendingLoginsCollection} */
-let collection = (new CollectionProxy({
-    'phonelogin': 'phonelogin'
-})).phonelogin
 
 
 export default class PhoneLoginPublicMethods {

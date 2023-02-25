@@ -5,7 +5,6 @@
  * This module is responsible for providing useful methods to other faculties
  */
 
-import { FacultyPublicMethods } from "../../../system/comm/rpc/faculty-public-methods.mjs";
 import GroupDataController from "../group/data/controller.mjs";
 import GroupMembershipController from "../group/membership/controller.mjs";
 import UserGroupInternalMethods from "../group/terminals/internal.mjs";

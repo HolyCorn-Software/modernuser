@@ -5,7 +5,6 @@
  * This module is responsible for providing the methods that are accessible to the public
  */
 
-import { FacultyPublicMethods } from "../../../system/comm/rpc/faculty-public-methods.mjs";
 import GroupDataController from "../group/data/controller.mjs";
 import GroupMembershipController from "../group/membership/controller.mjs";
 import UserGroupPublicMethods from "../group/terminals/public.mjs";
@@ -95,7 +94,7 @@ export default class UserPublicMethods extends FacultyPublicMethods {
             let token = await this[authentication_controller_symbol].createLogin({
                 userid,
                 data,
-                provider,
+                plugin: provider,
                 clientRpc
             });
 
@@ -121,11 +120,11 @@ export default class UserPublicMethods extends FacultyPublicMethods {
         let userid = await this[profile_controller_symbol].createProfile()
 
 
-        const login = await this[authentication_controller_symbol].login({ data, provider })
+        const login = await this[authentication_controller_symbol].login({ data, plugin: provider })
 
         await this[authentication_controller_symbol].bindLogin({ userid, login: login.login_data.id })
 
-        const credentials = await this[authentication_controller_symbol].advancedLogin({ data, provider, userid })
+        const credentials = await this[authentication_controller_symbol].advancedLogin({ data, plugin: provider, userid })
 
 
 

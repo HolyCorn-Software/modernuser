@@ -2,33 +2,64 @@
     "label": "Modern Faculty of Users",
     "name": "modernuser",
     "init": "./exec.mjs",
-    "errors":{
-        "not_permitted":{
+    "errors": {
+        "not_permitted": {
             "message": "You don't have the rights to do this.",
             "code": 401
         }
     },
     "http": {
         "staticPaths": {
-            "${fPath}/static":"./public",
+            "${fPath}/static": "./public",
             "${fPath}/role/static": "./role/public",
-            "${fPath}/static/authentication/lib/":"./authentication/lib/",
+            "${fPath}/static/authentication/lib/": "./authentication/lib/",
             "${fPath}/notification/static": "./notification/public",
-            "${fPath}/onboarding/static":"./onboarding/public",
-            "${fPath}/static/authentication/providers/*/": "./authentication/providers/*/",
+            "${fPath}/onboarding/static": "./onboarding/public",
             "${fPath}/notification/provider/providers/*/public": "./notification/provider/providers/*/public"
         }
     },
-    "plugin":{
-        "plugins":{
-            "auth":{
+    "plugin": {
+        "plugins": {
+            "auth": {
                 "model": "AuthenticationPlugin",
-                "test":{
-                    "module": {
-                        
-                    }
+                "test": {
+                    "module": {}
                 }
             }
         }
+    },
+    "backend_dashboard": {
+        "admin": [
+            {
+                "name": "modernuser",
+                "label": "User Security",
+                "icon": "/$/modernuser/static/icons/user-security.png",
+                "items": {
+                    "roles": {
+                        "label": "Roles",
+                        "icon": "/$/modernuser/static/icons/roles-management.png",
+                        "name": "roles",
+                        "items": {
+                            "role_play": {
+                                "label": "People",
+                                "view": "/$/modernuser/static/widgets/role-play-manager/widget.mjs",
+                                "icon": "/$/modernuser/static/icons/role-people.png"
+                            },
+                            "role_data": {
+                                "label": "Data",
+                                "view": "/$/modernuser/static/widgets/role-data-manager/widget.mjs",
+                                "icon": "/$/modernuser/static/icons/roles-data.png"
+                            }
+                        }
+                    },
+                    "permission_admin": {
+                        "name": "permission_admin",
+                        "label": "Permissions",
+                        "view": "/$/modernuser/static/widgets/permission-manager/widget.mjs",
+                        "icon": "/$/modernuser/static/icons/permission.png"
+                    }
+                }
+            }
+        ]
     }
 }

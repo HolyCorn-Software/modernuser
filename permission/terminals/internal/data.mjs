@@ -25,7 +25,17 @@ export default class PermissionDataInternalMethods {
      * @returns {Promise<void>}
      */
     createPermission({ name, label }) {
-        this[controller_symbol].createPermission(arguments[1])
+        return this[controller_symbol].createPermission(arguments[1])
+    }
+
+    /**
+     * This method returns permissions that are associated with this permission.
+     * As in... permissions that could be checked in place of this. In short, permissions that inherit this one
+     * @param {string} name 
+     * @returns {Promise<import("../../data/types.js").PermissionData[]>}
+     */
+    async getChildPermissions(name) {
+        return await this[controller_symbol].getPermissionAndChildren(arguments[1])
     }
 
 

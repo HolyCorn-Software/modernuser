@@ -4,7 +4,7 @@
  * Reason for this custom button is to have a button with a large enough width
  */
 
-import LoginProviderWidget from "../../../lib/widget-model.mjs";
+import LoginWidget from "../../../lib/widget-model.mjs";
 import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
@@ -13,7 +13,7 @@ import Spinner from "/$/system/static/html-hc/widgets/infinite-spinner/widget.mj
 
 hc.importModuleCSS(import.meta.url);
 
-export default class GoogleAuthenticationWidget extends LoginProviderWidget {
+export default class GoogleAuthenticationWidget extends LoginWidget {
 
 
     constructor() {

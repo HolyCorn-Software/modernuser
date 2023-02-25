@@ -28,12 +28,12 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * This method is called on the frontend by a client who wants to login using a specific provider, e.g Google
-     * @param {string} provider 
+     * @param {string} plugin 
      * @param {object} data 
      * @returns {Promise<import("../types.js").PublicTokenData>}
      */
-    async provider_login(provider, data) {
-        provider = arguments[1]
+    async provider_login(plugin, data) {
+        plugin = arguments[1]
         data = arguments[2];
 
 
@@ -44,7 +44,7 @@ export default class UserAuthenticationPublicMethods {
         let session = await client.resumeSessionFromMeta();
 
 
-        let credentials = await this[controller_symbol].login({ provider, data });
+        let credentials = await this[controller_symbol].login({ plugin, data });
 
         session.setVar(`${faculty.descriptor.name}-authentication-token`, credentials.token)
 
@@ -55,27 +55,27 @@ export default class UserAuthenticationPublicMethods {
     /**
      * This method is the advanced way of logging in.
      * This method gets all the profiles attached to the given login
-     * @param {string} provider 
+     * @param {string} plugin 
      * @param {object} data 
      * @returns {Promise<[{profile:import("faculty/modernuser/profile/types.js").UserProfileData, active: boolean}]>}
      */
-    async getProfiles(provider, data) {
+    async getProfiles(plugin, data) {
 
-        provider = arguments[1]
+        plugin = arguments[1]
         data = arguments[2];
 
-        return await this[controller_symbol].getProfiles({ data, provider })
+        return await this[controller_symbol].getProfiles({ data, plugin })
     }
 
     /**
      * This method is used to log a user in while specifying the specific user account
      * @param {object} param0 
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {object} param0.data
      * @param {string} param0.userid
      * @returns {Promise<{token: string, expires:number}>}
      */
-    async advancedLogin({ provider, data, userid }) {
+    async advancedLogin({ plugin, data, userid }) {
         const credentials = await this[controller_symbol].advancedLogin({
             ...arguments[1]
         });
@@ -91,11 +91,20 @@ export default class UserAuthenticationPublicMethods {
 
 
     /**
-     * Gets data about all the security providers
-     * @returns {Promise<[import("../types.js").SecurityProviderPublicData]>}
+     * @deprecated Use .getPluginsPublicData() instead
+     * @returns {Promise<[import("../types.js").AuthPluginPublicData]>}
      */
     async getProvidersData() {
-        return this[controller_symbol].getProvidersPublicData()
+        return await this[controller_symbol].getPluginsPublicData()
+    }
+
+
+    /**
+     * Gets data about all the security providers
+     * @returns {Promise<[import("../types.js").AuthPluginPublicData]>}
+     */
+    async getPluginsPublicData() {
+        return await this[controller_symbol].getPluginsPublicData()
     }
 
 
@@ -108,7 +117,7 @@ export default class UserAuthenticationPublicMethods {
         const clientRpc = arguments[0]
         provider = arguments[1]
         data = arguments[2]
-        await this[controller_symbol].resetLogin({ provider, data, clientRpc });
+        await this[controller_symbol].resetLogin({ plugin: provider, data, clientRpc });
     }
 
     /**
@@ -116,9 +125,9 @@ export default class UserAuthenticationPublicMethods {
      */
     async whoami(ignoreOnboarding) {
         ignoreOnboarding = arguments[1]
-        
+
         const profile = await muser_common.getUser(arguments[0])
-        
+
         if (!ignoreOnboarding && (!profile.label || !profile.icon)) {
             throw new Exception(`You did not complete the onboarding (registration) process. <a href='/$/${faculty.descriptor.name}/onboarding/static/request/'>Click here</a> to complete it.`)
         }
@@ -126,8 +135,17 @@ export default class UserAuthenticationPublicMethods {
         return profile;
     }
 
-    get providers() {
-        return this[controller_symbol].providers_public_rpc
+
+    /**
+     * This interface contains public methods from all plugins.
+     */
+    get pluginMethods() {
+        const tree = {}
+        UserAuthenticationController.plugins.forEach(plugin => {
+            tree[plugin.descriptor.name] = plugin.instance.remote?.public
+        })
+
+        return tree
     }
 
 

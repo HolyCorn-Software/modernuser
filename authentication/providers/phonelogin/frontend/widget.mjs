@@ -5,7 +5,7 @@
  * It contains the actual forms
  */
 
-import LoginProviderWidget from "../../../lib/widget-model.mjs";
+import LoginWidget from "../../../lib/widget-model.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
@@ -14,7 +14,7 @@ import MultiFlexForm from "/$/system/static/html-hc/widgets/multi-flex-form/flex
 hc.importModuleCSS(import.meta.url);
 
 
-export default class PhoneLogin extends LoginProviderWidget {
+export default class PhoneLogin extends LoginWidget {
 
 
     constructor() {

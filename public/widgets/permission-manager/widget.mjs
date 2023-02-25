@@ -94,7 +94,7 @@ export default class PermissionsManager extends Widget {
 
                         //In the case where a permission added to a user's list of permission...
                         const existing = this.listings.itemsData.find(x => x.subject.id === popup.value.subject.id)
-                        if (existing) { //TODO: Make the UI update when a new permission is granted
+                        if (existing) {
                             existing.permissions.push(newValue)
                             this.listings.itemsData = [...this.listings.itemsData]
                         } else {

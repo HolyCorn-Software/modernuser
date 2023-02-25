@@ -8,6 +8,7 @@
  */
 
 import { Collection } from 'mongodb'
+import _AuthenticationPlugin from './plugin/model.mjs'
 
 
 export declare interface UserAuthToken {
@@ -17,11 +18,6 @@ export declare interface UserAuthToken {
 }
 
 export type UserAuthTokenCollection = Collection<UserAuthToken>
-
-
-export type UserLoginInput = {
-    [key: string]: object
-}
 
 
 export declare interface PublicTokenData {
@@ -34,14 +30,14 @@ export declare interface PublicTokenData {
 export declare interface UserLogin {
     id: string,
     userid: string,
-    provider: string,
+    plugin: string,
     data: object,
     active: boolean,
     creationTime: number
 }
 
 
-export declare interface SecurityProviderPublicData {
+export declare interface AuthPluginPublicData {
     name: string,
     credentials: object
 }
@@ -49,3 +45,7 @@ export declare interface SecurityProviderPublicData {
 
 export type UserLoginCollection = Collection<UserLogin>
 
+
+global {
+    class AuthenticationPlugin extends _AuthenticationPlugin { }
+}

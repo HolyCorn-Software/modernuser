@@ -4,15 +4,19 @@
  * 
  * The Modern Faculty of Users
  * This module controls authentication
+ * 
+ * Upated 2023 to bring about use of the modern concept of plugins.
  */
 
 import shortUUID from "short-uuid";
 import UserProfileController from "../profile/controller.mjs";
-import UserAuthenticationProvider from "./lib/provider.mjs"
-import AuthenticationProviderSystemAPI from "./lib/system-api.mjs"
+
+import('./plugin/model.mjs').catch(e => console.error(e))
 
 
 const faculty = FacultyPlatform.get();
+
+const instance = Symbol()
 
 
 export default class UserAuthenticationController {
@@ -21,16 +25,13 @@ export default class UserAuthenticationController {
     /**
      * 
      * @param {object} param0 
-     * @param {[UserAuthenticationProvider]} param0.providers
      * @param {object} param0.collections
      * @param {import("./types.js").UserAuthTokenCollection} param0.collections.token
      * @param {import("./types.js").UserLoginCollection} param0.collections.login
      * @param {UserProfileController} param0.user_profile_controller
      */
-    constructor({ providers, collections, user_profile_controller }) {
+    constructor({ collections, user_profile_controller }) {
 
-        /** @type {[UserAuthenticationProvider]} */
-        this[providers_symbol] = providers;
 
         /** @type {import("./types.js").UserAuthTokenCollection} */
         this[token_collection_symbol] = collections.token
@@ -41,49 +42,44 @@ export default class UserAuthenticationController {
         /** @type {UserProfileController} */
         this[user_profile_controller_symbol] = user_profile_controller
 
-        /** @type {object} */ this.providers_public_rpc = new Proxy({}, {
-            get: (target, property, receiver) => this.findProvider(property).remote.public,
-        })
-
-
-        //Provide the providers with a system interface. This interface will allow the providers to make useful system calls
-        for (let provider of providers) {
-            provider.system = new AuthenticationProviderSystemAPI(provider, this)
-        }
 
         //Now, let's make sure whenever a profile is deleted, we delete associated logins
         faculty.events.addListener(`${faculty.descriptor.name}.profile-delete`, (id) => {
             this[token_collection_symbol].deleteMany({ userid: id })
         })
+        UserAuthenticationController[instance] = this
 
+    }
+    static get instance() {
+        return this[instance]
     }
 
     /**
      * This method is used to log in a publicly contacted client (user)
      * 
-     * It takes the data for the login and the provider for the log in
+     * It takes the data for the login and the plugin for the log in
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @returns {Promise<{token: string, expires: number, login_data: import("./types.js").UserLogin}>}
      */
-    async login({ data, provider }) {
+    async login({ data, plugin }) {
 
         //This method is very simple.
         // 1) Create a unique representation of the data
         // 2) Find a login in the database that matches that unique data
         // 3) If found, issue a token 
 
-        let providerObject = this.findProvider(provider);
+        let plugObj = this.findPlugin(plugin);
 
-        let unique_data = await providerObject.toUniqueCredentials({
+        let unique_data = await plugObj.toUniqueCredentials({
             data,
             intent: 'login',
             login_id: undefined
         });
 
         let login_data = await this[login_collection_symbol].findOne({
-            provider,
+            plugin,
             data: unique_data
         });
 
@@ -107,14 +103,14 @@ export default class UserAuthenticationController {
      * This method gets all the profiles associated with a login
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @returns {Promise<[{profile:import("../profile/types.js").UserProfileData, active:boolean}]>}
      */
-    async getProfiles({ data, provider }) {
+    async getProfiles({ data, plugin }) {
 
-        let providerObject = this.findProvider(provider);
+        let pluginObject = this.findPlugin(plugin);
 
-        let unique_data = await providerObject.toUniqueCredentials({
+        let unique_data = await pluginObject.toUniqueCredentials({
             data,
             intent: 'login',
             login_id: undefined
@@ -122,7 +118,7 @@ export default class UserAuthenticationController {
 
         const results = await Promise.all(
             (await this[login_collection_symbol].find({
-                provider,
+                plugin,
                 data: unique_data
             }).toArray()).map(async login => {
                 return {
@@ -142,28 +138,30 @@ export default class UserAuthenticationController {
     /**
      * This method is the modern login method. It allows a user to specify the user account he's logging into
      * @param {object} param0 
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {object} param0.data
      * @param {string} param0.userid
      * @returns {Promise<{token: string, expires:number}>}
      */
-    async advancedLogin({ data, provider, userid }) {
+    async advancedLogin({ data, plugin, userid }) {
 
+        console.log(`Arguments::`, arguments)
+        
         soulUtils.checkArgs(arguments[0], {
-            provider: 'string',
+            plugin: 'string',
             userid: 'string'
         })
 
-        let providerObject = this.findProvider(provider);
+        let pluginObj = this.findPlugin(plugin);
 
-        let unique_data = await providerObject.toUniqueCredentials({
+        let unique_data = await pluginObj.toUniqueCredentials({
             data,
             intent: 'login',
             login_id: undefined
         });
 
         let login_data = await this[login_collection_symbol].findOne({
-            provider,
+            plugin,
             data: unique_data,
             userid
         });
@@ -183,35 +181,43 @@ export default class UserAuthenticationController {
 
 
     /**
-     * Finds a provider by name
+     * Finds a plugin by name
      * @param {string} name 
-     * @returns {UserAuthenticationProvider}
+     * @returns {AuthenticationPlugin}
      */
-    findProvider(name, { throwError = true } = {}) {
+    findPlugin(name, { throwError = true } = {}) {
 
-        let providerObject = this[providers_symbol].filter(x => x.$data.name === name)[0]
+        let pluginDat = UserAuthenticationController.plugins.find(x => x.descriptor.name === name)
 
-        if (!providerObject && throwError) {
-            throw new Exception(`Provider ${name} not found!`)
+        if (!pluginDat && throwError) {
+            throw new Exception(`Login method ${name} not found!`)
         }
 
-        return providerObject;
+        return pluginDat.instance;
+    }
+
+    static get plugins() {
+        /** @type {import('system/lib/libFaculty/plugin/manager.mjs').default <{auth: AuthenticationPlugin[]}>} */
+        const pluginMan = FacultyPlatform.get().pluginManager
+        return pluginMan.loaded.namespaces.auth
     }
 
     /**
-     * This method gets information about all providers on the system.
+     * This method gets information about all plugins on the system.
      * It gives only data we're not afraid to have in the wrong hands. (Harmless data)
      * 
-     * @returns {[import("./types.js").SecurityProviderPublicData]}
+     * @returns {Promise<import("./types.js").AuthPluginPublicData[]>}
      */
-    getProvidersPublicData() {
-        return this[providers_symbol].map(provider => {
+    async getPluginsPublicData() {
 
-            return {
-                name: provider.$data.name,
-                credentials: soulUtils.pickOnlyDefined(provider.$data.credentials, [...provider.$data.class.client_credential_fields])
-            }
-        })
+        return await Promise.all(
+            UserAuthenticationController.plugins.map(async plugin => {
+                return {
+                    name: plugin.descriptor.name,
+                    credentials: await plugin.instance.getClientCredentials()
+                }
+            })
+        )
     }
 
     /**
@@ -219,30 +225,26 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {string} param0.userid - This can be omitted
      * @param {object} param0.data
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {FacultyPublicJSONRPC} param0.clientRpc
      * @returns {Promise<string>}
      */
-    async createLogin({ userid, data, provider, clientRpc }) {
+    async createLogin({ userid, data, plugin, clientRpc }) {
 
-        //First things first, does the provider exist ?
-        let providerObject = this[providers_symbol].filter(x => x.$data.name === provider)[0]
-
-        if (!providerObject) {
-            throw new Exception(`Provider ${provider} not found`);
-        }
+        //First things first, does the plugin exist ?
+        let pluginObject = await this.findPlugin(plugin)
 
         //Then, we check for duplicates
-        if (await this.searchLoginByData({ provider, intent: 'signup', data })) {
+        if (await this.searchLoginByData({ plugin, intent: 'signup', data })) {
             throw new Exception(`Sorry, there's already an account with those credentials. If you forgot your password, consider resetting it instead.`)
         }
 
         const id = `${shortUUID.generate()}${shortUUID.generate()}`
 
 
-        //We can call the provider and ask it for a unique representation of the data)
+        //We can call the plugin and ask it for a unique representation of the data)
 
-        let unique_data = await providerObject.toUniqueCredentials({
+        let unique_data = await pluginObject.toUniqueCredentials({
             data,
             login_id: id,
             intent: 'signup',
@@ -257,7 +259,7 @@ export default class UserAuthenticationController {
 
         await this[login_collection_symbol].insertOne({
             userid,
-            provider,
+            plugin,
             id,
             data: unique_data,
             active: false,
@@ -272,19 +274,19 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {string} param0.userid
      * @param {object} param0.data
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {boolean} param0.active
      * @returns {Promise<string>}
      */
-    async createLoginDirect({ userid, data, provider, active = false }) {
+    async createLoginDirect({ userid, data, plugin, active = false }) {
 
-        this.findProvider(provider) //Let's just make sure the provider exists
+        this.findPlugin(plugin) //Let's just make sure the plugin exists
 
         const id = `${shortUUID.generate()}${shortUUID.generate()}`
 
         await this[login_collection_symbol].insertOne({
             userid,
-            provider,
+            plugin,
             id,
             data,
             active,
@@ -317,17 +319,17 @@ export default class UserAuthenticationController {
     /**
      * This method is used to activate or deactivate a login.
      * 
-     * The data passed to this method should already be minified Using provider.toMinimalUniqueCredentials()
+     * The data passed to this method should already be minified Using plugin.toMinimalUniqueCredentials()
      * 
      * It returns the associated login
      * @param {object} param0
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {object} param0.data 
      * @param {boolean} state
      * @returns {Promise<import("./types.js").UserLogin>}
      */
-    async setLoginEnabled({ provider, data }, state) {
-        let login = await this.searchLoginByDataDirect({ data, provider })
+    async setLoginEnabled({ plugin, data }, state) {
+        let login = await this.searchLoginByDataDirect({ data, plugin })
 
         if (!login) {
             throw new Exception(`The login you wish to activate was not found.`)
@@ -349,15 +351,15 @@ export default class UserAuthenticationController {
     /**
      * This method is used to activate or deactivate a login.
      * 
-     * The data passed to this method should already be minified Using provider.toMinimalUniqueCredentials()
+     * The data passed to this method should already be minified Using plugin.toMinimalUniqueCredentials()
      * @param {object} param0
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {object} param0.data 
      * @param {object} param0.newdata
      * @returns {Promise<void>}
      */
-    async updateLogin({ provider, data, newdata }) {
-        let login = await this.searchLoginByDataDirect({ data, provider });
+    async updateLogin({ plugin, data, newdata }) {
+        let login = await this.searchLoginByDataDirect({ data, plugin });
 
         if (!login) {
             throw new Exception(`Login not found. Could not update!`)
@@ -365,7 +367,7 @@ export default class UserAuthenticationController {
 
         await this[login_collection_symbol].updateMany({
             data: login.data,
-            provider,
+            plugin,
         },
             {
                 $set: {
@@ -378,22 +380,22 @@ export default class UserAuthenticationController {
     /**
      * Begins the process of resetting a login
      * @param {object} param0
-     * @param {string} param0.provider 
+     * @param {string} param0.plugin 
      * @param {object} param0.data 
      * @param {FacultyPublicJSONRPC} param0.clientRpc
      */
-    async resetLogin({ provider, data, clientRpc }) {
-        let providerObject = this.findProvider(provider);
+    async resetLogin({ plugin, data, clientRpc }) {
+        let pluginObject = this.findPlugin(plugin);
 
         //Let's search if a login even exists like that
-        let login = await this.searchLoginByData({ data, provider, intent: 'signup' })
+        let login = await this.searchLoginByData({ data, plugin, intent: 'signup' })
 
         if (!login) {
             throw new Exception(`Sorry, the login you're trying to reset doesn't even exist.`)
         }
 
-        //The provider will handle it from here
-        await providerObject.toUniqueCredentials({
+        //The plugin will handle it from here
+        await pluginObject.toUniqueCredentials({
             data,
             intent: 'reset',
             clientRpc
@@ -404,17 +406,18 @@ export default class UserAuthenticationController {
      * Searches for a login in the database whose data matches the data given.
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @param {('login'|'signup'|'reset')} param0.intent
      * @returns {Promise<import("./types.js").UserLogin}
      */
-    async searchLoginByData({ data, provider, intent }) {
-        let providerObject = this.findProvider(provider);
+    async searchLoginByData({ data, plugin, intent }) {
+        let pluginObject = this.findPlugin(plugin);
 
-        let minimal_data = await providerObject.toMinimalUniqueCredentials({ data, intent });
+        let minimal_data = await pluginObject.toMinimalUniqueCredentials({ data, intent });
 
+        /** @type {import("./types.js").UserLogin} */
         let query = {
-            provider
+            plugin
         }
 
         for (let key in minimal_data) {
@@ -433,15 +436,16 @@ export default class UserAuthenticationController {
      * The search this time is direct
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {string} param0.provider
+     * @param {string} param0.plugin
      * @returns {Promise<import("./types.js").UserLogin}
      */
-    async searchLoginByDataDirect({ data, provider }) {
+    async searchLoginByDataDirect({ data, plugin }) {
 
-        this.findProvider(provider); //Just so it can throw an error if the provider is not found
+        this.findPlugin(plugin); //Just so it can throw an error if the plugin is not found
 
+        /** @type {import("./types.js").UserLogin} */
         let query = {
-            provider
+            plugin
         }
 
         for (let key in data) {
@@ -449,7 +453,8 @@ export default class UserAuthenticationController {
         }
 
         return await this[login_collection_symbol].findOne({
-            ...query
+            ...query,
+            plugin
         })
     }
 
@@ -515,7 +520,11 @@ export default class UserAuthenticationController {
         return token_string;
     }
 
-    async createUserProfile() {
+    /**
+     * This method creates a new user profile, and returns the user id of the user
+     * @param {import("../profile/types.js").UserProfileData} data 
+     */
+    async createUserProfile(data) {
         return await this[user_profile_controller_symbol].createProfile(...arguments)
     }
 
@@ -537,7 +546,6 @@ export default class UserAuthenticationController {
 
 
 
-const providers_symbol = Symbol(`UserAuthenticationController.prototype.providers`)
 const token_collection_symbol = Symbol(`UserAuthenticationController.prototype.token_collection`)
 const login_collection_symbol = Symbol(`UserAuthenticationController.prototype.login_collection`)
 const user_profile_controller_symbol = Symbol(`UserAuthenticationController.prototype.user_profile_controller`)

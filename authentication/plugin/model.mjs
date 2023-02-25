@@ -5,14 +5,13 @@ This module defines the structure of an authentication plugin
 
 */
 
-import { FacultyPublicJSONRPC } from "../../../../system/comm/rpc/faculty-public-rpc.mjs";
-import { BaseModel } from "../../../../system/lib/libFaculty/provider-driver.js"
-import AuthenticationProviderSystemAPI from "./system-api.mjs";
+import UserAuthenticationController from "../controller.mjs";
+import AuthenticationPluginSystemAPI from "./system-api.mjs";
 
 const faculty = FacultyPlatform.get();
 
 
-export default class AuthenticationPlugin extends BaseModel {
+export default class AuthenticationPlugin extends PluginModelModel {
 
     /**
      * Sub classes should use the fields of the object provided do some necessary initializations
@@ -21,19 +20,51 @@ export default class AuthenticationPlugin extends BaseModel {
     constructor({ ...credentials } = {}) {
         super();
 
-        this.getCollection = (name) => {
-            return faculty.database.collection(`${faculty.descriptor.name}.providers.${this.$data.name}.${name}`)
-        }
+        /** @type {AuthenticationPluginSystemAPI} */ this.system
 
-        /** @type {AuthenticationProviderSystemAPI} */ this.system
+        let system;
+        Reflect.defineProperty(this, 'system', {
+            get: () => {
+                return system ||= new AuthenticationPluginSystemAPI(this, UserAuthenticationController.instance)
+            }
+        })
+
+
+
+    }
+
+
+    /**
+     * This method returns a collection prefixed with the name of the plugin.
+     * The reason to use this method, is for better management.
+     * @param {string} name 
+     * @returns {import('mongodb').Collection}
+     */
+    getCollection(name) {
+        return faculty.database.collection(`${faculty.descriptor.name}.plugins.${this.descriptor.name}.${name}`)
+    }
+
+
+    /**
+     * This method will be called on the sub-class, by the system, in order that the plugin should 
+     * do some long initializations
+     */
+    async _start() {
+
+    }
+    /**
+     * This method will be called on the sub-class, by the system, in order that the plugin should 
+     * do some long initializations
+     */
+    async _start() {
 
     }
 
     /**
-     * This method will be called on the sub-class, by the system, in order that the provider should 
-     * do some long initializations
+     * Plugins should override this, so as to provide credentials to their frontend clients
+     * @returns {Promise<object>}
      */
-    async init() {
+    async getClientCredentials() {
 
     }
 
@@ -47,9 +78,9 @@ export default class AuthenticationPlugin extends BaseModel {
      * If this method should return false, or undefined, the process will be aborted, in the assumption that the user has falsified data.
      * However, it's advisable to just throw an explicit error.
      * 
-     * During sign up, the system expects the returns of this method to still be unique.
+     * During sign up, the system expects the ret_FacultyPublicJSONRPCurns of this method to still be unique.
      * The unique data is stored in the system's database and the login is marked inactive.
-     * Whenever the provider deems it necessary that the login should become active, it calls the system.updateLoginState(true|false)
+     * Whenever the plugin deems it necessary that the login should become active, it calls the system.updateLoginState(true|false)
      * It is used to either activate or deactivate a login using it's id.
      * 
      * Take note that a login_id is only during signup
@@ -66,9 +97,9 @@ export default class AuthenticationPlugin extends BaseModel {
     }
 
     /**
-     * Providers should override this method to provide a unique representation of the data with only the strictly necessary fields.
+     * Plugins should override this method to provide a unique representation of the data with only the strictly necessary fields.
      * 
-     * For example, if your provider uses username and password to log a client in, then the minimal unique data, could be calculated using only the username, because the username alone is enough to distinguish a login
+     * For example, if your plugin uses username and password to log a client in, then the minimal unique data, could be calculated using only the username, because the username alone is enough to distinguish a login
      * @param {object} param0 
      * @param {object} param0.data
      * @param {('login'|'signup'|'reset')} param0.intent
@@ -79,7 +110,7 @@ export default class AuthenticationPlugin extends BaseModel {
 
 
     /**
-     * The provider should override and return an interface which contains remote methods.
+     * The plugin should override and return an interface which contains remote methods.
      * 
      * That is, methods which distant components can use.
      * 
@@ -99,25 +130,7 @@ export default class AuthenticationPlugin extends BaseModel {
         }
     }
 
-
-    /**
-     * Sub classes should override this to specify the fields that must be present in the credentials supplied to them
-     * from the database.
-     * For example, some providers require project_id, client_id, and so on.
-     * Specifying these fields allow us to check at boot time whether the credentials supplied meet the requirements
-     */
-    static get credential_fields() {
-        return ['client_id']
-    }
-
-    /**
-     * On the front-end, the clients need access to certain credentials of the provider, such as client_id
-     * However, not all of them, for example, client_secret.
-     * By overriding this field, sub-classes can specify which credentials their clients actually need to function.
-     */
-    static get client_credential_fields() {
-        return ['client_id']
-    }
-
-
 }
+
+
+global.AuthenticationPlugin ||= AuthenticationPlugin

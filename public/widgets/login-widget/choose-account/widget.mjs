@@ -19,7 +19,7 @@ export default class ChooseAccount extends HCTSBrandedPopup {
      * 
      * @param {object} login_data
      * @param {object} login_data.login 
-     * @param {string} login_data.login.provider
+     * @param {string} login_data.login.plugin
      * @param {object} login_data.login.data
      * @param {[{active: boolean, profile: import("faculty/modernuser/profile/types.js").UserProfileData}]} login_data.profiles
      */

@@ -7,9 +7,6 @@
  * 
  */
 
-import { Collection } from "mongodb";
-import { ProviderLoader } from "../../system/lib/libFaculty/provider-driver.js";
-import UserLoginProvider from "./authentication/lib/provider.mjs";
 import collections from "./collections.mjs";
 import GroupDataController from "./group/data/controller.mjs";
 import GroupMembershipController from "./group/membership/controller.mjs";
@@ -35,9 +32,6 @@ export default async function init() {
 
     let http = await HTTPServer.new()
 
-    let authentication_providers = await init_providers(collections.authentication_provider_credentials, http);
-
-
     //Setup the logic (controllers)
 
     const group_membership_controller = new GroupMembershipController({ collection: collections.group_membership });
@@ -47,7 +41,6 @@ export default async function init() {
     const profile_controller = new UserProfileController({ collection: collections.profile })
 
     const authentication_controller = new UserAuthenticationController({
-        providers: authentication_providers,
         collections: {
             token: collections.authentication_tokens,
             login: collections.authentication_logins
@@ -225,35 +218,3 @@ export default async function init() {
 
 
 
-
-/**
- * This method initializes the providers
- * @param {Collection} collection
- * @param {HTTPServer} http
- * @param {UserAuthenticationController} auth_controller
- * @returns {Promise<UserLoginProvider>}
- */
-async function init_providers(collection, http, auth_controller) {
-
-    let providers_path = `./authentication/providers/`
-
-    /** @type {ProviderLoader<UserLoginProvider>} */
-    let loader = new ProviderLoader({
-        providers: providers_path,
-        model: './authentication/lib/provider.mjs',
-        relModulePath: './backend/provider.mjs',
-        fileStructure: ['./backend/provider.mjs', './frontend/widget.mjs'],
-        credentials_collection: collection
-    });
-
-
-    let results = await loader.load();
-
-    if (results.errors.length !== 0) {
-        console.warn(`${'Errors where encountered while loading authentication providers'.underline}\n\n\n${results.errors.map(err => ` ${err.stack || err}`).join(`\n\n${'-'.repeat(process.stdout.columns)}\n\n`)}`)
-    }
-
-
-    return results.providers;
-
-}

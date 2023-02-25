@@ -5,7 +5,6 @@
  * 
  */
 
-import { FacultyPublicMethods } from "../../../../system/comm/rpc/faculty-public-methods.mjs";
 import PermissionDataController from "../data/controller.mjs";
 import PermissionGrantsController from "../grants/controller.mjs";
 import PermissionDataPublicMethods from './public/data.mjs'

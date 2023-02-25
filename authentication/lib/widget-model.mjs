@@ -1,39 +1,38 @@
 /*
-Copyright 2022 HolyCorn Software
-The CAYOFED People System
+Copyright 2023 HolyCorn Software
 
 The Modern Faculty of Users
-This module defines a minimum structure that must be implemented by all authentication provider widgets in the system
+This module defines a minimum structure that must be implemented by all authentication plugin widgets in the system
 */
 
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 
-export const provider_data_symbol = Symbol(`LoginProviderWidget.prototype.provider_data`)
+export const pluginData = Symbol()
 
-export default class LoginProviderWidget extends Widget {
+export default class LoginWidget extends Widget {
 
     constructor() {
         super(...arguments);
 
-        /** @type {import("../types.js").SecurityProviderPublicData} */ this[provider_data_symbol]
+        /** @type {import("../types.js").AuthPluginPublicData} */ this[pluginData]
 
         /** @type {function(('complete'), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
     }
 
     /**
-     * The provider has to override this getter to provide access to data entered by the user
+     * The plugin has to override this getter to provide access to data entered by the user
      * @returns {object}
      */
     get values() {
-        throw new Error(`Dear user, the login provider ${this[provider_data_symbol]?.name} is incomplete.`)
+        throw new Error(`Dear user, the login method ${this[pluginData]?.name} is incomplete.`)
     }
 
     /**
-     * The system calls this method when it wants to inform the provider that an action is done. E.g login done
+     * The system calls this method when it wants to inform the plugin that an action is done. E.g login done
      * 
-     * The provider should override this method to decide on it's next step.
+     * The plugin should override this method to decide on it's next step.
      * 
      * @param {object} param0
      * @param {('login'|'signup'|'reset')} param0.action
