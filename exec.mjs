@@ -114,23 +114,6 @@ export default async function init() {
         onboarding: onboarding_controller
     });
 
-    http.websocketServer.route({
-        path: '/',
-        callback: (msg, client) => {
-            new FacultyPublicJSONRPC(client)
-        }
-    });
-
-    await faculty.base.shortcutMethods.http.websocket.claim({
-        base: {
-            point: faculty.standard.publicRPCPoint,
-        },
-        local: {
-            path: '/'
-        },
-        http
-    })
-
 
     //Setup internal methods
     const internal_methods = new UserInternalMethods({
