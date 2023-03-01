@@ -25,7 +25,7 @@ export default class UserAndRoleInput extends SearchInput {
      * @param {('user'|'role'|'dual')} param0.mode
      */
     constructor({ name, label, mode } = {}) {
-        super({ is_multi_select: true, label });
+        super({ name, label });
 
         this.html.classList.add('hc-cayofedpeople-user-n-role-input')
 
