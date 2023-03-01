@@ -28,7 +28,7 @@ export default class AddUserPopup extends PopupForm {
                         label: 'User',
                         name: 'userid',
                         type: 'customWidget',
-                        mode: 'users'
+                        mode: 'user'
                     }
                 ]
             ],

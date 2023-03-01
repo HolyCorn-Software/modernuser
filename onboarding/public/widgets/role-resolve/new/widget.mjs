@@ -29,7 +29,7 @@ export default class NewRole extends PopupForm {
                     label: `Role`,
                     customWidgetUrl: "/$/modernuser/static/widgets/user-n-role-input/widget.mjs",
                     name: 'role',
-                    mode: 'roles',
+                    mode: 'role',
                     type: 'customWidget'
                 }
             ],

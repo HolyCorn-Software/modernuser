@@ -25,7 +25,7 @@ export default class UserAndRoleInput extends SearchInput {
      * @param {('user'|'role'|'dual')} param0.mode
      */
     constructor({ name, label, mode } = {}) {
-        super(...arguments);
+        super({ is_multi_select: true, label });
 
         this.html.classList.add('hc-cayofedpeople-user-n-role-input')
 
@@ -34,11 +34,9 @@ export default class UserAndRoleInput extends SearchInput {
                 // //Fetch users from the backend
                 try {
 
+                    const users = (this.mode === 'user' || this.mode === 'dual') ? await muserRpc.modernuser.profile.fetchUsers(filter) : []
 
-                    const users = (this.mode === 'users' || this.mode === 'dual') ? await muserRpc.modernuser.profile.fetchUsers(filter) : []
-
-                    const roles = (this.mode === 'roles' || this.mode === 'dual') ? await muserRpc.modernuser.role.data.fetchRoles(filter) : []
-
+                    const roles = (this.mode === 'role' || this.mode === 'dual') ? await muserRpc.modernuser.role.data.fetchRoles(filter) : []
 
                     return [
                         ...users.map(x => {

@@ -39,7 +39,7 @@ export class PermissionGrantPopup extends PopupForm {
                         name: 'subject',
                         type: 'customWidget',
                         customWidgetUrl: '/$/modernuser/static/widgets/user-n-role-input/widget.mjs',
-                        mode: 'users'
+                        mode: 'user'
                     }
                 ],
                 [

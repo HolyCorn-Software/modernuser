@@ -24,7 +24,7 @@ export default class RoleSelectPopup extends PopupForm {
                         type: 'customWidget',
                         customWidgetUrl: "/$/modernuser/static/widgets/user-n-role-input/widget.mjs",
                         name: 'role',
-                        mode: 'roles'
+                        mode: 'role'
                     }
                 ]
             ],

@@ -1,3 +1,3 @@
 .
 
-Switched to platform-managed public rpc methods
+Corrected minor bug with the user-n-role-input widget
