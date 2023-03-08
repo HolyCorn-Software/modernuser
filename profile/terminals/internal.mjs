@@ -99,14 +99,9 @@ export default class UserProfileInternalMethods {
     async createTemporalProfile() {
         const userid = await this[controller_symbol].createProfile({
             icon: `${FacultyPlatform.get().server_domains.secure}/$/shared/static/logo.png`,
-            label: `Temporal ${new Date().toTimeString()}`
+            label: `Temporal ${new Date().toTimeString()}`,
+            temporal: true
         });
-
-        //Make the profile expire in 10 mins
-        setTimeout(() => {
-            console.log(`user id ${userid.blue} expired!`)
-            this[controller_symbol].deleteProfile(userid)
-        }, 10 * 60 * 1000)
 
         const token = await this[authentication_controller_symbol].issueToken({ userid })
 

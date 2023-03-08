@@ -10,9 +10,11 @@ import { Collection } from 'mongodb'
 
 export declare interface UserProfileData {
     time: number
-    id: string,
-    label: string,
+    id: string
+    label: string
     icon: string
+    /** When this is set to true, the profile will expire, when inactive for 3 days */
+    temporal: boolean
 }
 
 

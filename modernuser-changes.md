@@ -1,3 +1,3 @@
 .
 
-Corrected minor ommission with the user-n-role-input widget
+Removed deletion policy of temporal accounts
