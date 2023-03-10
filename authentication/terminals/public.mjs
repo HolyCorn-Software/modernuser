@@ -46,7 +46,7 @@ export default class UserAuthenticationPublicMethods {
 
         let credentials = await this[controller_symbol].login({ plugin, data });
 
-        session.setVar(`${faculty.descriptor.name}-authentication-token`, credentials.token)
+        session.setVar(UserAuthenticationController.sessionVarName, credentials.token)
 
         return credentials
     }

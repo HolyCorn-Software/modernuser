@@ -54,6 +54,14 @@ export default class UserAuthenticationController {
         return this[instance]
     }
 
+
+    /**
+     * @readonly
+     */
+    static get sessionVarName() {
+        return `${faculty.descriptor.name}-authentication-token`
+    }
+
     /**
      * This method is used to log in a publicly contacted client (user)
      * 
@@ -146,7 +154,7 @@ export default class UserAuthenticationController {
     async advancedLogin({ data, plugin, userid }) {
 
         console.log(`Arguments::`, arguments)
-        
+
         soulUtils.checkArgs(arguments[0], {
             plugin: 'string',
             userid: 'string'

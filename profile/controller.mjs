@@ -119,6 +119,14 @@ export default class UserProfileController {
     }
 
     /**
+     * This method tells us if theres no profile in the system
+     * @returns {Promise<boolean>}
+     */
+    async noProfileExists() {
+        return ((await this[collection_symbol].find({}, { limit: 2 }).toArray()).length || 0) == 0
+    }
+
+    /**
      * This method is used to delete a profile
      * @param {string} id 
      * @returns {Promise<void>}

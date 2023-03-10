@@ -55,20 +55,23 @@ export default class UserProfilePublicMethods {
         return await this[controller_symbol].fetchUsers(arguments[1])
     }
 
-
-
     /**
-     * This method returns the label on a user's account
-     * @param {string} id 
-     * @returns {Promise<string>}
+     * This method automatically creates a user, if this is the first time anyone is signing up
+     * to the platform.
+     * It does so, and logs in the user, and the user will be assigned superuser permissions
      */
-    async getLabel(id) {
-        //TODO: Check for permissions like assign permission, or that the user 
-        //TODO: Find alternatives for components that depend on this method, and abandon this method.
-        id = arguments[1]
-        return (await this[controller_symbol].getProfile({ id })).label
-    }
+    async adam() {
+        if (!await this[controller_symbol].noProfileExists()) {
+            throw new Exception(`This method only works when there's no user on the platform`)
+        }
+        const id = await this[controller_symbol].createProfile({ icon: '/$/shared/static/logo.png', label: 'Adam' })
+        //The permissions would have already been granted
+        const token = await this[authentication_controller_symbol].issueToken({ userid: id })
 
+        /** @type {FacultyPublicJSONRPC} */
+        const client = arguments[0];
+        (await client.resumeSessionFromMeta()).setVar(UserAuthenticationController.sessionVarName, token);
+    }
 
 
 }
