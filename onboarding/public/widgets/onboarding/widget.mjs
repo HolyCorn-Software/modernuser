@@ -6,13 +6,12 @@
 
 import Progress from "./progress.form.multiform.js";
 import WelcomePopup from "./welcome-popup/widget.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import { SlideContainer } from "/$/system/static/html-hc/widgets/slide-container/container.mjs";
-
 
 
 export default class CAYOFEDOnboarding extends Widget {
@@ -82,8 +81,7 @@ export default class CAYOFEDOnboarding extends Widget {
                     this.slider.screens[this.navigation.value].widgetObject.isComplete();
 
                     if (this.navigation.value === this.navigation.length - 1) {
-                        // setTimeout(()=> window.location = '/', 1000);
-                        muserRpc.modernuser.onboarding.onboard(this.value).then(() => this.postOnboarding(), (e) => {
+                        hcRpc.modernuser.onboarding.onboard(this.value).then(() => this.postOnboarding(), (e) => {
                             handle(e)
                         })
                     } else {

@@ -8,7 +8,7 @@
  */
 
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import RolesListings from "./widgets/listings/widget.mjs";
 import NewRolePopup from "./widgets/new.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
@@ -67,7 +67,7 @@ export default class RoleDataManager extends Widget {
 
         this.listings = new RolesListings()
 
-        /** @type {[ActionButton]} */ this.actions
+        /** @type {ActionButton[]} */ this.actions
         this.pluralWidgetProperty({
             selector: '.hc-action-button',
             property: 'actions',
@@ -110,7 +110,7 @@ export default class RoleDataManager extends Widget {
             const selected = this.listings.checked_items;
 
             /** 
-             * @param {[string]} items
+             * @param {string[]} items
              * @returns {string} 
              */
             const english_to_string = (items) => {
@@ -140,7 +140,7 @@ export default class RoleDataManager extends Widget {
                     await new Promise((resolve, reject) => {
 
                         for (let role of selected) {
-                            muserRpc.modernuser.role.data.delete({ id: role })
+                            hcRpc.modernuser.role.data.delete({ id: role })
                                 .then(() => {
                                     this.listings.itemsData = this.listings.itemsData.filter(x => x.id !== role)
                                 }).catch(e => {

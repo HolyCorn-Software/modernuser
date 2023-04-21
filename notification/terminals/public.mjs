@@ -5,6 +5,7 @@
  * This module provides the world with methods from the notifications module
  */
 
+import modernuserPlugins from "../../plugins.mjs";
 import NotificationController from "../controller.mjs";
 
 
@@ -20,14 +21,10 @@ export default class NotificationPublicMethods {
         this[controller_symbol] = controller
 
     }
-
-    /**
-     * This method retrieves the list of all providers
-     * @returns {Promise<[{name: string, label:string}]>}
-     */
     async getProviders() {
-        return this[controller_symbol].providers.provider_public_data
+        return modernuserPlugins.loaded.namespaces.notification.map(x => ({ name: x.descriptor.name, label: x.descriptor.label, faculty: x.descriptor.faculty, form: x.descriptor.credentials.form }))
     }
+
 
 
 }

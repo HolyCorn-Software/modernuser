@@ -25,8 +25,8 @@ export default class PermissionGrantsInternalMethods {
      * Checks if a user has at least one of the stated permissions
      * @param {object} param0
      * @param {string} param0.userid The user
-     * @param {[string]} param0.permissions An array of permissions to checked
-     * @param {import("../../grants/types.js").PermissionIntent} param0.intent
+     * @param {string[]} param0.permissions An array of permissions to checked
+     * @param {modernuser.permission.PermissionIntent} param0.intent
      * @param {object} param0.flags
      * @param {boolean} param0.flags.throwError If set to false, we'll not throw a not authorized error
      * @returns {Promise<boolean>}

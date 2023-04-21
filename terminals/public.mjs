@@ -120,11 +120,11 @@ export default class UserPublicMethods extends FacultyPublicMethods {
         let userid = await this[profile_controller_symbol].createProfile()
 
 
-        const login = await this[authentication_controller_symbol].login({ data, plugin: provider })
+        const login = await this[authentication_controller_symbol].login({ data, provider: provider })
 
         await this[authentication_controller_symbol].bindLogin({ userid, login: login.login_data.id })
 
-        const credentials = await this[authentication_controller_symbol].advancedLogin({ data, plugin: provider, userid })
+        const credentials = await this[authentication_controller_symbol].advancedLogin({ data, provider, userid })
 
 
 

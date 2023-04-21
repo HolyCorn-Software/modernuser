@@ -9,7 +9,7 @@
 import { fetchZones } from "../../../../zonation-manager/util.mjs";
 import ZoneInput from "../../../../zone-input/widget.mjs";
 import ExpiresEditPopup from "./expires-edit-popup.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
@@ -25,7 +25,7 @@ export default class PermissionActions extends Widget {
      * 
      * @param {object} param0
      * @param {import("../types.js").FrontendPermissionSubjectData} param0.subject
-     * @param {import("../types.js").FrontendPermissionGrant} param0.data 
+     * @param {modernuser.permission.PermissionGrant} param0.data 
      */
     constructor({ subject, data } = {}) {
         super();
@@ -62,7 +62,7 @@ export default class PermissionActions extends Widget {
 
         //First things first, we deal with the storage of data
 
-        /** @type {import("/$/system/static/html-hc/lib/alarm/alarm-types.js").AlarmObject<{data: import("../types.js").FrontendPermissionGrant, subject:import("../types.js").FrontendPermissionSubjectData}>} */ this.data
+        /** @type {modernuser.permission.PermissionGrant, subject:import("../types.js").FrontendPermissionSubjectData}>} */ this.data
         const data_store = new AlarmObject();
 
         Reflect.defineProperty(this, 'data', {
@@ -179,7 +179,7 @@ export default class PermissionActions extends Widget {
             widget.addEventListener('change', async () => {
                 widget.waiting = true
                 try {
-                    await muserRpc.modernuser.permissions.grants.update({ subject: this.data.subject.id, permission: this.data.data.name, data: { freedom: { [field]: widget.value } } })
+                    await hcRpc.modernuser.permissions.grants.update({ subject: this.data.subject.id, permission: this.data.data.name, data: { freedom: { [field]: widget.value } } })
                 } catch (e) {
                     handle(e)
                     widget.silent_value = !widget.value
@@ -335,7 +335,7 @@ export default class PermissionActions extends Widget {
 
     async updateZone(id) {
 
-        await muserRpc.modernuser.permissions.grants.update({ subject: this.data.subject.id, permission: this.data.data.name, data: { zone: id } })
+        await hcRpc.modernuser.permissions.grants.update({ subject: this.data.subject.id, permission: this.data.data.name, data: { zone: id } })
 
         if (typeof id === 'string') {
             let zone_label = (await fetchZones()).find(x => x.id === id).label
@@ -351,7 +351,7 @@ export default class PermissionActions extends Widget {
     }
 
     async revoke() {
-        await muserRpc.modernuser.permissions.grants.revokePermission({ subject: this.data.subject.id, zone: this.data.data.zone.id, permission: this.data.data.name })
+        await hcRpc.modernuser.permissions.grants.revokePermission({ subject: this.data.subject.id, zone: this.data.data.zone.id, permission: this.data.data.name })
         this.dispatchEvent(new CustomEvent('revoke'))
     }
 

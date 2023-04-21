@@ -6,7 +6,7 @@
  */
 
 
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
@@ -55,7 +55,7 @@ export default class NewRole extends PopupForm {
         /** @type {function(("done"), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
 
         super.addEventListener('complete', () => {
-            muserRpc.modernuser.onboarding.addRoleToRequest(
+            hcRpc.modernuser.onboarding.addRoleToRequest(
                 {
                     id: this.request,
                     role: this.value

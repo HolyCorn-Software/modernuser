@@ -25,15 +25,13 @@ export default class PermissionGrantsController {
     /**
      * 
      * @param {object} param0 
-     * @param {import("./types.js").PermissionGrantsCollection} param0.collection
+     * @param {modernuser.permission.PermissionGrantsCollection} param0.collection
      * @param {PermissionDataController} param0.data_controller
      * @param {import("faculty/modernuser/zonation/data/controller.mjs").default} param0.zonation_data_controller
      */
     constructor({ collection, data_controller, zonation_data_controller }) {
 
 
-
-        /**  @type {import("./types.js").PermissionGrantsCollection} */
         this.collection = collection
 
         this[data_controller_symbol] = data_controller
@@ -61,7 +59,7 @@ export default class PermissionGrantsController {
      * This method is expected to be implemented externally.
      * It returns all the roles played by a user
      * @param {string} userid 
-     * @returns {Promise<[import("faculty/modernuser/role/membership/types.js").RolePlay]>}
+     * @returns {Promise<import("faculty/modernuser/role/membership/types.js").RolePlay[]>}
      */
     async getUserRoles(userid) {
         throw new Error(`The getUserRoles() method was not implemented. This method is probably supposed to come from the RolePlayController`)
@@ -84,8 +82,8 @@ export default class PermissionGrantsController {
      * Checks if a user has at least one of the stated permissions for the mentioned intent
      * @param {object} param0
      * @param {string} param0.userid The user
-     * @param {import("./types.js").PermissionIntent} param0.intent
-     * @param {[string]} param0.permissions An array of permissions to checked
+     * @param {modernuser.permission.PermissionIntent} param0.intent
+     * @param {string[]} param0.permissions An array of permissions to checked
      * @param {object} param0.flags
      * @param {boolean} param0.flags.throwError If set to false, we'll not throw a not authorized error
      * @returns {Promise<boolean>}
@@ -110,11 +108,11 @@ export default class PermissionGrantsController {
      * This method will validate a user, if he has any of the stated permissions, or his id, or role is in the whitelist
      * @param {object} param0 
      * @param {string} param0.userid
-     * @param {[string]} param0.permissions
-     * @param {import("./types.js").PermissionIntent} param0.intent
+     * @param {string[]} param0.permissions
+     * @param {modernuser.permission.PermissionIntent} param0.intent
      * @param {object} param0.flags
      * @param {boolean} param0.flags.throwError
-     * @param {[string]} param0.whitelist
+     * @param {string[]} param0.whitelist
      * @returns {Promise<boolean>}
      */
     async whitelistedPermissionCheck({ userid, permissions, intent, flags, whitelist = [] }) {
@@ -145,7 +143,7 @@ export default class PermissionGrantsController {
      * @param {object} param0 
      * @param {string} param0.subject
      * @param {string} param0.userid If specified, checks will be made to be sure the user has the right to view permission info on the platform
-     * @returns {Promise<[import("./types.js").PermissionGrant]>}
+     * @returns {Promise<modernuser.permission.PermissionGrant[]>}
      */
     async getPermissions({ subject, userid } = {}) {
 
@@ -177,7 +175,7 @@ export default class PermissionGrantsController {
 
     /**
      * This is used to set new or modify an existing permission grant
-     * @param {Omit<import("./types.js").PermissionGrant, "time">} data 
+     * @param {Omit<modernuser.permission.PermissionGrant, "time">} data 
      */
     async setPermission(data, upsert = true) {
         await this.collection.updateOne({
@@ -267,7 +265,7 @@ export default class PermissionGrantsController {
      * @param {object} param0 
      * @param {string} param0.subject
      * @param {string} param0.permission
-     * @param {import("./types.js").PermissionGrant} param0.data
+     * @param {modernuser.permission.PermissionGrant} param0.data
      * @returns {Promise<void>}
      */
     async updatePermission({ subject, permission, data }) {
@@ -287,7 +285,7 @@ export default class PermissionGrantsController {
      * @param {string} param0.permission
      * @param {object} param0.intent
      * @param {string} param0.intent.zone
-     * @param {('use'|'grant')} param0.intent.freedom
+     * @param {modernuser.permission.Freedom} param0.intent.freedom
      * @param {object} param0.flags
      * @param {boolean} param0.flags.throwError
      * @returns {Promise<boolean>}
@@ -369,7 +367,7 @@ export default class PermissionGrantsController {
 
     /**
      * This is an internal method used to prepare collections to be used by the association manager
-     * @param {import("./types.js").PermissionGrantsCollection} collection 
+     * @param {modernuser.permission.PermissionGrantsCollection} collection 
      */
     static async prepareCollections(collection) {
         await collection.createIndex({ subject: 1, permission: 1 }, { unique: true })
@@ -380,7 +378,7 @@ export default class PermissionGrantsController {
 
 
 /**
- * @type {[import("../../data/types.js").PermissionData]}
+ * @type {modernuser.permission.PermissionData[]}
  */
 export const permissions = [
     {

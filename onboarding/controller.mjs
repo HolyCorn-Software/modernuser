@@ -87,7 +87,7 @@ export default class OnboardingController {
                 provider: 'string'
             }, 'notification')
 
-            await this[notification_controller_symbol].contacts.addContact(
+            await this[notification_controller_symbol].createContact(
                 {
                     provider: notification.provider,
                     data: notification.data,
@@ -138,7 +138,7 @@ export default class OnboardingController {
 
         /**
          * This method sets the readonly fields on an array of roles. Readonly is set when the role in question cannot be granted the current user
-         * @param {[{role: string, zone: string}]} roles
+         * @param {{role: string, zone: string}[]} roles
          * @returns {Promise<{role: string, zone: string, readonly:boolean}>}
          */
         const set_readonly_fields = (roles) => {

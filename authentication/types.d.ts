@@ -8,7 +8,6 @@
  */
 
 import { Collection } from 'mongodb'
-import _AuthenticationPlugin from './plugin/model.mjs'
 
 
 export declare interface UserAuthToken {
@@ -46,6 +45,17 @@ export declare interface AuthPluginPublicData {
 export type UserLoginCollection = Collection<UserLogin>
 
 
+import _AuthenticationPlugin from './plugin/model.mjs'
+
+
+
+
+
 global {
-    class AuthenticationPlugin extends _AuthenticationPlugin { }
+    class AuthenticationPlugin<CredentialsType, ClientDataSchema, ClientUniqueDataSchema> extends _AuthenticationPlugin<CredentialsType, ClientDataSchema, ClientUniqueDataSchema> { }
+
+    namespace modernuser.authentication {
+        type AuthAction = ("login" | "signup" | "reset")
+    }
+
 }

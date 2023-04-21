@@ -32,7 +32,7 @@ export default class NavigationItemDeletePopup extends HCTSBrandedPopup {
             `
         });
 
-        /** @type {[ActionButton]} **/ this.actions
+        /** @type {ActionButton[]} **/ this.actions
         this.pluralWidgetProperty({
             selector: '.hc-action-button',
             property: 'actions',

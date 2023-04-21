@@ -1,18 +1,35 @@
 /**
- * Copyright 2022 HolyCorn Software
- * The Donor Forms Project
- * A patient comes to this page to consult
+ * Copyright 2023 HolyCorn Software
+ * The Modern Faculty of Users
+ * This page allows a user to authenticate himeself
  */
 
-import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
-import LoginPage from "../widgets/login-page/widget.mjs";
-
-let widget = new LoginPage();
-
-// widget.main.sections.main.caption = 'Login'
-// widget.main.sections.main.positiveButton.content = `Login`
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs";
+import { handle } from "/$/system/static/errors/error.mjs";
 
 
-document.body.appendChild(
-    widget.html
-);
+const doLoad = async () => {
+
+    const LoginPage = (await import("../widgets/login-page/widget.mjs")).default;
+
+    let widget = new LoginPage();
+
+
+    document.body.appendChild(
+        widget.html
+    );
+}
+
+try {
+
+
+    const page = await hcRpc.system.settings.get({ faculty: 'modernuser', namespace: 'appearance', name: 'loginPage' })
+    if (page) {
+        window.location = `${page}?continue=${new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'}`
+    } else {
+        console.log(`There's no login page: ${page}`)
+        doLoad().catch((e) => handle(e))
+    }
+} catch (e) {
+    handle(e)
+}

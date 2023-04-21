@@ -44,7 +44,7 @@ export default class UserAuthenticationPublicMethods {
         let session = await client.resumeSessionFromMeta();
 
 
-        let credentials = await this[controller_symbol].login({ plugin, data });
+        let credentials = await this[controller_symbol].login({ provider: plugin, data });
 
         session.setVar(UserAuthenticationController.sessionVarName, credentials.token)
 
@@ -55,27 +55,27 @@ export default class UserAuthenticationPublicMethods {
     /**
      * This method is the advanced way of logging in.
      * This method gets all the profiles attached to the given login
-     * @param {string} plugin 
+     * @param {string} provider 
      * @param {object} data 
-     * @returns {Promise<[{profile:import("faculty/modernuser/profile/types.js").UserProfileData, active: boolean}]>}
+     * @returns {Promise<({profile:modernuser.profile.UserProfileData, active: boolean})[]>}
      */
-    async getProfiles(plugin, data) {
+    async getProfiles(provider, data) {
 
-        plugin = arguments[1]
+        provider = arguments[1]
         data = arguments[2];
 
-        return await this[controller_symbol].getProfiles({ data, plugin })
+        return await this[controller_symbol].getProfiles({ data, provider })
     }
 
     /**
      * This method is used to log a user in while specifying the specific user account
      * @param {object} param0 
-     * @param {string} param0.plugin
+     * @param {string} param0.provider
      * @param {object} param0.data
      * @param {string} param0.userid
      * @returns {Promise<{token: string, expires:number}>}
      */
-    async advancedLogin({ plugin, data, userid }) {
+    async advancedLogin({ provider, data, userid }) {
         const credentials = await this[controller_symbol].advancedLogin({
             ...arguments[1]
         });
@@ -92,7 +92,7 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * @deprecated Use .getPluginsPublicData() instead
-     * @returns {Promise<[import("../types.js").AuthPluginPublicData]>}
+     * @returns {Promise<import("../types.js").AuthPluginPublicData[]>}
      */
     async getProvidersData() {
         return await this[controller_symbol].getPluginsPublicData()
@@ -101,7 +101,7 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * Gets data about all the security providers
-     * @returns {Promise<[import("../types.js").AuthPluginPublicData]>}
+     * @returns {Promise<import("../types.js").AuthPluginPublicData[]>}
      */
     async getPluginsPublicData() {
         return await this[controller_symbol].getPluginsPublicData()

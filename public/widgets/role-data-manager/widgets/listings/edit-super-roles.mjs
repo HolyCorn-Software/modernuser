@@ -15,8 +15,8 @@ export default class SuperRolesEditPopup extends RoleRelationshipEditPopup {
      * 
      * @param {object} param0 
      * @param {string} param0.id
-     * @param {[import("./types.js").FrontendRoleData]} param0.all_roles
-     * @param {[import("./types.js").SuperRoleData]} param0.super_roles
+     * @param {import("./types.js").FrontendRoleData[]} param0.all_roles
+     * @param {import("./types.js").SuperRoleData[]} param0.super_roles
      */
     constructor({ id, super_roles, all_roles }) {
         super({

@@ -5,27 +5,31 @@ This module defines the structure of an authentication plugin
 
 */
 
+import UserProfileController from "../../profile/controller.mjs";
+import NotificationController from "../../notification/controller.mjs";
 import UserAuthenticationController from "../controller.mjs";
 import AuthenticationPluginSystemAPI from "./system-api.mjs";
 
 const faculty = FacultyPlatform.get();
 
 
+/**
+ * @template CredentialsType
+ * @template UserDataSchema
+ * @template UserUniqueDataSchema
+ * @extends PluginModelModel<CredentialsType>
+ */
 export default class AuthenticationPlugin extends PluginModelModel {
 
-    /**
-     * Sub classes should use the fields of the object provided do some necessary initializations
-     * @param {object} param0 
-     */
-    constructor({ ...credentials } = {}) {
+    constructor() {
         super();
 
-        /** @type {AuthenticationPluginSystemAPI} */ this.system
+        /** @type {AuthenticationPluginSystemAPI<UserDataSchema, UserUniqueDataSchema>} */ this.system
 
         let system;
         Reflect.defineProperty(this, 'system', {
             get: () => {
-                return system ||= new AuthenticationPluginSystemAPI(this, UserAuthenticationController.instance)
+                return system ||= new AuthenticationPluginSystemAPI(this, UserAuthenticationController.instance, NotificationController.instance, UserProfileController.instance)
             }
         })
 
@@ -46,6 +50,7 @@ export default class AuthenticationPlugin extends PluginModelModel {
 
 
     /**
+     * @override
      * This method will be called on the sub-class, by the system, in order that the plugin should 
      * do some long initializations
      */
@@ -53,14 +58,15 @@ export default class AuthenticationPlugin extends PluginModelModel {
 
     }
     /**
-     * This method will be called on the sub-class, by the system, in order that the plugin should 
-     * do some long initializations
+     * @override
+     * This method will be called on the sub-class, by the system, in order that the plugin should be safely shutdown
      */
-    async _start() {
+    async _stop() {
 
     }
 
     /**
+     * @override
      * Plugins should override this, so as to provide credentials to their frontend clients
      * @returns {Promise<object>}
      */
@@ -78,7 +84,7 @@ export default class AuthenticationPlugin extends PluginModelModel {
      * If this method should return false, or undefined, the process will be aborted, in the assumption that the user has falsified data.
      * However, it's advisable to just throw an explicit error.
      * 
-     * During sign up, the system expects the ret_FacultyPublicJSONRPCurns of this method to still be unique.
+     * During sign up, the system expects the returns of this method to still be unique.
      * The unique data is stored in the system's database and the login is marked inactive.
      * Whenever the plugin deems it necessary that the login should become active, it calls the system.updateLoginState(true|false)
      * It is used to either activate or deactivate a login using it's id.
@@ -88,7 +94,7 @@ export default class AuthenticationPlugin extends PluginModelModel {
      * @param {object} param0
      * @param {string} param0.login_id
      * @param {object} param0.data
-     * @param {('login'|'signup'|'reset')} param0.intent
+     * @param {modernuser.authentication.AuthAction} param0.intent
      * @param {FacultyPublicJSONRPC} param0.clientRpc Could be null
      * @return {Promise<object>}
      */
@@ -102,7 +108,8 @@ export default class AuthenticationPlugin extends PluginModelModel {
      * For example, if your plugin uses username and password to log a client in, then the minimal unique data, could be calculated using only the username, because the username alone is enough to distinguish a login
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {('login'|'signup'|'reset')} param0.intent
+     * @param {modernuser.authentication.AuthAction} param0.intent
+     * @returns {Promise<UserUniqueDataSchema>}
      */
     async toMinimalUniqueCredentials({ data, intent }) {
 

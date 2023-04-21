@@ -5,24 +5,24 @@
  */
 
 import { fetchZones } from "../../../zonation-manager/util.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 
 
 /**
  * This method fetchs all the permissions 
  * 
- * @returns {Promise<[import("./types.js").FrontendUserPermissions]>}
+ * @returns {Promise<import("./types.js").FrontendUserPermissions[]>}
  */
 async function fetch_items() {
-    let data = await muserRpc.modernuser.permissions.data.getAll()
+    let data = await hcRpc.modernuser.permissions.data.getAll()
 
-    let grants = await muserRpc.modernuser.permissions.grants.getAll()
+    let grants = await hcRpc.modernuser.permissions.grants.getAll()
 
-    let roles = await muserRpc.modernuser.role.data.getAll()
+    let roles = await hcRpc.modernuser.role.data.getAll()
 
     let zones = await fetchZones()
 
-    /** @type {[import("./types.js").FrontendUserPermissions]} */
+    /** @type {import("./types.js").FrontendUserPermissions[]} */
     let user_permissions = []
 
     let sorted_subjects = []
@@ -35,14 +35,14 @@ async function fetch_items() {
     /**
      * This method returns the label of subject, whether a subject is a user or a role
      * @param {string} subject 
-     * @param {('user'|'role')} subject_type 
+     * @param {modernuser.permission.SubjectType} subject_type 
      * @returns {Promise<string>}
      */
     const get_subject_label = async (subject, subject_type) => {
         if (subject_type === 'role') {
             return roles.find(x => x.id === subject).label
         }
-        return await muserRpc.modernuser.profile.getLabel(subject)
+        return await hcRpc.modernuser.profile.getLabel(subject)
     }
 
     for (let grant of grants) {

@@ -16,13 +16,13 @@ export default class PermissionInput extends SearchInput {
 
         this.html.classList.add('hc-cayofedpeople-permission-input')
 
-        /** @type {import("faculty/modernuser/permission/data/types.js").PermissionData} */
+        /** @type {modernuser.permission.PermissionData} */
         this.hooks = {
             fetchItems: async (filter) => {
                 //Fetch users from the backend
                 return await userRpc.modernuser.permissions.data.fetchPermissions(filter);
             },
-            /** @param {import("faculty/modernuser/permission/data/types.js").PermissionData} user */
+            /** @param {modernuser.permission.PermissionData} user */
             getLabel: (user) => user?.label || 'No name',
 
             getValue: (permission) => permission.name,

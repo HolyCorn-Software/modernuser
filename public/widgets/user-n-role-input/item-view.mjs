@@ -12,7 +12,7 @@ export default class ItemView extends Widget {
 
     /**
      * 
-     * @param {import("faculty/modernuser/profile/types.js").UserProfileData} userdata 
+     * @param {modernuser.profile.UserProfileData} userdata 
      */
     constructor(userdata) {
         super();

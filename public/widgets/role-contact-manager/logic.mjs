@@ -5,7 +5,7 @@
  * 
  */
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import RoleContactManager from "./widget.mjs";
 import AddUserPopup from './add-user-popup.mjs'
 import { handle } from "/$/system/static/errors/error.mjs";
@@ -17,8 +17,8 @@ import * as zm_utils from '../zonation-manager/util.mjs'
 /**
  * This returns data that can be used by the widget
  * 
- * @param {[import("faculty/modernuser/role/data/types.js").RoleData]} role_data
- * @param {[import("faculty/modernuser/role/contact/types.js").RoleContact]} role_contact0
+ * @param {import("faculty/modernuser/role/data/types.js").RoleData[]} role_data
+ * @param {import("faculty/modernuser/role/contact/types.js").RoleContact[]} role_contact0
  * @param {RoleContactManager} widget
  * 
  * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
@@ -31,11 +31,11 @@ function draw_actions_for_all_roles(role_data, widget) {
      */
     const copy = (x) => JSON.parse(JSON.stringify(x))
 
-    /** @type {[import("faculty/modernuser/role/data/types.js").RoleData]} */
+    /** @type {import("faculty/modernuser/role/data/types.js").RoleData[]} */
     const role_data1 = copy(role_data)
 
     /**
-     * @type {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
+     * @type {import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData[]}
      */
     let final = role_data1.map(rd => {
 
@@ -98,7 +98,7 @@ async function draw_people_actions(role_item, widget) {
 
                 //Now fetch the users of the role in this zone
 
-                const users = await muserRpc.modernuser.role.contact.getUsersInfoFormatted({
+                const users = await hcRpc.modernuser.role.contact.getUsersInfoFormatted({
                     role: role_item.id,
                     zone: zone.id
                 });
@@ -146,7 +146,7 @@ async function draw_people_actions(role_item, widget) {
 
                 popup.addEventListener('add', async () => {
                     //Fetch user info
-                    let [user] = await muserRpc.modernuser.role.contact.getUsersInfoFormatted({ role: role_item.id, zone: zone.id, specific_user: popup.value.userid })
+                    let [user] = await hcRpc.modernuser.role.contact.getUsersInfoFormatted({ role: role_item.id, zone: zone.id, specific_user: popup.value.userid })
 
 
                     add_user_action(
@@ -192,7 +192,7 @@ async function draw_people_actions(role_item, widget) {
  * @param {{label: string, id: string}} param0.role
  * @param {{id: string, label:string}} param0.zone
  * @param {string} param0.path
- * @param {import("faculty/modernuser/profile/types.js").UserProfileData} param0.profile
+ * @param {modernuser.profile.UserProfileData} param0.profile
  * @param {RoleContactManager} param0.widget
  * @returns {import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData}
  */
@@ -217,7 +217,7 @@ function add_user_action({ path, profile, role, zone, widget }) {
                             positive: 'Yes',
                             negative: 'No',
                             execute: async () => {
-                                await muserRpc.modernuser.role.contact.removeContact(
+                                await hcRpc.modernuser.role.contact.removeContact(
                                     {
                                         subject: profile.id,
                                         role: role.id,

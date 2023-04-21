@@ -13,7 +13,7 @@ import Accordion from "/$/system/static/html-hc/widgets/arcordion/widget.mjs";
 
 
 /**
- * @extends {Accordion<import('../types.js').FrontendPermissionGrant>}
+ * @extends {Accordion<modernuser.permission.PermissionGrant>}
  */
 export default class PermissionsDetailsMainWidget extends Accordion {
 
@@ -32,7 +32,7 @@ export default class PermissionsDetailsMainWidget extends Accordion {
 
     /**
      * 
-     * @param {import("../types.js").FrontendPermissionGrant} data 
+     * @param {modernuser.permission.PermissionGrant} data 
      */
     dataToWidget(data) {
         const actions_widget = new PermissionActions({ subject: this.subject, data })

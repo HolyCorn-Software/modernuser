@@ -8,11 +8,11 @@
 
 import ContactInputItem from "./item.mjs";
 import ContactInputOverview from "./overview/overview.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs";
 
 
 export default class ContactInput extends Widget {
@@ -61,7 +61,7 @@ export default class ContactInput extends Widget {
         )
 
 
-        /** @type {[ContactInputItem]} */ this.providerWidgets
+        /** @type {ContactInputItem[]} */ this.providerWidgets
         this.pluralWidgetProperty(
             {
                 selector: '.hc-cayofedpeople-notification-contact-input-item',
@@ -73,7 +73,7 @@ export default class ContactInput extends Widget {
 
 
 
-        /** @type {[{icon: string, path:string, selected: boolean, label: string}]} */ this.providers
+        /** @type {{icon: string, path:string, selected: boolean, label: string}[]} */ this.providers
         this.pluralWidgetProperty(
             {
                 selector: '.hc-cayofedpeople-notification-contact-input-item',
@@ -214,14 +214,13 @@ export default class ContactInput extends Widget {
 
         try {
 
-
             //Fetch all providers
-            let providers = await muserRpc.modernuser.notification.getProviders()
+            let providers = await hcRpc.modernuser.notification.getProviders()
             this.providers = providers.map(x => {
                 return {
                     provider: x.name,
-                    icon: `/$/modernuser/notification/providers/${x.name}/public/icon.png`,
-                    path: `/$/modernuser/notification/providers/${x.name}/public/input-widget.mjs`,
+                    icon: `/$/${x.faculty}/$plugins/${x.name}/@public/icon.png`,
+                    form: x.form,
                     label: x.label
                 }
             });
@@ -248,7 +247,7 @@ export default class ContactInput extends Widget {
 
 
     /**
-     * @returns {[import("faculty/modernuser/notification/types.js").ContactData]}
+     * @returns {modernuser.notification.Contact[]}
      */
     get value() {
         return this.statedata.contacts

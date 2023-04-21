@@ -18,3 +18,12 @@ export declare interface RolePlay {
 
 export declare type RolePlayCollection = Collection<RolePlay>
 
+
+global{
+    namespace modernuser.permission{
+        interface AllPermissions{
+            'permissions.modernuser.role.play.grant_all': true
+            'permissions.modernuser.role.play.view': true
+        }
+    }
+}

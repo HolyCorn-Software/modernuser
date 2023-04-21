@@ -21,7 +21,7 @@ export default class PermissionDataInternalMethods {
 
     /**
      * This method is used to create a permission
-     * @param {import("../../data/types.js").PermissionDataInput} param0 
+     * @param {modernuser.permission.PermissionDataInput} param0 
      * @returns {Promise<void>}
      */
     createPermission({ name, label }) {
@@ -32,7 +32,7 @@ export default class PermissionDataInternalMethods {
      * This method returns permissions that are associated with this permission.
      * As in... permissions that could be checked in place of this. In short, permissions that inherit this one
      * @param {string} name 
-     * @returns {Promise<import("../../data/types.js").PermissionData[]>}
+     * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async getChildPermissions(name) {
         return await this[controller_symbol].getPermissionAndChildren(arguments[1])

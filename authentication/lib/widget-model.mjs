@@ -11,7 +11,7 @@ import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 export const pluginData = Symbol()
 
-export default class LoginWidget extends Widget {
+export default class ProviderLoginWidget extends Widget {
 
     constructor() {
         super(...arguments);
@@ -35,7 +35,7 @@ export default class LoginWidget extends Widget {
      * The plugin should override this method to decide on it's next step.
      * 
      * @param {object} param0
-     * @param {('login'|'signup'|'reset')} param0.action
+     * @param {modernuser.authentication.AuthAction} param0.action
      * @param {object} param0.data
      */
     async onSystemAction({ action, data }) {
@@ -49,11 +49,11 @@ export default class LoginWidget extends Widget {
      * 
      * For creating a new account the face will be 'signup'
      * 
-     * @param {('login'|'signup'|'reset')} face
+     * @param {modernuser.authentication.AuthAction|"account_share"} face
      * 
      */
     set face(face) {
-        
+
     }
 
 

@@ -4,7 +4,7 @@
  * This widget is the popup that allows a user to create a new role
  */
 
-import muserRpc from "../../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
@@ -57,7 +57,7 @@ export default class NewRolePopup extends PopupForm {
     }
 
     async do_creation() {
-        return await muserRpc.modernuser.role.data.create({ label: this.value.label, description: this.value.description })
+        return await hcRpc.modernuser.role.data.create({ label: this.value.label, description: this.value.description })
     }
 
 }

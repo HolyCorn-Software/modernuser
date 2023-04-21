@@ -6,14 +6,12 @@
  */
 
 import { PermissionGrant } from '../../../../../permission/grants/types.js'
-import { PermissionData } from '../../../../../permission/data/types.js'
 
-import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 interface FrontendPermissionSubjectData {
     label: string,
     id: string,
-    type: ("role" | "user")
+    type: modernuser.permission.SubjectType
 }
 
 export declare interface FrontendUserPermissions {
@@ -24,9 +22,9 @@ export declare interface FrontendUserPermissions {
 }
 
 
-export type FrontendPermissionData = Omit<PermissionData, "time">
+export type FrontendPermissionData = Omit<modernuser.permission.PermissionData, "time">
 
 export type FrontendPermissionGrant = FrontendPermissionData & Omit<PermissionGrant, "subject" | "permission" | "subject_type">
 
 
-export type UserPermissionsStatedata = AlarmObject<FrontendUserPermissions>
+export type UserPermissionsStatedata = htmlhc.lib.alarm.AlarmObject<FrontendUserPermissions>

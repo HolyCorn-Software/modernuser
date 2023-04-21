@@ -43,7 +43,8 @@ export default class InlineUserProfile extends Widget {
             get: () => /url('(.+)')/.exec(this.html.style.getPropertyValue('--image'))[1],
             set: v => {
                 //When setting the image url, calculate it relative to the caller
-                this.html.style.setProperty('--image', `url('${new URL(v, hc.getCaller(1)).href}')`)
+                console.log(`image icon is `, v)
+                this.html.style.setProperty('--image', `url('${new URL(v, hc.getCaller(1) || window.location.href).href}')`)
             },
             enumerable: true,
             configurable: true

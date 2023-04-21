@@ -5,16 +5,14 @@
  * This module (types) contains type definitions for it's parent module (contact-input)
  */
 
-import { ContactData } from "faculty/modernuser/notification/types"
-import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 
 
-export declare interface StateDataStructure{
-    contacts: [ContactData],
+export declare interface StateDataStructure {
+    contacts: modernuser.notification.Contact[]
     /** The current contact visible for editing */
     contact_edit_index: number
 }
 
 
-export type StateData = AlarmObject<StateDataStructure>
+export type StateData = htmlhc.lib.alarm.AlarmObject<StateDataStructure>

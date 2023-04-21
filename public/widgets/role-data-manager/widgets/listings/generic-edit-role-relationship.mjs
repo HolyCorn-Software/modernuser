@@ -4,7 +4,7 @@
  * This widget allows the user to edit the properties of a role that involve a relationship, e.g supervised_roles or super_roles
  */
 
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
@@ -20,8 +20,8 @@ export default class RoleRelationshipEditPopup extends HCTSBrandedPopup {
      * @param {object} param0 
      * @param {string} param0.id
      * @param {string} param0.relationship_property
-     * @param {[import("./types.js").FrontendRoleData]} param0.all_roles
-     * @param {[import("./types.js").SuperRoleData]} param0.related_roles
+     * @param {import("./types.js").FrontendRoleData[]} param0.all_roles
+     * @param {import("./types.js").SuperRoleData[]} param0.related_roles
      * @param {function(role_id:string, all_roles: import("./types.js").FrontendRoleData): void} param0.checker
      */
     constructor({ id, relationship_property, related_roles = [], all_roles, checker }) {
@@ -83,7 +83,7 @@ export default class RoleRelationshipEditPopup extends HCTSBrandedPopup {
             ]
         });
 
-        /** @type {[import("./types.js").SuperRoleData]} */ this.value
+        /** @type {import("./types.js").SuperRoleData[]} */ this.value
 
         /** @type {function(('complete'), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
 
@@ -102,7 +102,7 @@ export default class RoleRelationshipEditPopup extends HCTSBrandedPopup {
     }
 
     async apply_changes() {
-        await muserRpc.modernuser.role.data.update({ id: this.id, data: { [this.relationship_property]: this.value.map(x => x.id) } })
+        await hcRpc.modernuser.role.data.update({ id: this.id, data: { [this.relationship_property]: this.value.map(x => x.id) } })
     }
 
 }

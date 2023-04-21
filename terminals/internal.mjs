@@ -22,7 +22,7 @@ import UserRoleInternalMethods from "../role/terminals/internal.mjs";
 import RoleController from "../role/controller.mjs";
 
 
-export default class UserInternalMethods extends FacultyPublicMethods {
+export default class UserInternalMethods extends FacultyFacultyRemoteMethods {
 
     /**
      * 

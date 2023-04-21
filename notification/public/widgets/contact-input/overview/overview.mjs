@@ -43,7 +43,7 @@ export default class ContactInputOverview extends Widget {
         this.statedata.providers = []
 
 
-        /** @type {[string]} A list of providers */ this.__items__
+        /** @type {string[]} A list of providers */ this.__items__
         this.pluralWidgetProperty(
             {
                 selector: '.hc-cayofedpeople-contact-input-overview-item',
@@ -64,7 +64,7 @@ export default class ContactInputOverview extends Widget {
             }
         );
 
-        /** @type {[ContactInputOverviewItem]} */ this.__item_widgets__
+        /** @type {ContactInputOverviewItem[]} */ this.__item_widgets__
         this.pluralWidgetProperty(
             {
                 selector: '.hc-cayofedpeople-contact-input-overview-item',

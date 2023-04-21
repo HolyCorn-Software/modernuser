@@ -23,7 +23,7 @@ export default class RoleContactPublicMethods {
 
     /**
      * This returns all the information about the contacts in the system
-     * @returns {Promise<[import("../contact/types.js").RoleContact]>}
+     * @returns {Promise<import("../contact/types.js").RoleContact[]>}
      */
     async fetchAll() {
         return await this[rolecontact_controller_symbol].getAll()
@@ -35,10 +35,9 @@ export default class RoleContactPublicMethods {
      * @param {string} param0.role
      * @param {string} param0.zone
      * @param {string} param0.specific_user If specified, only the named user's info will be fetched
-     * @returns {Promise<[{profile:import("faculty/modernuser/profile/types.js").UserProfileData, zone: string}]>}
+     * @returns {Promise<{profile:modernuser.profile.UserProfileData, zone: string}[]>}
      */
     async getUsersInfoFormatted({ role, zone, specific_user }) {
-        //TODO: Check permissions of the user
         let role_contact_data = await this[rolecontact_controller_symbol].getUsers({ ...arguments[1], userid: (await muser_common.getUser(arguments[0])).id })
 
         let promises = role_contact_data.map(async rp => {
@@ -81,7 +80,6 @@ export default class RoleContactPublicMethods {
      * @param {string} param0.zone
      */
     async removeContact({ subject, role, zone }) {
-        //TODO: Check permissions
         await this[rolecontact_controller_symbol].removeContact({ ...arguments[1], userid: (await muser_common.getUser(arguments[0])).id })
     }
 

@@ -33,7 +33,7 @@ export default class UserProfileInternalMethods {
      * @param {object} param0 
      * @param {string} param0.id
      * @param {string} param0.token If specified, the id will be fetched by using this auth token
-     * @returns {Promise<import("../types.js").UserProfileData>}
+     * @returns {Promise<modernuser.profile.UserProfileData>}
      */
     async get_profile({ id, token }) {
 
@@ -52,8 +52,8 @@ export default class UserProfileInternalMethods {
 
     /**
      * This method is used to retrieve many user profiles at once
-     * @param {[string]} ids The ids of the users
-     * @returns {Promise<[import("../types.js").UserProfileData]>}
+     * @param {string[]} ids The ids of the users
+     * @returns {Promise<modernuser.profile.UserProfileData[]>}
      */
     async getProfiles(ids) {
         return await this[controller_symbol].getProfiles(arguments[1])
@@ -63,8 +63,8 @@ export default class UserProfileInternalMethods {
      * This method is used to search profiles, and with optional restrictions on allowed profiles.
      * @param {object} param0
      * @param {string} param0.text 
-     * @param {[string]} param0.restriction If specified (an array of userids), the search will only include the specied profiles
-     * @returns {Promise<[import("../types.js").UserProfileData]>}
+     * @param {string[]} param0.restriction If specified (an array of userids), the search will only include the specied profiles
+     * @returns {Promise<modernuser.profile.UserProfileData[]>}
      */
     async searchProfiles({ text, restriction }) {
         return await this[controller_symbol].fetchUsers(arguments[1]?.text, arguments[1]?.restriction)
@@ -85,7 +85,7 @@ export default class UserProfileInternalMethods {
 
     /**
      * This method is used to create a new user profile
-     * @param {Omit<import("../types.js").UserProfileData, "id"|"time">} data 
+     * @param {Omit<modernuser.profile.UserProfileData, "id"|"time">} data 
      * @returns {Promise<string>}
      */
     async createProfile(data) {
@@ -94,7 +94,7 @@ export default class UserProfileInternalMethods {
 
     /**
      * This method creates a temporary user profile
-     * @returns {Promise<{token: string, profile: import("../types.js").UserProfileData}>}
+     * @returns {Promise<{token: string, profile: modernuser.profile.UserProfileData}>}
      */
     async createTemporalProfile() {
         const userid = await this[controller_symbol].createProfile({

@@ -17,7 +17,7 @@ export default class StandardPage extends Widget{
     /**
      * 
      * @param {object} param0 
-     * @param {[HTMLElement]} param0.content
+     * @param {HTMLElement[]} param0.content
      */
     constructor({content}={}){
         super();
@@ -55,7 +55,7 @@ export default class StandardPage extends Widget{
         this.navbar = new Navbar()
         this.footer = new Footer()
 
-        /** @type {[HTMLElement]} */ this.content
+        /** @type {HTMLElement[]} */ this.content
         this.pluralWidgetProperty(
             {
                 selector: '*',

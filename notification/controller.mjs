@@ -6,251 +6,258 @@
  * Note that contacts here refer to users' personal contacts, not the concept of role contacts
  */
 
+import muser_common from "muser_common";
 import shortUUID from "short-uuid";
-import { ProviderLoader } from "../../../system/lib/libFaculty/provider-driver.js";
-import NotificationProviderModel from "./provider/model.mjs";
+import { ULTIMATE_PERMISSION } from "../permission/data/controller.mjs";
+import modernuserPlugins from "../plugins.mjs";
+import NotificationPlugin from "./plugin/model.mjs"; //Just Import this, so that the NotificationPlugin will be globally accessible
 
 
+const collections = Symbol()
+
+const instance = Symbol()
 
 export default class NotificationController {
 
 
     /**
      * 
-     * @param {import("./types.js").NotificationProviderCredentialsCollection} provider_credentials_collection 
-     * @param {import("./types.js").UserContactsCollection} contacts_collection
+     * @param {object} args 
+     * @param {object} args.collections
+     * @param {modernuser.notification.UserContactsCollection} args.collections.contacts
+     * @param {modernuser.notification.TemplatesCollection} args.collections.templates
      */
-    constructor(provider_credentials_collection, contacts_collection) {
+    constructor(args) {
 
-        this.providers = new NotificationProvidersController(provider_credentials_collection)
-        this.contacts = new NotificationContactsController(contacts_collection, this.providers)
-        this.messaging = new NotificationMessagingContoller(this.providers, this.contacts)
+        this[collections] = args.collections
+        NotificationController[instance] = this
 
-
+        setTimeout(() => this.test().catch(e => console.log(e)), 2000)
     }
-
-
-    /**
-     * This method initializes the notification controller
-     */
-    async init() {
-
-        await this.providers.init()
-
-    }
-
-}
-
-
-const credentials_collection_symbol = Symbol()
-
-const providers_symbol = Symbol()
-
-
-
-/**
- * This class controls the functioning of providers.
- * 
- */
-class NotificationProvidersController {
-
-    /**
-     * 
-     * @param {import("./types.js").NotificationProviderCredentialsCollection} credentials_collection 
-     */
-    constructor(credentials_collection) {
-        this[credentials_collection_symbol] = credentials_collection
-
-
-        /** @type {[NotificationProviderModel]} */
-        this[providers_symbol] = []
-    }
-
-
-    /**
-     * This method will initialize providers
-     */
-    async init() {
-        const providers_path = './provider/providers/';
-        //First things first, we load the providers
-
-        /** @type {ProviderLoader<NotificationProviderModel>} */
-        const loader = new ProviderLoader(
+    async test() {
+        await this.createTemplate(
             {
-                providers: providers_path,
-                credentials_collection: this[credentials_collection_symbol],
-                fileStructure: ['./provider.mjs', './public/input-widget.mjs', './public/icon.png'],
-                model: './provider/model.mjs',
-                relModulePath: './provider.mjs'
-            },
-            import.meta.url
+                name: 'hello_holycorn_b',
+                label: `Hello HolyCorn`,
+                fields: {
+                    en: {
+
+                        /** @type {modernuser.notification.plugins.whatsapp.TemplateDefinition} */
+                        whatsapp: {
+                            category: 'UTILITY',
+                            components: [
+                                {
+                                    type: 'BODY',
+                                    text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!'
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         );
 
-        let results = await loader.load()
-
-        if (results.errors.length !== 0) {
-            console.error(`${'Could not load all notification providers'.underline}\n\n\n${results.errors.map(err => ` ${err.stack || err.message}`).join(`\n\n${'-'.repeat(process.stdout.columns)}\n\n`)}`)
-        }
-
-        this[providers_symbol].push(...results.providers)
-
     }
 
     /**
-     * This finds a provider by name
-     * @param {string} name 
-     * @returns {NotificationProviderModel}
+     * @returns { NotificationController}
      */
-    findProvider(name) {
-        const provider = this[providers_symbol].find(x => x.$data.name === name)
-        if (!provider) {
-            console.warn(`A client tried to find a provider named: ${name}, but did not succeed. Here are the list of providers`, this[providers_symbol])
-            throw new Exception(`There's no notification provider known as '${name}'`, { code: 'error.modernuser.notification.provider_not_found' })
-        }
-
-        return provider
+    static get instance() {
+        return this[instance]
     }
 
     /**
-     * @returns {[{name:string, label:string}]}
+     * This method is used to create a contact
+     * @param {object} param0 
+     * @param {string} param0.provider
+     * @param {object} param0.data
+     * @param {string} param0.userid
+     * @returns {Promise<string>}
      */
-    get provider_public_data() {
-        return this[providers_symbol].map(x => {
-            return { name: x.$data.name, label: x.label }
-        })
-    }
+    async createContact({ data, provider, userid }) {
+
+        await this.checkContactData(provider, data);
 
 
+        const id = shortUUID.generate()
 
-
-}
-
-
-const providers_controller_symbol = Symbol()
-
-const contacts_collection_symbol = Symbol()
-
-
-
-
-
-/**
- * Controls access to user contacts
- */
-class NotificationContactsController {
-
-    /**
-     * 
-     * @param {import("./types.js").UserContactsCollection} contacts_collection 
-     * @param {NotificationProvidersController} providers_controller
-     */
-    constructor(contacts_collection, providers_controller) {
-
-        this[contacts_collection_symbol] = contacts_collection
-
-        this[providers_controller_symbol] = providers_controller
-    }
-
-
-
-    /**
-     * This method adds a contact for a user
-     * @param {Omit<import("./types.js").UserContact, "id">} contact 
-     * @returns {Promise<void>}
-     */
-    async addContact(contact) {
-        //First things first, find the provider
-        let provider = this[providers_controller_symbol].findProvider(contact.provider)
-        //Then check if the contact is correct
-        await provider.validateContact(contact.data)
-        //Now clear the way...
-        await provider.authNewUser(contact.data)
-        //Finally... add it
-        const query = {
-            provider: contact.provider,
-            data: contact.data,
-            userid: contact.userid
-        }
-        await this[contacts_collection_symbol].updateOne(
-            query,
-
+        this[collections].contacts.insertOne(
             {
-                $set: {
-                    ...query,
-                    id: `${shortUUID.generate()}${shortUUID.generate()}`
-                }
-            },
-            {
-                upsert: true
+                id,
+                data,
+                provider,
+                userid
             }
         )
+
+        return id
+
     }
 
     /**
-     * This method deletes all the contacts of a user
-     * @param {string} userid 
+     * This method is used to check that contact data is correct
+     * @param {string} provider 
+     * @param {object} data 
      * @returns {Promise<void>}
      */
-    async deleteContacts(userid) {
-        await this[contacts_collection_symbol].deleteMany({ userid })
+    async checkContactData(provider, data) {
+        const plugin = modernuserPlugins.loaded.namespaces.notification.find(x => x.descriptor.name === provider);
+
+        if (!plugin) {
+            throw new Exception(`The type of contact you are adding ('${provider}'), is not supported by the system`);
+        }
+
+        try {
+            const reply = await plugin.instance.reviewContact(data);
+            if (!reply.valid) {
+                throw new Exception(`${reply.message || "Invalid contact data"}`);
+            }
+        } catch (e) {
+            if (!(e instanceof Exception)) {
+                const errId = shortUUID.generate();
+                console.error(`Could not review contact `, data, `\nbecause\n`, e, `\nError ID: ${errId}`);
+                throw new Exception(`Sorry, your contact could not be added, because the system is facing issues validating the contact.\nError ID: ${errId}`);
+            }
+            throw e;
+        }
     }
+
+    /**
+     * This method is used to update contact data
+     * @param {object} param0 
+     * @param {string} param0.id
+     * @param {object} param0.data
+     * @param {string} param0.userid
+     * @returns {Promise<void>}
+     */
+    async updateContact({ id, data, userid }) {
+        const contact = await this.getAndCheckOwnership({ id, userid })
+
+        await this.checkContactData(contact.provider, data)
+
+        this[collections].contacts.updateOne({ id }, { $set: { data } })
+    }
+
 
     /**
      * This method is used to delete a single contact
-     * @param {string} id 
+     * @param {object} param0 
+     * @param {string} param0.id
+     * @param {string} param0.userid If set, checks will be made to ensure that this user owns this contact
      * @returns {Promise<void>}
      */
-    async deleteContact(id) {
-        await this[contacts_collection_symbol].deleteOne({ id })
+    async deleteContact({ id, userid }) {
+
+        await this.getAndCheckOwnership({ id, userid })
+        this[collections].contacts.deleteOne({ id })
+    }
+
+    /**
+     * This method is used to check if a user owns a contact with a given id
+     * @param {object} param0 
+     * @param {string} param0.id
+     * @param {string} param0.userid
+     */
+    async getAndCheckOwnership({ id, userid }) {
+        const data = await this[collections].contacts.findOne({ id })
+
+        if (!data) {
+            return
+        }
+
+        await muser_common.whitelisted_permission_check(
+            {
+                userid,
+                whitelist: userid ? [data.userid] : undefined,
+                intent: {
+                    freedom: 'use'
+                },
+                permissions: [ULTIMATE_PERMISSION.name],
+            }
+        );
+
+        return data
     }
 
 
     /**
-     * This method is used to get all the contacts of a given user
-     * @param {string} userid 
-     * @returns {Promise<[import("./types.js").UserContact]>}
+     * @template TemplateDataType
+     * This method creates a new notification template
+     * @param {modernuser.notification.Template<TemplateDataType>} data 
+     * @returns {Promise<void>}
      */
-    async getContacts(userid) {
-        return await this[contacts_collection_symbol].find({ userid }).toArray()
+    async createTemplate(data) {
+
+        //Check if the data is the same as the previous
+        const previous = await this[collections].templates.findOne({ name: data.name })
+        if (previous && JSON.stringify(previous.fields) === JSON.stringify(data.fields)) {
+            //In case it is same, we return
+            return;
+        }
+
+        const results = await modernuserPlugins.loaded.namespaces.notification.callback.reviewTemplate(data);
+
+        if (results.failure.length > 0) {
+            throw new Exception(`Could not create message template because some plugins failed to validate it\n\n${results.failure.map(x => x.error.stack || x.error.message || x.error).join('\n')}`)
+        }
+
+        //Now, find the providers that found the template usable, but data faulty
+        const incorrect = results.success.filter(res => res.value.usable && !res.value.correct)
+        if (incorrect.length > 0) {
+            throw new Exception(`Some fields in this template are wrongly formatted.\n\n${incorrect.map((x, i, arr) => `${arr.length > 1 ? `${i + 1})\t` : ''}${x.value.remark}`).join('\n')}`)
+        }
+
+        this[collections].templates.updateOne(
+            {
+                name: data.name
+            },
+            {
+                $set: data
+            },
+            { upsert: true }
+        )
+
     }
+
+    /**
+     * @template TemplateDataType
+     * This method is used to notify a contact
+     * @param {object} param0 
+     * @param {modernuser.notification.MinContactData<{}>} param0.contact
+     * @param {string} param0.template
+     * @param {string} param0.language
+     * @param {TemplateDataType} param0.data
+     * @returns {Promise<void>}
+     */
+    async notify({ contact, template, language, data }) {
+        const provider = await modernuserPlugins.loaded.namespaces.notification.find(x => x.descriptor.name === contact.provider)
+        if (!provider) {
+            throw new Exception(`The message could not go through, because the system doesn't know how to send '${contact.provider}' messages`)
+        }
+        const templatedata = await this[collections].templates.findOne({ name: template })
+        if (!templatedata) {
+            const errorId = shortUUID.generate()
+            console.error(`The template ${template} was not found\nError ID: ${errorId}`)
+            throw new Exception(`Could not send notification. Error ID: ${errorId}`)
+        }
+        /**
+         * This method replaces text with array values E.g interpolate("Hello, how are {{0}} today?.", ["you"]) gives how are you today?
+         * @param {string} text 
+         * @param {string[]} array 
+         * @returns {string}
+         */
+        function interpolate(text, array) {
+            array.forEach((x, i) => text = text?.replaceAll(`{{${i}}}`, x))
+            return text
+        }
+
+        //Do interpolation for text, and HTML
+        templatedata.fields.text = interpolate(templatedata.fields.text, data)
+        templatedata.fields.html = interpolate(templatedata.fields.html, data)
+
+        await provider.instance.notify({ contact: contact.data, template: templatedata, language, data })
+    }
+
 
 }
 
-
-
-const contacts_controller_symbol = Symbol()
-
-class NotificationMessagingContoller {
-
-    /**
-     * 
-     * @param {NotificationProvidersController} providers_controller
-     * @param {NotificationContactsController} contacts_controller 
-     */
-    constructor(providers_controller, contacts_controller) {
-
-        this[providers_controller_symbol] = providers_controller
-        this[contacts_controller_symbol] = contacts_controller
-    }
-
-    /**
-     * This method is used to send a text message
-     * @param {import("./types.js").TextMessageData} data 
-     * @returns {Promise<void>}
-     */
-    async sendText(data) {
-
-        const user_contacts = await this[contacts_controller_symbol].getContacts(data.userid)
-
-        await Promise.allSettled(
-            user_contacts.map(async contact => {
-                const provider = this[providers_controller_symbol].findProvider(data.provider)
-                await provider.notify(data.message, contact.data)
-            })
-        ).then(results => {
-            console.log(`Could not send notification to some contacts because\n`, results.filter(res => res.status === 'rejected').map(res => res.reason).join('\n'))
-        })
-
-    }
-
-}

@@ -16,7 +16,13 @@ import { pluginData } from "/$/modernuser/static/authentication/lib/widget-model
 
 export default class LoginWidget extends Widget {
 
-    constructor() {
+
+    /**
+     * 
+     * @param {object} param0 
+     * @param {import("./types.js").LoginWidgetCustomizations} param0.custom Custom options for the widget
+     */
+    constructor({ custom } = {}) {
         super();
 
         super.html = hc.spawn({
@@ -33,7 +39,7 @@ export default class LoginWidget extends Widget {
             `
         });
 
-        /** @type {[Widget]} */ this.providers
+        /** @type {Widget[]} */ this.providers
         this.pluralWidgetProperty({
             selector: '*',
             parentSelector: '.container >.main-section >.providers-section',
@@ -42,33 +48,30 @@ export default class LoginWidget extends Widget {
             transforms: {
                 /**
                  * 
-                 * @param { import("../../../authentication/lib/widget-model.mjs").LoginWidget} widget 
+                 * @param { import("/$/modernuser/static/authentication/lib/widget-model.mjs").default} widget 
                  */
                 set: (widget) => {
                     widget.addEventListener('complete', () => {
-                        let action = this.face;
-                        widget.loadBlock();
+
+                        let action = widget.face || this.face;
 
                         let action_promise = (async () => {
-                            return await logic.executeAction({ action, plugin: widget[pluginData].name, data: widget.values });
-                        })();
-
-                        action_promise.catch(e => {
-                            handle(e)
-                        })
-
-                        action_promise.finally(() => {
-                            widget.loadUnblock()
-                        })
-                        action_promise.then(async (data) => {
                             try {
+                                const data = await logic.executeAction({ action, provider: widget[pluginData].name, data: widget.values });
+
                                 await widget.onSystemAction({ action: action, data: data })
-                                window.location = document.referrer || '/'
+                                if (action === 'login') {
+                                    window.location = new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'
+                                }
                             } catch (e) {
                                 handle(e)
                             }
 
-                        });
+                        })();
+
+
+                        widget.loadWhilePromise(action_promise)
+
                     });
 
                     return widget.html
@@ -86,10 +89,12 @@ export default class LoginWidget extends Widget {
             property: 'help'
         })
 
-        this.help = new LoginHelp()
+        if (custom?.help ?? true) {
+            this.help = new LoginHelp()
+        }
 
 
-        /** @type {('login'|'signup'|'reset')} */ this.face
+        /** @type {modernuser.authentication.AuthAction} */ this.face
         let face_storage = ''
         Reflect.defineProperty(this, 'face', {
             set: face => {
@@ -107,7 +112,7 @@ export default class LoginWidget extends Widget {
         //The section where we can easily navigate through login, signup and reset
 
 
-        /** @type {LoginWidgetNavigations} */ this.navigations
+
         this.widgetProperty({
             selector: '.hc-cayofedpeople-login-navigations',
             parentSelector: '.navigation-section',
@@ -128,7 +133,10 @@ export default class LoginWidget extends Widget {
             }
         });
 
-        this.navigations = new LoginWidgetNavigations()
+        /** @type {LoginWidgetNavigations} */ this.navigations
+        if (custom?.navigation ?? true) {
+            this.navigations = new LoginWidgetNavigations()
+        }
 
 
 

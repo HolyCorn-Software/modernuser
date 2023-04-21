@@ -24,9 +24,9 @@ export default class PermissionGrantsPublicMethods {
      * This method is used to grant one or more permissions to a subject
      * @param {object} param0 
      * @param {object} param0.subject
-     * @param {('user'|'role')} param0.subject.type
+     * @param {modernuser.permission.SubjectType} param0.subject.type
      * @param {string} param0.subject.id
-     * @param {[{name: string, freedom: {grant:boolean, use:boolean}, zone: string, expires: number }]} param0.permissions
+     * @param {{name: string, freedom: {grant:boolean, use:boolean}, zone: string, expires: number }[]} param0.permissions
      * @returns {Promise<void>}
      */
     async grantPermissions({ subject, permissions } = {}) {
@@ -135,7 +135,7 @@ export default class PermissionGrantsPublicMethods {
      * @param {object} param0 
      * @param {string} param0.subject
      * @param {string} param0.permission
-     * @param {import("../../grants/types.js").PermissionGrant} param0.data
+     * @param {modernuser.permission.PermissionGrant} param0.data
      * @returns {Promise<void>}
      */
     async update({ subject, permission, data }) {

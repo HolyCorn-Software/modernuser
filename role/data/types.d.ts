@@ -38,3 +38,14 @@ export declare interface RoleSupervisionData {
     revoke: boolean,
     revoke_self: boolean
 }
+
+global{
+    namespace modernuser.permission{
+        interface AllPermissions{
+            /** Ability to modify roles created by others */
+            'permissions.modernuser.role.supervise': true
+            /** Permission to create roles */
+            'permissions.modernuser.role.create': true
+        }
+    }
+}

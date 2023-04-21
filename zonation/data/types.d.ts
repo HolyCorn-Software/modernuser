@@ -18,3 +18,11 @@ export declare interface ZoneData {
 
 
 export type ZoneDataCollection = Collection<ZoneData>
+
+global{
+    namespace modernuser.permission{
+        interface AllPermissions{
+            'permissions.modernuser.zonation.admin': true
+        }
+    }
+}

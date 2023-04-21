@@ -6,7 +6,7 @@
  */
 
 import GenericRole from "../generic-role/item.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
@@ -36,14 +36,14 @@ export default class RequestedRole extends GenericRole {
                         () => {
 
 
-                            muserRpc.modernuser.role.role_play.addRoleToUser(
+                            hcRpc.modernuser.role.role_play.addRoleToUser(
                                 {
                                     subject: this.statedata.user.id,
                                     role: this.statedata.role.id,
                                     zone: this.statedata.zone.id,
                                 }
                             ).then(() => {
-                                muserRpc.modernuser.onboarding.removeRoleFromRequest({ id: this.statedata.request, role: { role: this.statedata.role.id, zone: this.statedata.zone.id } }).then(() => {
+                                hcRpc.modernuser.onboarding.removeRoleFromRequest({ id: this.statedata.request, role: { role: this.statedata.role.id, zone: this.statedata.zone.id } }).then(() => {
                                     setTimeout(() => this.html.remove(), 3000); //TODO: Smooth animation to remove this
                                     grant_button.state = 'success'
                                     this.dispatchEvent(new CustomEvent('grant'))
@@ -75,7 +75,7 @@ export default class RequestedRole extends GenericRole {
                         () => {
                             reject_button.state = 'waiting'
 
-                            muserRpc.modernuser.onboarding.removeRoleFromRequest({
+                            hcRpc.modernuser.onboarding.removeRoleFromRequest({
                                 id: this.statedata.request,
                                 role: {
                                     role: this.statedata.role.id,
@@ -120,7 +120,7 @@ export default class RequestedRole extends GenericRole {
      */
     async updateData(newdata) {
 
-        await muserRpc.modernuser.onboarding.addRoleToRequest(
+        await hcRpc.modernuser.onboarding.addRoleToRequest(
             {
                 id: this.statedata.request,
                 role: {
@@ -133,7 +133,7 @@ export default class RequestedRole extends GenericRole {
         try {
 
 
-            await muserRpc.modernuser.onboarding.removeRoleFromRequest(
+            await hcRpc.modernuser.onboarding.removeRoleFromRequest(
                 {
                     id: this.statedata.request,
                     role: {
@@ -144,7 +144,7 @@ export default class RequestedRole extends GenericRole {
             );
 
         } catch (e) {
-            await muserRpc.modernuser.onboarding.removeRoleFromRequest(
+            await hcRpc.modernuser.onboarding.removeRoleFromRequest(
                 {
                     id: this.statedata.request,
                     role: {

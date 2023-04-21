@@ -39,7 +39,7 @@ export default class RolePlayController {
     /**
      * This method gets all the roles the user plays
      * @param {string} userid The id of the user
-     * @returns {Promise<[import("./types.js").RolePlay]>}
+     * @returns {Promise<import("./types.js").RolePlay[]>}
      */
     async getUserRoles(userid) {
         return await this.collection.find({ userid }).toArray()
@@ -47,7 +47,7 @@ export default class RolePlayController {
 
     /**
      * This method gets all roleplay information
-     * @returns {Promise<[import('./types.js').RolePlay]>}
+     * @returns {Promise<import('./types.js').RolePlay[]>}
      */
     async getAll() {
         return await this.collection.find({}).toArray()
@@ -59,7 +59,7 @@ export default class RolePlayController {
      * @param {string} param0.role
      * @param {string} param0.zone
      * @param {string} param0.specific_user If specified, only the user's info will be fetched
-     * @returns {Promise<[import("./types.js").RolePlay]>}
+     * @returns {Promise<import("./types.js").RolePlay[]>}
      */
     async getUsers({ role, zone, specific_user }) {
         const query = {
@@ -155,7 +155,7 @@ export default class RolePlayController {
             console.trace(`Zone ${zone} not found.`)
             throw new Exception(`The zone was not found! Ouch`)
         }
-        /** @type {[import("faculty/modernuser/zonation/data/types.js").ZoneData]} */
+        /** @type {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} */
         const allowed_zones = [subject_zone_data, ...await this[zonation_data_controller_symbol].getChildZones(zone)]
 
         const role_data = await this[role_data_controller_symbol].getAll()
@@ -310,7 +310,7 @@ export default class RolePlayController {
 
 
 /**
- * @type {import("faculty/modernuser/permission/data/types.js").PermissionData}
+ * @type {modernuser.permission.PermissionData}
  */
 export let roleplay_permissions = [
     {

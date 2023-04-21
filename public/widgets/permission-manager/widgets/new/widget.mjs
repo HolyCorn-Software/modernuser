@@ -4,7 +4,7 @@
  * This widget is a popup that helps the admin create a new payment
  */
 import UserAndRoleInput from "../../../user-n-role-input/widget.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import DualSwitch from "/$/system/static/html-hc/widgets/dual-switch/switch.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
@@ -158,7 +158,7 @@ export class PermissionGrantPopup extends PopupForm {
 
 
             
-            await muserRpc.modernuser.permissions.grants.grantPermissions(this.value)
+            await hcRpc.modernuser.permissions.grants.grantPermissions(this.value)
             this.positiveButton.state = 'success'
             
             setTimeout(() => this.hide(), 900);

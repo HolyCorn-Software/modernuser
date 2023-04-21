@@ -7,7 +7,7 @@
 
 import RequestedRole from "./requested-role/item.mjs";
 import NewRole from "./new/widget.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import Spinner from "/$/system/static/html-hc/widgets/infinite-spinner/widget.mjs";
@@ -15,6 +15,7 @@ import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import HeldRole from "./held-role/widget.mjs";
+import DelayedAction from "/$/system/static/html-hc/lib/util/delayed-action/action.mjs";
 
 
 export default class RoleResolve extends Widget {
@@ -89,8 +90,8 @@ export default class RoleResolve extends Widget {
         })
 
 
-        /** @type {[{role: string, zone: string, readonly: string}]} */ this.request_data
-        /** @type {[{role: string, zone: string, readonly: string}]} */ this.held_roles
+        /** @type {{role: string, zone: string, readonly: string}[]} */ this.request_data
+        /** @type {{role: string, zone: string, readonly: string}[]} */ this.held_roles
 
 
         for (let entry of
@@ -178,16 +179,11 @@ export default class RoleResolve extends Widget {
                 }
             );
 
-            let update_timeout;
+            const change_fxn = new DelayedAction(() => {
+                this[entry.widget_property] = eval(`this.statedata.${entry.statedata_property}`)
+            }, 50)
 
-            const change_fxn = () => {
 
-                clearTimeout(update_timeout);
-
-                update_timeout = setTimeout(() => {
-                    this[entry.widget_property] = eval(`this.statedata.${entry.statedata_property}`)
-                }, 50)
-            }
 
             this.statedata.$0.addEventListener(`${entry.statedata_property}-change`, change_fxn)
             this.statedata.$0.addEventListener(`${entry.statedata_property}-$array-item-change`, change_fxn)
@@ -205,7 +201,7 @@ export default class RoleResolve extends Widget {
         });
 
 
-        /** @type {[HTMLElement]} */ this.actions
+        /** @type {HTMLElement[]} */ this.actions
         this.pluralWidgetProperty(
             {
                 selector: '*',
@@ -258,8 +254,8 @@ export default class RoleResolve extends Widget {
     }
 
     async init() {
-        this.statedata.role_data = await muserRpc.modernuser.role.data.getAll()
-        this.statedata.zonation_data = await muserRpc.modernuser.zonation.getZones()
+        this.statedata.role_data = await hcRpc.modernuser.role.data.getAll()
+        this.statedata.zonation_data = await hcRpc.modernuser.zonation.getZones()
     }
 
     /**
@@ -269,9 +265,9 @@ export default class RoleResolve extends Widget {
      */
     async loadDataByRequestId(id) {
         this.loadBlock()
-        
+
         try {
-            const req = await muserRpc.modernuser.onboarding.getRequest({ id })
+            const req = await hcRpc.modernuser.onboarding.getRequest({ id })
             this.statedata.roles = req.roles
             this.statedata.user = req.user
             this.statedata.id = req.id

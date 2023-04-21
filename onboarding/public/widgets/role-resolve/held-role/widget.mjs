@@ -8,7 +8,7 @@
  */
 
 import GenericRole from "../generic-role/item.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
@@ -43,7 +43,7 @@ export default class HeldRole extends GenericRole {
                             positive: 'Yes',
                             negative: 'No',
                             execute: async () => {
-                                await muserRpc.modernuser.role.role_play.removeRoleFromUser(
+                                await hcRpc.modernuser.role.role_play.removeRoleFromUser(
                                     {
                                         subject: this.statedata.user.id,
                                         role: this.statedata.role.id,
@@ -78,7 +78,7 @@ export default class HeldRole extends GenericRole {
         try {
 
 
-            await muserRpc.modernuser.role.role_play.addRoleToUser(
+            await hcRpc.modernuser.role.role_play.addRoleToUser(
                 {
                     subject: this.statedata.user.id,
                     role: newdata.role,
@@ -89,7 +89,7 @@ export default class HeldRole extends GenericRole {
             granted_new = true;
 
 
-            await muserRpc.modernuser.role.role_play.removeRoleFromUser(
+            await hcRpc.modernuser.role.role_play.removeRoleFromUser(
                 {
                     subject: this.statedata.user.id,
                     role: this.statedata.role.id,
@@ -99,7 +99,7 @@ export default class HeldRole extends GenericRole {
 
         } catch (e) {
             if (granted_new) {
-                await muserRpc.modernuser.role.role_play.removeRoleFromUser(
+                await hcRpc.modernuser.role.role_play.removeRoleFromUser(
                     {
                         subject: this.statedata.user.id,
                         role: newdata.role,

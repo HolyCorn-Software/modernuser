@@ -34,7 +34,7 @@ export default class ZonationPublicMethods {
 
     /**
      * Fetches all the zones in the entire system
-     * @returns {Promise<[import("../data/types.js").ZoneData]>}
+     * @returns {Promise<import("../data/types.js").ZoneData[]>}
      */
     async getZones() {
         return await this[data_controller_symbol].getAllZones()

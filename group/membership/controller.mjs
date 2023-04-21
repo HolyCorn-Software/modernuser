@@ -26,7 +26,7 @@ export default class GroupMembershipController {
     /**
      * This method gets all the groups the user belongs to
      * @param {string} userid The id of the user
-     * @returns {Promise<[string]>}
+     * @returns {Promise<string[]>}
      */
     async getUserGroups(userid) {
         const entries = await this.collection.find({ userid }).toArray()

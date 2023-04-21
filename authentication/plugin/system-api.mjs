@@ -6,11 +6,17 @@
  * 
  */
 
+import UserProfileController from "../../profile/controller.mjs";
+import NotificationController from "../../notification/controller.mjs";
 import UserAuthenticationController from "../controller.mjs";
 import AuthenticationPlugin from "./model.mjs";
 
+const profile_controller = Symbol()
 
-const platform = FacultyPlatform.get();
+/**
+ * @template PluginUserDataSchema
+ * @template PluginUserUniqueDataSchema
+ */
 
 export default class AuthPluginSystemAPI {
 
@@ -18,17 +24,21 @@ export default class AuthPluginSystemAPI {
      * 
      * @param {AuthenticationPlugin} plugin 
      * @param {UserAuthenticationController} auth_controller 
+     * @param {NotificationController} notification_controller
+     * @param {UserProfileController} user_profile_controller
      */
-    constructor(plugin, auth_controller) {
+    constructor(plugin, auth_controller, notification_controller, user_profile_controller) {
         this[pluginSymbol] = plugin;
         this[auth_controller_symbol] = auth_controller
+        this.notification = notification_controller
+        this[profile_controller] = user_profile_controller
     }
 
     /**
      * This method is used to activate a login.
      * 
      * This method returns a token for the login
-     * @param {object} mindata 
+     * @param {PluginUserUniqueDataSchema} mindata 
      * @returns {Promise<string>}
      */
     async activateLogin(mindata) {
@@ -39,7 +49,7 @@ export default class AuthPluginSystemAPI {
     }
     /**
      * This method is used to disable a login
-     * @param {object} mindata 
+     * @param {PluginUserUniqueDataSchema} mindata 
      * @returns {Promise<void>}
      */
     async deactivateLogin(mindata) {
@@ -48,8 +58,8 @@ export default class AuthPluginSystemAPI {
 
     /**
      * This method is used to override a login
-     * @param {object} mindata 
-     * @param {object} newdata
+     * @param {PluginUserUniqueDataSchema} mindata 
+     * @param {PluginUserDataSchema} newdata
      * @returns {Promise<void>}
      */
     async updateLogin(mindata, newdata) {
@@ -58,9 +68,9 @@ export default class AuthPluginSystemAPI {
 
     /**
      * This method is used to override a login
-     * @param {object} data
+     * @param {PluginUserUniqueDataSchema} data
      * @param {boolean} active
-     * @param {Omit<import("faculty/modernuser/profile/types.js").UserProfileData, "id">} profile
+     * @param {Omit<modernuser.profile.UserProfileData, "id">} profile
      * @returns {Promise<void>}
      */
     async createProfileAndLogin(data, active, profile) {
@@ -73,10 +83,19 @@ export default class AuthPluginSystemAPI {
      * This method finds a login.
      * 
      * Of course, it doesn't go through the process of obtaining a unique representation of the data
-     * @param {object} data 
+     * @param {PluginUserUniqueDataSchema} data 
      */
     async findLoginDirect(data) {
         return await this[auth_controller_symbol].searchLoginByDataDirect({ data, plugin: this[pluginSymbol].descriptor.name })
+    }
+
+    /**
+     * This method updates a user profile
+     * @param {modernuser.profile.MutableUserProfileData & Pick<modernuser.profile.UserProfileData, "id">} profile 
+     * @returns {Promise<void>}
+     */
+    async updateUserProfile(profile) {
+        await this[profile_controller].setProfile({ id: profile.id, profile })
     }
 
 }

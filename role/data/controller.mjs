@@ -42,7 +42,7 @@ export default class RoleDataController {
      * @param {object} param0 
      * @param {string} param0.label The human-friendly name of the role
      * @param {string} param0.description The description of the role
-     * @param {[string]} param0.owners
+     * @param {string[]} param0.owners
      * @param {string} param0.userid
      * @returns {Promise<string>} Returns the id of the role
      */
@@ -163,7 +163,7 @@ export default class RoleDataController {
 
     /**
      * This method returns all roles
-     * @returns {Promise<[import("./types.js").RoleData]>}
+     * @returns {Promise<import("./types.js").RoleData[]>}
      */
     async getAll() {
         return [...await this[collection_symbol].find({}).toArray()]
@@ -172,7 +172,7 @@ export default class RoleDataController {
     /**
      * This method fetches all the roles that have the given text in it's description or label
      * @param {string} filter 
-     * @returns {Promise<[import("./types.js").RoleData]>}
+     * @returns {Promise<import("./types.js").RoleData[]>}
      */
     async fetchRoles(filter = '') {
 
@@ -261,7 +261,7 @@ const collection_symbol = Symbol(`RoleDataController.prototype.collection`)
 
 
 /**
- * @type {[import("faculty/modernuser/permission/data/types.js").PermissionData]}
+ * @type {modernuser.permission.PermissionData[]}
  */
 export const permissions = [
     {

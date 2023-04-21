@@ -56,6 +56,22 @@ export default class UserProfilePublicMethods {
     }
 
     /**
+     * This method is used to update a user's own profile
+     * @param {modernuser.profile.MutableUserProfileData} data 
+     * @returns {Promise<void>}
+     */
+    async updateMyProfile(data) {
+        data = arguments[1]
+
+        await this[controller_symbol].setProfile(
+            {
+                id: (await muser_common.getUser(arguments[0])).id,
+                profile: data
+            }
+        )
+    }
+
+    /**
      * This method automatically creates a user, if this is the first time anyone is signing up
      * to the platform.
      * It does so, and logs in the user, and the user will be assigned superuser permissions
@@ -73,13 +89,37 @@ export default class UserProfilePublicMethods {
         (await client.resumeSessionFromMeta()).setVar(UserAuthenticationController.sessionVarName, token);
     }
 
+    /**
+     * This method gets the label on a user's account
+     * @param {string} id 
+     * @returns {Promise<string>}
+     */
+    async getLabel(id) {
+        return (await this[controller_symbol].getProfile({ id: arguments[1] })).label
+    }
+
+    /**
+     * This method returns data about a single user profile
+     * @param {string} id 
+     * @returns {Promise<modernuser.profile.UserProfileData>}
+     */
+    async getProfile(id) {
+        await muser_common.whitelisted_permission_check(
+            {
+                userid: (await muser_common.getUser(arguments[0])).id,
+                permissions: ['permissions.modernuser.profiles.search'],
+            }
+        )
+        return await this[controller_symbol].getProfile({ id: arguments[1] })
+    }
+
 
 }
 
 
 
 /**
- * @type {[import("faculty/modernuser/permission/data/types.js").PermissionData]}
+ * @type {modernuser.permission.PermissionData[]}
  */
 export const permissions = [
     {

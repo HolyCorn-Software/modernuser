@@ -5,6 +5,8 @@
  * The Modern Faculty of Users
  * 
  * This module simply keeps track of permissions. That is... their definitions
+ * 
+ * Updated 2023 to allow faculties to declare permissions in the faculty.json
  */
 
 import { Collection } from "mongodb"
@@ -20,7 +22,7 @@ export default class PermissionDataController {
     /**
      * 
      * @param {object} param0
-     * @param {import("./types.js").PermissionsDataCollection} param0.collection
+     * @param {modernuser.permission.PermissionsDataCollection} param0.collection
      */
     constructor({ collection }) {
         if (!collection instanceof Collection) {
@@ -28,15 +30,15 @@ export default class PermissionDataController {
                 code: 'error.input.validation'
             })
         }
-        /** @type {import("./types.js").PermissionsDataCollection} */
+        /** @type {modernuser.permission.PermissionsDataCollection} */
         this.collection = collection;
 
-        this.createPermission(ULTIMATE_PERMISSION)
+        this.init(collection)
     }
 
     /**
      * This method creates a permission
-     * @param {import("./types.js").PermissionDataInput} param0 
+     * @param {modernuser.permission.PermissionDataInput} param0 
      * @returns {Promise<void>}
      */
     async createPermission({ name, label, inherit }) {
@@ -72,7 +74,7 @@ export default class PermissionDataController {
     /**
      * Fetches all permissions that match the given filter
      * @param {string} filter 
-     * @returns {Promise<[import("./types.js").PermissionData]>}
+     * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async fetchPermissions(filter) {
 
@@ -98,17 +100,17 @@ export default class PermissionDataController {
     /**
      * This method is used to retrieve information about a particular permission.
      * @param {object} param0 
-     * @param {string} param0.name
-     * @returns {Promise<import("./types.js").PermissionData>}
+     * @param {modernuser.permission.PermissionEnum} param0.name
+     * @returns {Promise<modernuser.permission.PermissionData>}
      */
-    async getPermission({name}){
-        return await this.collection.findOne({name})
+    async getPermission({ name }) {
+        return await this.collection.findOne({ name })
     }
-    
+
 
     /**
      * Returns all the permissions
-     * @returns {Promise<[import("./types.js").PermissionData]>}
+     * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async getAll() {
         return await this.collection.find({}).toArray()
@@ -117,7 +119,7 @@ export default class PermissionDataController {
     /**
      * This method gets a permission as well as all the permissions that inherit it
      * @param {string} name 
-     * @returns {Promise<[import("./types.js").PermissionData]>}
+     * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async getPermissionAndChildren(name) {
 
@@ -142,15 +144,38 @@ export default class PermissionDataController {
         }).toArray()
     }
 
+    /**
+     * This method is called when the system starts, and it is meant to initialize the system
+     * @param {modernuser.permission.PermissionsDataCollection} collection
+     * @returns {Promise<void>}
+     */
+    async init(collection) {
+        await this.createPermission(ULTIMATE_PERMISSION)
+
+        const faculties = await FacultyPlatform.get().base.channel.remote.faculties()
+
+
+        for (const faculty of faculties) {
+            for (const permission of faculty.meta?.modernuser?.permissions || []) {
+                this.createPermission(permission).catch(e => console.error(e))
+            }
+        }
+
+        await PermissionDataController.prepareCollection(collection)
+    }
+
 
     /**
      * Some operations done on a collection prior to use
-     * @param {import("./types.js").PermissionsDataCollection} collection
+     * @param {modernuser.permission.PermissionsDataCollection} collection
      */
-    static prepareCollection(collection) {
-        collection.createIndex({ name: 1 }, { unique: true }).catch(e => {
+    static async prepareCollection(collection) {
+        await collection.dropIndexes()
+        
+        await collection.createIndex({ name: 1 }, { unique: true }).catch(e => {
             console.warn(`Failed to perform necessary operation on a collection meant to store permission info `, e)
-        })
+        });
+
     }
 
 }

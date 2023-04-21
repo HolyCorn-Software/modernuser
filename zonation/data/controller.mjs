@@ -57,7 +57,7 @@ export default class ZonationDataController {
 
     /**
      * Fetches all zones in the entire system
-     * @returns {Promise<[import("./types.js").ZoneData]>}
+     * @returns {Promise<import("./types.js").ZoneData[]>}
      */
     async getAllZones() {
         return await this[collection_symbol].find().toArray()
@@ -66,7 +66,7 @@ export default class ZonationDataController {
     /**
      * This method returns all the zone under a given zone
      * @param {string} id 
-     * @returns {Promise<[import("./types.js").ZoneData]>}
+     * @returns {Promise<import("./types.js").ZoneData[]>}
      */
     async getChildZones(id) {
         const zones = await this.getAllZones()
@@ -106,7 +106,7 @@ export default class ZonationDataController {
      * 
      * That is the parent, th parent of the parent, and the parent of the parent of the parent ... 
      * @param {string} id 
-     * @returns {Promise<[import("./types.js").ZoneData]>}
+     * @returns {Promise<import("./types.js").ZoneData[]>}
      */
     async getAncestors(id) {
         return this.getAncestors0(id, await this.getAllZones())
@@ -331,7 +331,7 @@ export default class ZonationDataController {
 
 
 /**
- * @type {[import("faculty/modernuser/permission/data/types.js").PermissionData]}
+ * @type {modernuser.permission.PermissionDataInput[]}
  */
 export const zonation_permissions = [
     {

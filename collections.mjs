@@ -18,16 +18,16 @@ import { CollectionProxy } from "../../system/database/collection-proxy.js";
  * authentication_logins: import("./authentication/types.js").UserLoginCollection,
  * authentication_provider_credentials: Collection,
  * permission_data: import("./permission/data/types.js").PermissionsDataCollection,
- * permission_grants: import("./permission/grants/types.js").PermissionGrantsCollection,
+ * permission_grants: modernuser.permission.PermissionGrantsCollection,
  * group_data: import("./group/data/types.js").GroupsCollection,
  * group_membership: import("./group/membership/types.js").GroupMembershipCollection,
- * profile: import("./profile/types.js").UserProfileCollection
+ * profile: modernuser.profile.UserProfileCollection
  * role_data: import("./role/data/types.js").RoleDataCollection,
  * role_play: import("./role/membership/types.js").RolePlayCollection,
  * role_contact: import("./role/contact/types.js").RoleContactCollection,
- * notification_provider_crendentials: Collection<{name: string}>,
- * notification_contacts: import("./notification/types.js").UserContactsCollection
  * onboarding_requests: import("./onboarding/types.js").OnboardingRequestsCollection
+ * notification_templates: modernuser.notification.TemplatesCollection,
+ * notification_contacts: modernuser.notification.UserContactsCollection
  * }}
  */
 let collections = new CollectionProxy({
@@ -44,10 +44,9 @@ let collections = new CollectionProxy({
     'role_data': 'role.data',
     'role_play': 'role.play',
     'role_contact': 'role.contact',
-    'notification_provider_crendentials': 'notification.providers.credentials',
+    'onboarding_requests': 'onboarding.requests',
+    'notification_templates': 'notification.templates',
     'notification_contacts': 'notification.contacts',
-    'onboarding_requests': 'onboarding.requests'
 })
-
 
 export default collections

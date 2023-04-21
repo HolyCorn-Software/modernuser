@@ -19,3 +19,11 @@ export declare interface RoleContact {
 
 export declare type RoleContactCollection = Collection<RoleContact>
 
+
+global {
+    namespace modernuser.permission {
+        interface AllPermissions {
+            'permissions.modernuser.role.contacts.manage': true
+        }
+    }
+}

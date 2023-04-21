@@ -32,7 +32,7 @@ export default class ChooseAccountContent extends Widget {
             `
         });
 
-        /** @type {[HTMLElement]} */ this.actions
+        /** @type {HTMLElement[]} */ this.actions
         this.pluralWidgetProperty(
             {
                 selector: `*`,
@@ -63,7 +63,7 @@ export default class ChooseAccountContent extends Widget {
             continue_button.html
         ];
 
-        /** @type {[import('./types.js').FrontendAccountData]} */ this.accounts
+        /** @type {import('./types.js').FrontendAccountData[]} */ this.accounts
 
         this.pluralWidgetProperty(
             {
@@ -114,7 +114,7 @@ export default class ChooseAccountContent extends Widget {
         );
 
 
-        /** @type {[AccountDisplay]} */ this.accountWidgets
+        /** @type {AccountDisplay[]} */ this.accountWidgets
         this.pluralWidgetProperty(
             {
                 parentSelector: '.container >.listings',

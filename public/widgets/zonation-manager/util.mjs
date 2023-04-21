@@ -7,7 +7,7 @@
  * This module contains useful functions used by the zonation-manager widget
  */
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 
 
 
@@ -21,7 +21,7 @@ import muserRpc from "../../lib/rpc.mjs";
  * @returns {Promise<string>}
  */
 export async function createZone({ label, superzone }) {
-    let id = await muserRpc.modernuser.zonation.createZone({ label, superzone })
+    let id = await hcRpc.modernuser.zonation.createZone({ label, superzone })
     zones_cache.push(
         {
             id,
@@ -34,15 +34,15 @@ export async function createZone({ label, superzone }) {
 
 
 
-/** @type {[import("faculty/modernuser/zonation/data/types.js").ZoneData]} */
+/** @type {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} */
 let zones_cache;
 /**
  * Fetches all the zones in the system
- * @returns {Promise<[import("faculty/modernuser/zonation/data/types.js").ZoneData]>}
+ * @returns {Promise<import("faculty/modernuser/zonation/data/types.js").ZoneData[]>}
  */
 export async function fetchZones() {
 
-    return zones_cache ||= await muserRpc.modernuser.zonation.getZones()
+    return zones_cache ||= await hcRpc.modernuser.zonation.getZones()
 
 }
 
@@ -50,7 +50,7 @@ export async function fetchZones() {
 
 /**
  * Converts data from from zone structure into something in the nature of a directory structure
- * @param {[import("faculty/modernuser/zonation/data/types.js").ZoneData]} data
+ * @param {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} data
  * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
  */
 export function toFileStructure(data) {
@@ -73,7 +73,7 @@ export function toFileStructure(data) {
  * @returns {Promise<void>}
  */
 export async function renameZone(id, newlabel) {
-    await muserRpc.modernuser.zonation.renameZone(id, newlabel)
+    await hcRpc.modernuser.zonation.renameZone(id, newlabel)
     zones_cache.filter(x => x.id === id)[0].label = newlabel
 }
 
@@ -84,6 +84,6 @@ export async function renameZone(id, newlabel) {
  * @returns {Promise<void>}
  */
 export async function deleteZone(id) {
-    await muserRpc.modernuser.zonation.deleteZone(id)
+    await hcRpc.modernuser.zonation.deleteZone(id)
     zones_cache = zones_cache.filter(x => x.id !== id)
 }

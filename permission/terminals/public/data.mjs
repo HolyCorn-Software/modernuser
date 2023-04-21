@@ -24,7 +24,7 @@ export default class PermissionDataPublicMethods {
     /**
      * Searches the database for a permission
      * @param {string} filter 
-     * @returns {Promise<[import("../../data/types.js").PermissionData]>}
+     * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async fetchPermissions(filter) {
         return await this[controller_symbol].fetchPermissions(arguments[1])
@@ -34,7 +34,7 @@ export default class PermissionDataPublicMethods {
      * This method returns information about a single permission.
      * @param {object} param0 
      * @param {string} param0.name
-     * @returns {Promise<import("../../data/types.js").PermissionData>}
+     * @returns {Promise<modernuser.permission.PermissionData>}
      */
     async getPermissionInfo({ name }) {
         return await this[controller_symbol].getPermission({ ...arguments[1] })
@@ -42,7 +42,7 @@ export default class PermissionDataPublicMethods {
 
     /**
      * Gets all the permissions
-     * @returns {Promise<[import("../../data/types.js").PermissionData]>}
+     * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async getAll() {
         return await this[controller_symbol].getAll()

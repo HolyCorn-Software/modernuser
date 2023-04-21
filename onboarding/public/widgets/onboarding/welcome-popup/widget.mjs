@@ -36,7 +36,7 @@ export default class WelcomePopup extends HCTSBrandedPopup {
         );
 
 
-        /** @type {[ActionButton]} */ this.actions
+        /** @type {ActionButton[]} */ this.actions
         this.pluralWidgetProperty(
             {
                 selector: `.${ActionButton.classList.join('.')}`,

@@ -5,7 +5,7 @@
  * 
  */
 
-import muserRpc from "../../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import ChooseAccountContent from "./content.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs";
@@ -21,7 +21,7 @@ export default class ChooseAccount extends HCTSBrandedPopup {
      * @param {object} login_data.login 
      * @param {string} login_data.login.plugin
      * @param {object} login_data.login.data
-     * @param {[{active: boolean, profile: import("faculty/modernuser/profile/types.js").UserProfileData}]} login_data.profiles
+     * @param {{active: boolean, profile: modernuser.profile.UserProfileData}[]} login_data.profiles
      */
     constructor(login_data) {
         super()
@@ -38,7 +38,7 @@ export default class ChooseAccount extends HCTSBrandedPopup {
 
             continue_button.state = 'waiting'
             
-            muserRpc.modernuser.authentication.advancedLogin({
+            hcRpc.modernuser.authentication.advancedLogin({
                 ...login_data.login,
                 userid: content_widget.selected_account
             }).then(() => {

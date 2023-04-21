@@ -26,16 +26,16 @@ export default class UserRoleInternalMethods {
     /**
      * This method returns a list of all the roles played by the user
      * @param {string} userid 
-     * @returns {Promise<[{data:import("../data/types.js").RoleData, play: Omit<import("../membership/types.js").RolePlay, "userid">}]>}
+     * @returns {Promise<{data:import("../data/types.js").RoleData, play: Omit<import("../membership/types.js").RolePlay, "userid">}[]>}
      */
     async getUserRoles(userid) {
         const roles = await this[controller_symbol].roleplay.getUserRoles(arguments[1])
 
-        /** @type {[import("../data/types.js").RoleData]} */
+        /** @type {import("../data/types.js").RoleData[]} */
         let data_storage = [];
 
         /**
-         * @returns {Promise<[import("../data/types.js").RoleData]>}
+         * @returns {Promise<import("../data/types.js").RoleData[]>}
          */
         const get_role = async (id) => {
 

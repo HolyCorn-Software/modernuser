@@ -48,8 +48,8 @@ export default class RolesListing extends Widget {
         }
 
 
-        /** @type {[import("./types.js").SuperRoleData]} */ this.super_roles
-        /** @type {[import("./types.js").SupervisedRoleData]} */ this.supervised_roles
+        /** @type {import("./types.js").SuperRoleData[]} */ this.super_roles
+        /** @type {import("./types.js").SupervisedRoleData[]} */ this.supervised_roles
 
         for (let property of ['supervised_roles', 'super_roles']) {
 
@@ -59,7 +59,7 @@ export default class RolesListing extends Widget {
                 get: () => storage,
                 /**
                  * 
-                 * @param {[import("./types.js").SuperRoleData|import("./types.js").SupervisedRoleData]} value 
+                 * @param {import("./types.js").SuperRoleData|import("./types.js").SupervisedRoleData[]} value 
                  */
                 set: (value) => {
                     let long_string = value.map(x => `<x>${x.label}</x>`).join('');

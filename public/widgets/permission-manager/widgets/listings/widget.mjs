@@ -43,7 +43,7 @@ export default class PermissionListings extends Widget {
 
         /** @type {function(('show-detail-popup'), function( CustomEvent<{data: import("./types.js").FrontendUserPermissions, popup:PaymentDetailsPopup}>), AddEventListenerOptions)} */ this.addEventListener
 
-        /** @type {[PermissionsListing]} */ this.itemWidgets
+        /** @type {PermissionsListing[]} */ this.itemWidgets
         this.pluralWidgetProperty({
             selector: '.hc-donorforms-admin-payment-listing',
             parentSelector: '.container >tbody',
@@ -52,7 +52,7 @@ export default class PermissionListings extends Widget {
             immediate: false,
         });
 
-        /** @type {[import("./types.js").FrontendUserPermissions]} */ this.itemsData
+        /** @type {import("./types.js").FrontendUserPermissions[]} */ this.itemsData
 
         this.pluralWidgetProperty({
             selector: '.hc-donorforms-admin-payment-listing',
@@ -92,7 +92,7 @@ export default class PermissionListings extends Widget {
         this.mainCheckbox = new Checkbox()
 
 
-        /** @type {[string]} */ this.headers
+        /** @type {string[]} */ this.headers
         this.pluralWidgetProperty({
             selector: '.header',
             parentSelector: '.headers ',

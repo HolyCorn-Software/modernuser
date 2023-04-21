@@ -14,8 +14,7 @@
             "${fPath}/role/static": "./role/public",
             "${fPath}/static/authentication/lib/": "./authentication/lib/",
             "${fPath}/notification/static": "./notification/public",
-            "${fPath}/onboarding/static": "./onboarding/public",
-            "${fPath}/notification/provider/providers/*/public": "./notification/provider/providers/*/public"
+            "${fPath}/onboarding/static": "./onboarding/public"
         }
     },
     "plugin": {
@@ -23,43 +22,90 @@
             "auth": {
                 "model": "AuthenticationPlugin",
                 "test": {
-                    "module": {}
+                    "module": {
+                        "toUniqueCredentials": "function",
+                        "toMinimalUniqueCredentials": "function"
+                    }
+                }
+            },
+            "notification": {
+                "model": "NotificationPlugin",
+                "test": {
+                    "module": {
+                        "reviewTemplate": "function",
+                        "reviewContact": "function",
+                        "notify": "function"
+                    }
                 }
             }
         }
     },
-    "backend_dashboard": {
-        "admin": [
-            {
-                "name": "modernuser",
-                "label": "User Security",
-                "icon": "/$/modernuser/static/icons/user-security.png",
-                "items": {
-                    "roles": {
-                        "label": "Roles",
-                        "icon": "/$/modernuser/static/icons/roles-management.png",
-                        "name": "roles",
-                        "items": {
-                            "role_play": {
-                                "label": "People",
-                                "view": "/$/modernuser/static/widgets/role-play-manager/widget.mjs",
-                                "icon": "/$/modernuser/static/icons/role-people.png"
-                            },
-                            "role_data": {
-                                "label": "Data",
-                                "view": "/$/modernuser/static/widgets/role-data-manager/widget.mjs",
-                                "icon": "/$/modernuser/static/icons/roles-data.png"
-                            }
+    "meta": {
+        "settings": {
+            "appearance": {
+                "label": "Appearance",
+                "description": "These settings affect the looks of frontend components of the faculty.",
+                "icon": "${fPath}/static/icons/appearance.png",
+                "public": true,
+                "items": [
+                    {
+                        "name": "loginPage",
+                        "label": "Login Page",
+                        "public": true,
+                        "icon": "${fPath}/static/icons/login-page-setting.png",
+                        "description": "This points to the location of the login page",
+                        "input": {
+                            "type": "text",
+                            "label": "Login Page"
                         }
                     },
-                    "permission_admin": {
-                        "name": "permission_admin",
-                        "label": "Permissions",
-                        "view": "/$/modernuser/static/widgets/permission-manager/widget.mjs",
-                        "icon": "/$/modernuser/static/icons/permission.png"
+                    {
+                        "name": "onboardingPage",
+                        "label": "Onboarding Page",
+                        "public": true,
+                        "icon": "${fPath}/static/icons/onboarding-page.png",
+                        "description": "This is the page that users are directed to, when they create their accounts for the first time.",
+                        "input": {
+                            "type": "text",
+                            "label": "Onboarding Page"
+                        }
+                    }
+                ]
+            }
+        },
+        "backend_dashboard": {
+            "admin": [
+                {
+                    "name": "modernuser",
+                    "label": "User Security",
+                    "icon": "/$/modernuser/static/icons/user-security.png",
+                    "items": {
+                        "roles": {
+                            "label": "Roles",
+                            "icon": "/$/modernuser/static/icons/roles-management.png",
+                            "name": "roles",
+                            "items": {
+                                "role_play": {
+                                    "label": "People",
+                                    "view": "/$/modernuser/static/widgets/role-play-manager/widget.mjs",
+                                    "icon": "/$/modernuser/static/icons/role-people.png"
+                                },
+                                "role_data": {
+                                    "label": "Data",
+                                    "view": "/$/modernuser/static/widgets/role-data-manager/widget.mjs",
+                                    "icon": "/$/modernuser/static/icons/roles-data.png"
+                                }
+                            }
+                        },
+                        "permission_admin": {
+                            "name": "permission_admin",
+                            "label": "Permissions",
+                            "view": "/$/modernuser/static/widgets/permission-manager/widget.mjs",
+                            "icon": "/$/modernuser/static/icons/permission.png"
+                        }
                     }
                 }
-            }
-        ]
+            ]
+        }
     }
 }

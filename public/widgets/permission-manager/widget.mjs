@@ -8,7 +8,7 @@
  */
 
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import PermissionListings from "./widgets/listings/widget.mjs";
 import { PermissionGrantPopup } from "./widgets/new/widget.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
@@ -70,7 +70,7 @@ export default class PermissionsManager extends Widget {
 
         this.listings = PermissionListings.testWidget
 
-        /** @type {[ActionButton]} */ this.actions
+        /** @type {ActionButton[]} */ this.actions
         this.pluralWidgetProperty({
             selector: '.hc-action-button',
             property: 'actions',
@@ -87,7 +87,7 @@ export default class PermissionsManager extends Widget {
 
                 popup.addEventListener('create', async () => {
                     try {
-                        const permissionData = await muserRpc.modernuser.permissions.data.getPermissionInfo({ name: popup.value.permissions[0].name })
+                        const permissionData = await hcRpc.modernuser.permissions.data.getPermissionInfo({ name: popup.value.permissions[0].name })
                         const newValue = popup.value
                         newValue.permissions[0].label = permissionData.label
                         newValue.permissions[0].name = permissionData.name

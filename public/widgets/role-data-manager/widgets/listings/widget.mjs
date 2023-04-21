@@ -43,7 +43,7 @@ export default class RolesListings extends Widget {
         /** @type {function(('checked-state-change'), function( CustomEvent<>), AddEventListenerOptions)} */ this.addEventListener
 
 
-        /** @type {[import("./types.js").FrontendRoleData]} */ this.itemsData
+        /** @type {import("./types.js").FrontendRoleData[]} */ this.itemsData
 
         this.pluralWidgetProperty({
             selector: '.hc-cayofedpeople-roles-listings-item',
@@ -75,7 +75,7 @@ export default class RolesListings extends Widget {
         });
 
 
-        /** @type {[RolesListing]} */ this.itemWidgets
+        /** @type {RolesListing[]} */ this.itemWidgets
         this.pluralWidgetProperty({
             selector: '.hc-cayofedpeople-roles-listings-item',
             parentSelector: '.container >tbody',
@@ -84,10 +84,10 @@ export default class RolesListings extends Widget {
             immediate: true,
         });
 
-        /** @type {[string]} */ this.checked_items
+        /** @type {string[]} */ this.checked_items
         Reflect.defineProperty(this, 'checked_items', {
             get: () => this.itemWidgets.filter(x => x.checkbox.checked).map(x => x.data.id),
-            /** @param {[string]} array */
+            /** @param {string[]} array */
             set: (array) => {
                 const widgets = this.itemWidgets;
 
@@ -113,7 +113,7 @@ export default class RolesListings extends Widget {
         this.mainCheckbox = new Checkbox()
 
 
-        /** @type {[string]} */ this.headers
+        /** @type {string[]} */ this.headers
         this.pluralWidgetProperty({
             selector: '.header',
             parentSelector: '.headers ',

@@ -4,7 +4,7 @@
  * This widget is a popup where a user can be made a contact person for a given role
  */
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
@@ -51,7 +51,7 @@ export default class AddUserPopup extends PopupForm {
                     throw new Error(`Please make sure you selected a user from the list. Typing the name is not enough`)
                 }
 
-                await muserRpc.modernuser.role.contact.addContact({
+                await hcRpc.modernuser.role.contact.addContact({
                     subject: this.value.userid,
                     role: roledata.id,
                     zone: zone

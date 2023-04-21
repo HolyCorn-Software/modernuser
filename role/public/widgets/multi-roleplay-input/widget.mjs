@@ -4,7 +4,7 @@
  * This widget allows, multiple roles played, to be entered
  */
 
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import ZoneInput from "/$/modernuser/static/widgets/zone-input/widget.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import LabelList from "/$/system/static/html-hc/widgets/label-list/widget.mjs";
@@ -66,9 +66,9 @@ export default class MultiRolePlayInput extends LabelList {
 
             try {
 
-                this[data_symbol] = await muserRpc.modernuser.role.data.getAll()
+                this[data_symbol] = await hcRpc.modernuser.role.data.getAll()
 
-                /** @type {[import("/$/system/static/html-hc/widgets/label-list/types.js").LabelListItemData]} */
+                /** @type {import("/$/system/static/html-hc/widgets/label-list/types.js").LabelListItemData[]} */
                 const store_data = this[data_symbol].map(x => {
                     return {
                         id: x.id,
@@ -115,13 +115,13 @@ export default class MultiRolePlayInput extends LabelList {
     }
 
     /**
-     * @param {[Omit<import("faculty/modernuser/role/membership/types.js").RolePlay, "userid">]} value
+     * @param {Omit<import("faculty/modernuser/role/membership/types.js").RolePlay, "userid">[]} value
      */
     set value(value) {
         (async () => {
             await this.ready()
 
-            /** @type {[import("/$/system/static/html-hc/widgets/label-list/types.js").LabelListItemData]} */
+            /** @type {import("/$/system/static/html-hc/widgets/label-list/types.js").LabelListItemData[]} */
             const newValue = value.map(x => {
                 return {
                     id: x.role,

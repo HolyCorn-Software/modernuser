@@ -42,7 +42,7 @@ export default class GenericRole extends Widget {
         );
 
 
-        /** @type {[HTMLElement]} */ this.actions
+        /** @type {HTMLElement[]} */ this.actions
         this.pluralWidgetProperty(
             {
                 selector: `.${ActionButton.classList.join('.')}`,
@@ -58,7 +58,7 @@ export default class GenericRole extends Widget {
             }).html
         ]
 
-        /** @type {import("/$/system/static/html-hc/lib/alarm/alarm-types.js").AlarmObject<import("../types.js").FrontendRoleData>} */
+        /** @type {htmlhc.lib.alarm.AlarmObject<import("../types.js").FrontendRoleData>} */
         this.statedata = new AlarmObject()
 
 

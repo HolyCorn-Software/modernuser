@@ -28,7 +28,7 @@ export default class RolePlayPublicMethods {
 
     /**
      * This returns all the information about roleplay in the system
-     * @returns {Promise<[import("../membership/types.js").RolePlay]>}
+     * @returns {Promise<import("../membership/types.js").RolePlay[]>}
      */
     async fetchAll() {
         await this[permission_grants_controller_symbol].userPermitted(
@@ -49,7 +49,7 @@ export default class RolePlayPublicMethods {
      * @param {string} param0.role
      * @param {string} param0.zone
      * @param {string} param0.specific_user If specified, only the named user's info will be fetched
-     * @returns {Promise<[{profile:import("faculty/modernuser/profile/types.js").UserProfileData, zone: string}]>}
+     * @returns {Promise<{profile:modernuser.profile.UserProfileData, zone: string}[]>}
      */
     async getUsersInfoFormatted({ role, zone, specific_user }) {
         await this[permission_grants_controller_symbol].userPermitted(

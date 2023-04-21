@@ -58,12 +58,12 @@ export default class PermissionsListing extends Widget {
 
 
         let permission_storage
-        /** @type {[import("./types.js").FrontendPermissionGrant]} */ this.permissions
+        /** @type {modernuser.permission.PermissionGrant[]} */ this.permissions
         Reflect.defineProperty(this, 'permissions', {
             get: () => permission_storage,
             /**
              * 
-             * @param {[import("./types.js").FrontendPermissionGrant]} value 
+             * @param {modernuser.permission.PermissionGrant[]} value 
              */
             set: (value) => {
                 let long_string = value.map(x => `<x>${x.label}</x>`);

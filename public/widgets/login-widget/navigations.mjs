@@ -27,7 +27,7 @@ export default class LoginWidgetNavigations extends Widget {
             `
         });
 
-        /** @type {[{name: string, label: string}]} */ this.actions
+        /** @type {{name: string, label: string}[]} */ this.actions
         this.pluralWidgetProperty({
             selector: '.hc-cayofedpeople-login-navigation',
             parentSelector: '.container >.main >.actions',

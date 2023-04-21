@@ -5,10 +5,6 @@
  * 
  */
 
-import { PermissionGrant } from '../../../../../permission/grants/types.js'
-import { PermissionData } from '../../../../../permission/data/types.js'
-
-import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 
 
@@ -16,7 +12,7 @@ export declare interface FrontendRoleData {
     label: string,
     id: string,
     description: string,
-    super_roles: [SuperRoleData]
+    super_roles: SuperRoleData[]
 
 }
 
@@ -30,4 +26,4 @@ export declare interface SupervisedRoleData {
 }
 
 
-export type RolesStatedata = AlarmObject<FrontendRoleData>
+export type RolesStatedata = htmlhc.lib.alarm.AlarmObject<FrontendRoleData>

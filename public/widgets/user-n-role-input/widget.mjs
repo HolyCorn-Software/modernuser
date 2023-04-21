@@ -8,7 +8,7 @@
  *      'dual' -- search both roles and users
  */
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import ItemView from "./item-view.mjs";
 import SearchInput from "/$/system/static/html-hc/widgets/search-input/widget.mjs";
 
@@ -22,7 +22,7 @@ export default class UserAndRoleInput extends SearchInput {
      * @param {object} param0 
      * @param {string} param0.name
      * @param {string} param0.label
-     * @param {('user'|'role'|'dual')} param0.mode
+     * @param {modernuser.permission.SubjectType|'dual'} param0.mode
      */
     constructor({ name, label, mode } = {}) {
         super({ name, label });
@@ -34,9 +34,9 @@ export default class UserAndRoleInput extends SearchInput {
                 // //Fetch users from the backend
                 try {
 
-                    const users = (this.mode === 'user' || this.mode === 'dual') ? await muserRpc.modernuser.profile.fetchUsers(filter) : []
+                    const users = (this.mode === 'user' || this.mode === 'dual') ? await hcRpc.modernuser.profile.fetchUsers(filter) : []
 
-                    const roles = (this.mode === 'role' || this.mode === 'dual') ? await muserRpc.modernuser.role.data.fetchRoles(filter) : []
+                    const roles = (this.mode === 'role' || this.mode === 'dual') ? await hcRpc.modernuser.role.data.fetchRoles(filter) : []
 
                     return [
                         ...users.map(x => {
@@ -64,7 +64,7 @@ export default class UserAndRoleInput extends SearchInput {
                 }
 
             },
-            /** @param {{label:string, type:('user'|'role'), id: string}} item */
+            /** @param {{label:string, type:modernuser.permission.SubjectType, id: string}} item */
             getLabel: (item) => item?.label || 'No name',
 
             getValue: (item) => item,
@@ -80,7 +80,7 @@ export default class UserAndRoleInput extends SearchInput {
     }
 
     /**
-     * @param {('dual'|'user'|'role')} mode
+     * @param {'dual'|modernuser.permission.SubjectType} mode
      */
     set mode(mode) {
         if (this.mode !== mode) {
@@ -91,7 +91,7 @@ export default class UserAndRoleInput extends SearchInput {
     }
 
     /**
-     * @returns {('dual'|'user'|'role')}
+     * @returns {'dual'|modernuser.permission.SubjectType}
      */
     get mode() {
         return this[mode_symbol]
@@ -100,7 +100,7 @@ export default class UserAndRoleInput extends SearchInput {
     /**
      * @returns {{
      *  id: string,
-     *  type: ('user'|'role'),
+     *  type: modernuser.permission.SubjectType,
      *  label: string
      * }}
      */

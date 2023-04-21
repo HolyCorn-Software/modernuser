@@ -76,13 +76,15 @@ export default async function init() {
 
 
 
-    const notification_controller = new NotificationController(collections.notification_provider_crendentials, collections.notification_contacts)
+    const notification_controller = new NotificationController(
+        {
+            collections: {
+                contacts: collections.notification_contacts,
+                templates: collections.notification_templates
+            }
+        }
+    )
 
-    notification_controller.init().then(() => {
-        console.log(`Notification Controller initialized!`)
-    }).catch(e => {
-        console.warn(`Failed to initialize notification controller \n`, e)
-    })
 
     const onboarding_controller = new OnboardingController({
         collection: collections.onboarding_requests,

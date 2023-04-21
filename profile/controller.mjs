@@ -14,27 +14,37 @@ let global_only_one_profile = undefined;
 
 const faculty = FacultyPlatform.get()
 
+const instance = Symbol()
+
 export default class UserProfileController {
 
     /**
      * 
      * @param {object} param0 
-     * @param {import("./types.js").UserProfileCollection} param0.collection
+     * @param {modernuser.profile.UserProfileCollection} param0.collection
      */
     constructor({ collection }) {
 
-        /** @type {import("./types.js").UserProfileCollection} */
+        /** @type {modernuser.profile.UserProfileCollection} */
         this[collection_symbol] = collection
-
+        UserProfileController[instance] = this
 
         UserProfileController.prepareCollection(collection)
+    }
+
+    /**
+     * @readonly
+     * @returns { UserProfileController}
+     */
+    static get instance(){
+        return this[instance]
     }
 
     /**
      * This retrieves the profile of a user
      * @param {object} param0 
      * @param {string} param0.id
-     * @returns {Promise<import("./types.js").UserProfileData>}
+     * @returns {Promise<modernuser.profile.UserProfileData>}
      */
     async getProfile({ id }) {
         let profile = await this[collection_symbol].findOne({ id })
@@ -47,8 +57,8 @@ export default class UserProfileController {
 
     /**
      * This method returns the profiles of all users whose ids are specified
-     * @param {[string]} ids 
-     * @returns {Promise<[import("./types.js").UserProfileData]>}
+     * @param {string[]} ids 
+     * @returns {Promise<modernuser.profile.UserProfileData[]>}
      */
     async getProfiles(ids) {
         return await this[collection_symbol].find({ id: { $in: ids } }).toArray()
@@ -60,14 +70,21 @@ export default class UserProfileController {
      * 
      * @param {object} param0 
      * @param {string} param0.id
-     * @param {{label: string, icon:string}} param0.profile
+     * @param {modernuser.profile.MutableUserProfileData} param0.profile
      * @returns {Promise<void>}
      */
     async setProfile({ id, profile }) {
+        /** @type {import('mongodb').UpdateFilter<modernuser.profile.MutableUserProfileData>['$set']} */
         let query = {}
-        for (let key of ['icon', 'label']) {
+        /** @type {(keyof modernuser.profile.MutableUserProfileData)[]} */
+        const keys = ['icon', 'label', 'meta']
+        const illegalRegExp = /[<>.+-]/
+        for (let key of keys) {
             if (typeof profile[key] !== 'undefined') {
                 query[key] = profile[key]
+                if (key == 'label' && illegalRegExp.test(profile[key])) {
+                    throw new Exception(`Your profile name contains illegal characters`)
+                }
             }
         }
 
@@ -82,7 +99,7 @@ export default class UserProfileController {
 
     /**
      * Creates a fresh new profile
-     * @param {Omit<import("./types.js").UserProfileData, "id"|"time">} data
+     * @param {Omit<modernuser.profile.UserProfileData, "id"|"time">} data
      * @returns {Promise<string>}
      */
     async createProfile(data) {
@@ -146,7 +163,7 @@ export default class UserProfileController {
     /**
      * Fetches all users in the database according to a particular filter
      * @param {string} filter 
-     * @param {[string]} restriction If specified, only users whose user ids belong to this list will be searched
+     * @param {string[]} restriction If specified, only users whose user ids belong to this list will be searched
      */
     async fetchUsers(filter = "", restriction) {
 
@@ -160,7 +177,7 @@ export default class UserProfileController {
 
 
         /**
-         * @type {import('mongodb').Filter<import("./types.js").UserProfileData>}
+         * @type {modernuser.profile.UserProfileData>}
          */
         const query = {
             label: {
@@ -181,7 +198,7 @@ export default class UserProfileController {
 
     /**
      * This method puts the collection in order by creating the necessary indexes
-     * @param {import("./types.js").UserProfileCollection} collection 
+     * @param {modernuser.profile.UserProfileCollection} collection 
      */
     static prepareCollection(collection) {
         collection.createIndex({ id: 1 }, { unique: true }).catch(e => {

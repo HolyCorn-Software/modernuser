@@ -40,7 +40,7 @@ export default class ZonationInternalMethods {
     /**
      * This method is used to get all zones beneath a given zone
      * @param {string} id 
-     * @returns {Promise<[import("../data/types.js").ZoneData]>}
+     * @returns {Promise<import("../data/types.js").ZoneData[]>}
      */
     async getChildZones(id) {
         return await this[data_controller_symbol].getChildZones(arguments[1])
@@ -49,7 +49,7 @@ export default class ZonationInternalMethods {
     /**
      * This method is used to get all child zones, then add information about the subject zone
      * @param {string} id 
-     * @returns {Promise<[import("../data/types.js").ZoneData]>}
+     * @returns {Promise<import("../data/types.js").ZoneData[]>}
      */
     async getChildZonesPlus(id) {
         return (

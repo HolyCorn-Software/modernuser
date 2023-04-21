@@ -9,7 +9,6 @@ import { AdminOnboardingData } from "faculty/modernuser/onboarding/types";
 import { RoleData } from "faculty/modernuser/role/data/types";
 import { RolePlay } from "faculty/modernuser/role/membership/types";
 import { ZoneData } from "faculty/modernuser/zonation/data/types";
-import {AlarmObject} from "/$/system/static/html-hc/lib/alarm/alarm-types";
 
 
 
@@ -20,7 +19,7 @@ export type StateDataRaw = AdminOnboardingData & {
 
 }
 
-export type StateData = AlarmObject<StateDataRaw>
+export type StateData = htmlhc.lib.alarm.AlarmObject<StateDataRaw>
 
 
 export declare interface FrontendRoleData {

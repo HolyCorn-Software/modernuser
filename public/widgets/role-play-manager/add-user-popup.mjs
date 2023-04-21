@@ -4,7 +4,7 @@
  * This widget is a popup where a user can be added to a role
  */
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
@@ -41,7 +41,7 @@ export default class AddUserPopup extends PopupForm {
                     throw new Error(`Please make sure you selected a user from the list. Typing the name is not enough`)
                 }
 
-                await muserRpc.modernuser.role.role_play.addRoleToUser({
+                await hcRpc.modernuser.role.role_play.addRoleToUser({
                     subject: this.value.user.id,
                     role: roledata.id,
                     zone: zone

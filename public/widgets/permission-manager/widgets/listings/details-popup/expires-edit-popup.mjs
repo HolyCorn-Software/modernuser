@@ -4,7 +4,7 @@
  * This widget allows that the expiry date of a permission be edited
  */
 
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
@@ -40,7 +40,7 @@ export default class ExpiresEditPopup extends PopupForm {
             this.loadBlock()
             try {
 
-                await muserRpc.modernuser.permissions.grants.update({ subject, permission, data: { ...this.value } })
+                await hcRpc.modernuser.permissions.grants.update({ subject, permission, data: { ...this.value } })
                 this.positiveButton.state = 'success'
 
                 this.dispatchEvent(new CustomEvent('update'))

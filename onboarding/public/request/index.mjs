@@ -1,56 +1,74 @@
 /**
- * The CAYOFE People System
+ * Copyright 2022 HolyCorn Software
+ * The CAYOFED People System
  * This script is on the onboarding page
+ * Updated 2023, to support customization of 
  */
 
-import CAYOFEDOnboarding from "../widgets/onboarding/widget.mjs";
-import muserRpc from "/$/modernuser/static/lib/rpc.mjs";
-import Footer from "/$/modernuser/static/widgets/borrowed/footer/widget.mjs";
-import Navbar from "/$/modernuser/static/widgets/borrowed/navbar/widget.mjs";
-import { handle } from "/$/system/static/errors/error.mjs";
-import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import hcRpc from '/$/system/static/comm/rpc/aggregate-rpc.mjs';
+import { handle } from '/$/system/static/errors/error.mjs'
 
-
-
-//Check if the user is logged in. If not redirect him to the login page
-const check_login = async () => {
-    try {
-        await muserRpc.modernuser.authentication.whoami(true)
-    } catch (e) {
-        if (!/auth/.test(`${e}`)) {
-            handle(e)
-        } else {
-            window.location = '/$/modernuser/static/login/'
-        }
-
+try {
+    const onboardingPageURL = await hcRpc.system.settings.get({ faculty: 'modernuser', name: 'onboardingPage', namespace: 'appearance' })
+    if (onboardingPageURL) {
+        window.location = `${onboardingPageURL}${window.location.search || '?'}&continue=${new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'}`
+    } else {
+        await main()
     }
+} catch (e) {
+    handle(e)
 }
 
-check_login()
+async function main() {
+
+    const CAYOFEDOnboarding = (await import("../widgets/onboarding/widget.mjs")).default;
+    const Footer = (await import("/$/modernuser/static/widgets/borrowed/footer/widget.mjs")).default;
+    const Navbar = (await import("/$/modernuser/static/widgets/borrowed/navbar/widget.mjs")).default;
+    const hc = (await import("/$/system/static/html-hc/lib/widget/index.mjs")).hc;
 
 
 
-// First add the navbar
-const navbar = new Navbar()
+    //Check if the user is logged in. If not redirect him to the login page
+    const check_login = async () => {
+        try {
+            await hcRpc.modernuser.authentication.whoami(true)
+        } catch (e) {
+            if (!/auth/.test(`${e}`)) {
+                handle(e)
+            } else {
+                window.location = '/$/modernuser/static/login/'
+            }
 
-document.body.appendChild(navbar.html)
+        }
+    }
 
-
-const content = hc.spawn({
-    classes: ['page-content']
-})
-
-
-
-document.body.appendChild(content)
-
-const onboarding = new CAYOFEDOnboarding()
-
-content.appendChild(onboarding.html)
+    check_login()
 
 
-const footer = new Footer()
-document.body.appendChild(footer.html)
+
+    // First add the navbar
+    const navbar = new Navbar()
+
+    document.body.appendChild(navbar.html)
 
 
-hc.importModuleCSS()
+    const content = hc.spawn({
+        classes: ['page-content']
+    })
+
+
+
+    document.body.appendChild(content)
+
+    const onboarding = new CAYOFEDOnboarding()
+
+    content.appendChild(onboarding.html)
+
+
+    const footer = new Footer()
+    document.body.appendChild(footer.html)
+
+
+    hc.importModuleCSS()
+
+}

@@ -65,20 +65,20 @@ export default class UserAuthenticationController {
     /**
      * This method is used to log in a publicly contacted client (user)
      * 
-     * It takes the data for the login and the plugin for the log in
+     * It takes the data for the login and the provider for the log in
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {string} param0.plugin
+     * @param {string} param0.provider
      * @returns {Promise<{token: string, expires: number, login_data: import("./types.js").UserLogin}>}
      */
-    async login({ data, plugin }) {
+    async login({ data, provider }) {
 
         //This method is very simple.
         // 1) Create a unique representation of the data
         // 2) Find a login in the database that matches that unique data
         // 3) If found, issue a token 
 
-        let plugObj = this.findPlugin(plugin);
+        let plugObj = this.findPlugin(provider);
 
         let unique_data = await plugObj.toUniqueCredentials({
             data,
@@ -87,12 +87,12 @@ export default class UserAuthenticationController {
         });
 
         let login_data = await this[login_collection_symbol].findOne({
-            plugin,
+            plugin: provider,
             data: unique_data
         });
 
         if (!login_data) {
-            throw new Exception(`Invalid login bro!`)
+            throw new Exception(`Invalid login. Please try again.`)
         }
         if (!login_data.active) {
             throw new Exception(`This login is not yet active. If you are just from creating your account, follow the proper procedure for activating it.`)
@@ -111,12 +111,12 @@ export default class UserAuthenticationController {
      * This method gets all the profiles associated with a login
      * @param {object} param0 
      * @param {object} param0.data
-     * @param {string} param0.plugin
-     * @returns {Promise<[{profile:import("../profile/types.js").UserProfileData, active:boolean}]>}
+     * @param {string} param0.provider
+     * @returns {Promise<{profile:modernuser.profile.UserProfileData, active:boolean}[]>}
      */
-    async getProfiles({ data, plugin }) {
+    async getProfiles({ data, provider }) {
 
-        let pluginObject = this.findPlugin(plugin);
+        let pluginObject = this.findPlugin(provider);
 
         let unique_data = await pluginObject.toUniqueCredentials({
             data,
@@ -126,7 +126,7 @@ export default class UserAuthenticationController {
 
         const results = await Promise.all(
             (await this[login_collection_symbol].find({
-                plugin,
+                plugin: provider,
                 data: unique_data
             }).toArray()).map(async login => {
                 return {
@@ -137,7 +137,7 @@ export default class UserAuthenticationController {
         );
 
         if (results.length === 0) {
-            throw new Exception(`Invalid login bro!`)
+            throw new Exception(`Invalid login. Please try again.`)
         }
 
         return results
@@ -146,21 +146,19 @@ export default class UserAuthenticationController {
     /**
      * This method is the modern login method. It allows a user to specify the user account he's logging into
      * @param {object} param0 
-     * @param {string} param0.plugin
+     * @param {string} param0.provider
      * @param {object} param0.data
      * @param {string} param0.userid
      * @returns {Promise<{token: string, expires:number}>}
      */
-    async advancedLogin({ data, plugin, userid }) {
-
-        console.log(`Arguments::`, arguments)
+    async advancedLogin({ data, provider, userid }) {
 
         soulUtils.checkArgs(arguments[0], {
-            plugin: 'string',
+            provider: 'string',
             userid: 'string'
         })
 
-        let pluginObj = this.findPlugin(plugin);
+        let pluginObj = this.findPlugin(provider);
 
         let unique_data = await pluginObj.toUniqueCredentials({
             data,
@@ -169,13 +167,13 @@ export default class UserAuthenticationController {
         });
 
         let login_data = await this[login_collection_symbol].findOne({
-            plugin,
+            plugin: provider,
             data: unique_data,
             userid
         });
 
         if (!login_data) {
-            throw new Exception(`Invalid login bro!`)
+            throw new Exception(`Invalid login, please try again.`)
         }
         if (!login_data.active) {
             throw new Exception(`This login is not yet active. If you are just from creating your account, follow the proper procedure for activating it.`)
@@ -415,8 +413,8 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {object} param0.data
      * @param {string} param0.plugin
-     * @param {('login'|'signup'|'reset')} param0.intent
-     * @returns {Promise<import("./types.js").UserLogin}
+     * @param {modernuser.authentication.AuthAction} param0.intent
+     * @returns {Promise<import("./types.js").UserLogin>}
      */
     async searchLoginByData({ data, plugin, intent }) {
         let pluginObject = this.findPlugin(plugin);
@@ -445,7 +443,7 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {object} param0.data
      * @param {string} param0.plugin
-     * @returns {Promise<import("./types.js").UserLogin}
+     * @returns {Promise<import("./types.js").UserLogin>}
      */
     async searchLoginByDataDirect({ data, plugin }) {
 
@@ -496,7 +494,7 @@ export default class UserAuthenticationController {
      * This method authenticates a token, then finds the associated user profile
      * @param {object} param0 
      * @param {string} param0.token
-     * @returns {Promise<import("../profile/types.js").UserProfileData>}
+     * @returns {Promise<modernuser.profile.UserProfileData>}
      */
     async getProfile({ token }) {
         return await this[user_profile_controller_symbol].getProfile(
@@ -530,7 +528,7 @@ export default class UserAuthenticationController {
 
     /**
      * This method creates a new user profile, and returns the user id of the user
-     * @param {import("../profile/types.js").UserProfileData} data 
+     * @param {modernuser.profile.UserProfileData} data 
      */
     async createUserProfile(data) {
         return await this[user_profile_controller_symbol].createProfile(...arguments)

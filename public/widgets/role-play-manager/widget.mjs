@@ -4,7 +4,7 @@
  * This widget allows a user to manage the people to a role
  */
 
-import muserRpc from "../../lib/rpc.mjs";
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import logic from "./logic.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import FileExplorer from "/$/system/static/html-hc/widgets/file-explorer/widget.mjs";
@@ -54,8 +54,8 @@ export default class RolePlayManager extends Widget {
      * This method fetches the data and puts it on the UI
      */
     async populate_ui() {
-        let role_data = await muserRpc.modernuser.role.data.getAll()
-        let role_play = await muserRpc.modernuser.role.role_play.fetchAll()
+        let role_data = await hcRpc.modernuser.role.data.getAll()
+        let role_play = await hcRpc.modernuser.role.role_play.fetchAll()
 
         let explorable = logic.draw_actions_for_all_roles(role_data, role_play, this)
 

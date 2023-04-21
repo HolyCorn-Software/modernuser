@@ -40,7 +40,7 @@ export default class UserAuthenticationInternalMethods {
      * This method authenticates the given token, and then finds the associated user profile
      * @param {object} param0 
      * @param {string} param0.token
-     * @returns {Promise<import("faculty/modernuser/profile/types.js").UserProfileData>}
+     * @returns {Promise<modernuser.profile.UserProfileData>}
      */
     async getProfile({ token }) {
         return await this[controller_symbol].getProfile({ token: arguments[1]?.token })

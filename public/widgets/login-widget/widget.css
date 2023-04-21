@@ -97,6 +97,8 @@ The Form Answer Widget allows a person to provide answers to a form posed him
     filter: blur(20px);
     pointer-events: none;
 
+    display:none;
+
 }
 
 
@@ -113,5 +115,7 @@ The Form Answer Widget allows a person to provide answers to a form posed him
     filter: blur(20px);
     opacity: 0.25;
     pointer-events: none;
+
+    display: none;
 
 }
