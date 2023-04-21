@@ -6,6 +6,7 @@
 
 import { fetchZones } from "../../../zonation-manager/util.mjs";
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
+import { handle } from "/$/system/static/errors/error.mjs";
 
 
 /**
@@ -42,7 +43,12 @@ async function fetch_items() {
         if (subject_type === 'role') {
             return roles.find(x => x.id === subject).label
         }
-        return await hcRpc.modernuser.profile.getLabel(subject)
+        try {
+            return await hcRpc.modernuser.profile.getLabel(subject)
+        } catch (e) {
+            handle(e)
+            return `Error`
+        }
     }
 
     for (let grant of grants) {
