@@ -26,7 +26,7 @@ export default class LoginWidget extends Widget {
         super();
 
         super.html = hc.spawn({
-            classes: ['hc-cayofedpeople-login'],
+            classes: LoginWidget.classList,
             innerHTML: `
                 <div class='container'>
                     <div class='main-section'>
@@ -140,10 +140,16 @@ export default class LoginWidget extends Widget {
 
 
 
-        this.loadProviders().then(() => {
-            this.face = 'login'
+        this.waitTillDOMAttached().then(() => {
+            this.loadProviders().then(() => {
+                this.face = 'login'
+            }).catch(e => handle(e))
         })
 
+    }
+
+    static get classList() {
+        return ['hc-cayofedpeople-login'];
     }
 
     /**

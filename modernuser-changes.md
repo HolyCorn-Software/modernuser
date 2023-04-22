@@ -1,3 +1,3 @@
 .
 
-Refractored instances that make use of the session variable for authentication
+Maded it easier for other code components to operate with, and customize the login-widget
