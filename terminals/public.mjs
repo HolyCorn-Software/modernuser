@@ -134,7 +134,7 @@ export default class UserPublicMethods extends FacultyPublicMethods {
 
         let session = await client.resumeSessionFromMeta();
 
-        session.setVar(`${faculty.descriptor.name}-authentication-token`, credentials.token)
+        session.setVar(UserAuthenticationController.sessionVarName, credentials.token)
 
 
         return credentials;

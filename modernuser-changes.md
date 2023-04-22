@@ -1,3 +1,3 @@
 .
 
-Made permission-manager widget more robust to missing accounts
+Refractored instances that make use of the session variable for authentication
