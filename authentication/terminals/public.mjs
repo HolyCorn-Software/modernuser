@@ -30,7 +30,7 @@ export default class UserAuthenticationPublicMethods {
      * This method is called on the frontend by a client who wants to login using a specific provider, e.g Google
      * @param {string} plugin 
      * @param {object} data 
-     * @returns {Promise<import("../types.js").PublicTokenData>}
+     * @returns {Promise<modernuser.authentication.PublicTokenData>}
      */
     async provider_login(plugin, data) {
         plugin = arguments[1]
@@ -92,7 +92,7 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * @deprecated Use .getPluginsPublicData() instead
-     * @returns {Promise<import("../types.js").AuthPluginPublicData[]>}
+     * @returns {Promise<modernuser.authentication.AuthPluginPublicData[]>}
      */
     async getProvidersData() {
         return await this[controller_symbol].getPluginsPublicData()
@@ -101,7 +101,7 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * Gets data about all the security providers
-     * @returns {Promise<import("../types.js").AuthPluginPublicData[]>}
+     * @returns {Promise<modernuser.authentication.AuthPluginPublicData[]>}
      */
     async getPluginsPublicData() {
         return await this[controller_symbol].getPluginsPublicData()
@@ -138,6 +138,7 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * This interface contains public methods from all plugins.
+     * @returns {modernuser.authentication.PluginMethods}
      */
     get pluginMethods() {
         const tree = {}

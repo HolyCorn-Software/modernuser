@@ -26,7 +26,7 @@ export default class RoleDataPublicMethods {
 
     /**
      * This method returns all the roles in the system
-     * @returns {Promise<import("../data/types.js").RoleData[]>}
+     * @returns {Promise<modernuser.role.data.Role[]>}
      */
     async getAll() {
         return await this[data_controller_symbol].getAll()
@@ -35,7 +35,7 @@ export default class RoleDataPublicMethods {
     /**
      * This method fetches the roles that match the given filter
      * @param {string} filter 
-     * @returns {Promise<import("../data/types.js").RoleData[]>}
+     * @returns {Promise<modernuser.role.data.Role[]>}
      */
     async fetchRoles(filter) {
         return await this[data_controller_symbol].fetchRoles(arguments[1])
@@ -67,7 +67,7 @@ export default class RoleDataPublicMethods {
      * This method updates the details about a role
      * @param {object} param0 
      * @param {string} param0.id
-     * @param {import("../data/types.js").RoleData} param0.data
+     * @param {modernuser.role.data.Role} param0.data
      * @returns {Promise<void>}
      */
     async update({ id, data }) {

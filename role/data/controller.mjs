@@ -20,7 +20,7 @@ export default class RoleDataController {
     /**
      * 
      * @param {object} param0
-     * @param {import("./types.js").RoleDataCollection} param0.collection
+     * @param {modernuser.role.data.RoleDataCollection} param0.collection
      * @param {import("faculty/modernuser/permission/grants/controller.mjs").default} param0.permission_grants_controller
      */
     constructor({ collection, permission_grants_controller }) {
@@ -29,7 +29,7 @@ export default class RoleDataController {
                 code: 'error.input.validation'
             })
         }
-        /** @type {import("./types.js").RoleDataCollection} */
+        /** @type {modernuser.role.data.RoleDataCollection} */
         this[collection_symbol] = collection;
 
         this[permission_grants_controller_symbol] = permission_grants_controller
@@ -135,7 +135,7 @@ export default class RoleDataController {
      * This method updates specific data about a role. Either it's super_roles, label or description
      * @param {object} param0 
      * @param {string} param0.id
-     * @param {import("./types.js").RoleData} param0.data
+     * @param {modernuser.role.data.Role} param0.data
      * @param {userid} param0.userid If specified, the action of updating the role will be checked, with respect to the user's permissions
      * @returns  {Promise<void>}
      */
@@ -163,7 +163,7 @@ export default class RoleDataController {
 
     /**
      * This method returns all roles
-     * @returns {Promise<import("./types.js").RoleData[]>}
+     * @returns {modernuser.role.data.Role[]>}
      */
     async getAll() {
         return [...await this[collection_symbol].find({}).toArray()]
@@ -172,7 +172,7 @@ export default class RoleDataController {
     /**
      * This method fetches all the roles that have the given text in it's description or label
      * @param {string} filter 
-     * @returns {Promise<import("./types.js").RoleData[]>}
+     * @returns {Promise<modernuser.role.data.Role[]>}
      */
     async fetchRoles(filter = '') {
 
@@ -197,7 +197,7 @@ export default class RoleDataController {
     /**
      * This method get's info of a single role
      * @param {string} id 
-     * @returns {Promise<import("./types.js").RoleData>}
+     * @returns {Promise<modernuser.role.data.Role>}
      */
     async getRole(id) {
         return await this[collection_symbol].findOne({ id })
@@ -240,7 +240,7 @@ export default class RoleDataController {
 
     /**
      * Some operations done on a collection prior to use
-     * @param {import("./types.js").RoleDataCollection} collection
+     * @param {modernuser.role.data.RoleDataCollection} collection
      */
     static prepareCollection(collection) {
         collection.createIndex({ id: 1 }, { unique: true }).catch(e => {

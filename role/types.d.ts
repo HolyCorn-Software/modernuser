@@ -6,11 +6,10 @@
  */
 
  import { RolePlayCollection } from "./membership/types";
- import { RoleDataCollection } from "./data/types";
 import RoleContactController from "./contact/controller.mjs";
 
 export declare interface RoleCollections{
-    data: RoleDataCollection,
+    data: modernuser.role.data.RoleDataCollection
     roleplay: RolePlayCollection,
     contact: RoleContactController
 }

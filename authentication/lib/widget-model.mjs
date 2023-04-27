@@ -16,7 +16,7 @@ export default class ProviderLoginWidget extends Widget {
     constructor() {
         super(...arguments);
 
-        /** @type {import("../types.js").AuthPluginPublicData} */ this[pluginData]
+        /** @type {modernuser.authentication.AuthPluginPublicData} */ this[pluginData]
 
         /** @type {function(('complete'), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
     }

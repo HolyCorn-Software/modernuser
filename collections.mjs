@@ -14,15 +14,15 @@ import { CollectionProxy } from "../../system/database/collection-proxy.js";
  * @type {{
  * zonation_data: import("./zonation/data/types.js").ZoneDataCollection,
  * zonation_membership: import("./zonation/membership/types.js").ZoneMembershipCollection,
- * authentication_tokens: import("./authentication/types.js").UserAuthTokenCollection,
- * authentication_logins: import("./authentication/types.js").UserLoginCollection,
+ * authentication_tokens: modernuser.authentication.UserAuthTokenCollection,
+ * authentication_logins: modernuser.authentication.UserLoginCollection,
  * authentication_provider_credentials: Collection,
- * permission_data: import("./permission/data/types.js").PermissionsDataCollection,
+ * permission_data: modernuser.permission.PermissionsDataCollection,
  * permission_grants: modernuser.permission.PermissionGrantsCollection,
  * group_data: import("./group/data/types.js").GroupsCollection,
  * group_membership: import("./group/membership/types.js").GroupMembershipCollection,
  * profile: modernuser.profile.UserProfileCollection
- * role_data: import("./role/data/types.js").RoleDataCollection,
+ * role_data: modernuser.role.data.RoleDataCollection,
  * role_play: import("./role/membership/types.js").RolePlayCollection,
  * role_contact: import("./role/contact/types.js").RoleContactCollection,
  * onboarding_requests: import("./onboarding/types.js").OnboardingRequestsCollection

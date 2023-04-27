@@ -26,17 +26,17 @@ export default class UserAuthenticationController {
      * 
      * @param {object} param0 
      * @param {object} param0.collections
-     * @param {import("./types.js").UserAuthTokenCollection} param0.collections.token
-     * @param {import("./types.js").UserLoginCollection} param0.collections.login
+     * @param {modernuser.authentication.UserAuthTokenCollection} param0.collections.token
+     * @param {modernuser.authentication.UserAuthTokenCollection} param0.collections.login
      * @param {UserProfileController} param0.user_profile_controller
      */
     constructor({ collections, user_profile_controller }) {
 
 
-        /** @type {import("./types.js").UserAuthTokenCollection} */
+        /** @type {modernuser.authentication.UserAuthTokenCollection} */
         this[token_collection_symbol] = collections.token
 
-        /** @type {import("./types.js").UserLoginCollection} */
+        /** @type {modernuser.authentication.UserLoginCollection} */
         this[login_collection_symbol] = collections.login
 
         /** @type {UserProfileController} */
@@ -69,7 +69,7 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {object} param0.data
      * @param {string} param0.provider
-     * @returns {Promise<{token: string, expires: number, login_data: import("./types.js").UserLogin}>}
+     * @returns {Promise<{token: string, expires: number, login_data: modernuser.authentication.UserLogin}>}
      */
     async login({ data, provider }) {
 
@@ -212,7 +212,7 @@ export default class UserAuthenticationController {
      * This method gets information about all plugins on the system.
      * It gives only data we're not afraid to have in the wrong hands. (Harmless data)
      * 
-     * @returns {Promise<import("./types.js").AuthPluginPublicData[]>}
+     * @returns {Promise<modernuser.authentication.AuthPluginPublicData[]>}
      */
     async getPluginsPublicData() {
 
@@ -332,7 +332,7 @@ export default class UserAuthenticationController {
      * @param {string} param0.plugin
      * @param {object} param0.data 
      * @param {boolean} state
-     * @returns {Promise<import("./types.js").UserLogin>}
+     * @returns {Promise<modernuser.authentication.UserLogin>}
      */
     async setLoginEnabled({ plugin, data }, state) {
         let login = await this.searchLoginByDataDirect({ data, plugin })
@@ -414,14 +414,14 @@ export default class UserAuthenticationController {
      * @param {object} param0.data
      * @param {string} param0.plugin
      * @param {modernuser.authentication.AuthAction} param0.intent
-     * @returns {Promise<import("./types.js").UserLogin>}
+     * @returns {Promise<modernuser.authentication.UserLogin>}
      */
     async searchLoginByData({ data, plugin, intent }) {
         let pluginObject = this.findPlugin(plugin);
 
         let minimal_data = await pluginObject.toMinimalUniqueCredentials({ data, intent });
 
-        /** @type {import("./types.js").UserLogin} */
+        /** @type {modernuser.authentication.UserLogin} */
         let query = {
             plugin
         }
@@ -443,13 +443,13 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {object} param0.data
      * @param {string} param0.plugin
-     * @returns {Promise<import("./types.js").UserLogin>}
+     * @returns {Promise<modernuser.authentication.UserLogin>}
      */
     async searchLoginByDataDirect({ data, plugin }) {
 
         this.findPlugin(plugin); //Just so it can throw an error if the plugin is not found
 
-        /** @type {import("./types.js").UserLogin} */
+        /** @type {modernuser.authentication.UserLogin} */
         let query = {
             plugin
         }
@@ -538,7 +538,7 @@ export default class UserAuthenticationController {
 
     /**
      * This method is used internally to format a collection according to the needs of this module
-     * @param {import("./types.js").UserAuthTokenCollection} collection 
+     * @param {modernuser.authentication.UserAuthTokenCollection} collection 
      */
     static async prepareCollection(collection) {
         await collection.createIndex({ lastRefresh: 1 }, { expireAfterSeconds: this.token_expiry_seconds })

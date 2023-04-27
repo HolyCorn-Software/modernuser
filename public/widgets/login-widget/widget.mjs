@@ -51,6 +51,8 @@ export default class LoginWidget extends Widget {
                  * @param { import("/$/modernuser/static/authentication/lib/widget-model.mjs").default} widget 
                  */
                 set: (widget) => {
+
+                    console.log(`setting `, widget)
                     widget.addEventListener('complete', () => {
 
                         let action = widget.face || this.face;
