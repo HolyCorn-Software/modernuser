@@ -198,7 +198,7 @@ export default class RolePlayController {
 
         /**
          * Checks if a single role supervises the role in question
-         * @param {import("../data/types.js").RoleData} a_role 
+         * @param {modernuser.role.data.Role} a_role 
          * @returns {boolean}
          */
         const check = (a_role) => {

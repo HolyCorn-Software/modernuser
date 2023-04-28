@@ -9,6 +9,9 @@ import { handle } from "/$/system/static/errors/error.mjs";
 import PopupForm from "/$/system/static/html-hc/widgets/popup-form/form.mjs";
 
 
+/**
+ * @extends PopupForm<modernuser.role.data.RoleInitData>
+ */
 export default class NewRolePopup extends PopupForm {
 
 
@@ -25,6 +28,14 @@ export default class NewRolePopup extends PopupForm {
                     {
                         label: `Description`,
                         name: 'description'
+                    }
+                ],
+                [
+                    {
+                        label: 'Icon',
+                        name: 'icon',
+                        type: 'uniqueFileUpload',
+                        url: '/$/uniqueFileUpload/upload'
                     }
                 ]
             ],
@@ -53,11 +64,11 @@ export default class NewRolePopup extends PopupForm {
             })
         });
 
-        /** @type {function(('create'), function(CustomEvent<{id: string, label: string, description: string}>), AddEventListenerOptions)} */ this.addEventListener
+        /** @type {function(('create'), function(CustomEvent<modernuser.role.data.RoleInitData>), AddEventListenerOptions)} */ this.addEventListener
     }
 
     async do_creation() {
-        return await hcRpc.modernuser.role.data.create({ label: this.value.label, description: this.value.description })
+        return await hcRpc.modernuser.role.data.create({ ...this.value })
     }
 
 }

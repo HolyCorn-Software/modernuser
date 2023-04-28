@@ -24,8 +24,7 @@ export default class PermissionsListing extends Widget {
             tag: 'tr',
             innerHTML: `
                 <td class='checkbox'></td>
-                <td class='field subject_label'></td>
-                <!-- <td class='field zone_label'></td> -->
+                <td class='field subject_field'></td>
                 <td class='field subject_id'></td>
                 <td class='field permissions_labels'></td>
             `
@@ -33,13 +32,14 @@ export default class PermissionsListing extends Widget {
 
 
         /** @type {string} */ this.subject_id
-        /** @type {string} */ this.subject_label
+        /** @type {string} */ this.subject_field
         /** @type {string} */ this.permissions_labels
         /** @type {string} */ this.zone_label
 
-        for (let _property of ['subject_id', 'subject_label', 'zone_label', 'permissions_labels']) {
+        for (let _property of ['subject_id', 'subject_field', 'zone_label', 'permissions_labels']) {
             this.htmlProperty(`.field.${_property}`, _property, 'innerHTML')
         }
+
         /** @type {{label: string, id: string}} */ this.subject
         Reflect.defineProperty(this, 'subject', {
             /**
@@ -48,7 +48,12 @@ export default class PermissionsListing extends Widget {
              */
             set: (v) => {
                 this.__subject__ = v
-                this.subject_label = v.label;
+                this.subject_field = hc.spawn({
+                    innerHTML: `
+                        <div class='image' style="background-image:url('${v.icon||`/$/shared/static/logo.png`}');"></div>
+                        <div class='label'>${v.label}</div>
+                    `
+                }).outerHTML;
                 this.subject_id = v.id
             },
             get: () => {

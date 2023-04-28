@@ -11,7 +11,6 @@
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import RolesListings from "./widgets/listings/widget.mjs";
 import NewRolePopup from "./widgets/new.mjs";
-import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";

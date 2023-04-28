@@ -15,7 +15,7 @@ export default class AddUserPopup extends PopupForm {
     /**
      * 
      * @param {object} param0
-     * @param {import("faculty/modernuser/role/data/types.js").RoleData} param0.roledata 
+     * @param {modernuser.role.data.Role} param0.roledata 
      * @param {string} param0.zone
      */
     constructor({ roledata, zone }) {

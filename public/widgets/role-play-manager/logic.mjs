@@ -17,7 +17,7 @@ import * as zm_utils from '../zonation-manager/util.mjs'
 /**
  * This returns data that can be used by the widget
  * 
- * @param {import("faculty/modernuser/role/data/types.js").RoleData[]} role_data
+ * @param {modernuser.role.data.Role[]} role_data
  * @param {import("faculty/modernuser/role/membership/types.js").RolePlay[]} role_play
  * @param {RolePlayManager} widget
  * 
@@ -31,7 +31,7 @@ function draw_actions_for_all_roles(role_data0, role_play0, widget) {
      */
     const copy = (x) => JSON.parse(JSON.stringify(x))
 
-    /** @type {import("faculty/modernuser/role/data/types.js").RoleData[]} */
+    /** @type {modernuser.role.data.Role[]} */
     const role_data = copy(role_data0)
 
     /** @type {import("faculty/modernuser/role/membership/types.js").RolePlay[]} */
@@ -56,6 +56,7 @@ function draw_actions_for_all_roles(role_data0, role_play0, widget) {
         return {
             id: rd.id,
             label: rd.label,
+            icon: rd.icon,
             parent: ''
         }
     });
@@ -68,7 +69,7 @@ function draw_actions_for_all_roles(role_data0, role_play0, widget) {
 
 /**
  * This method gets the items that are immediately located underneath a role
- * @param {import("faculty/modernuser/role/data/types.js").RoleData} role_item 
+ * @param {modernuser.role.data.Role} role_item 
  * @param {RolePlayManager} widget
  * @returns {Promise<void>}
  */

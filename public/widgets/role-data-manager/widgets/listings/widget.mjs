@@ -56,6 +56,7 @@ export default class RolesListings extends Widget {
                  * @param {import("./types.js").FrontendRoleData} data 
                  */
                 set: (data) => {
+                    data.icon ||= '/$/shared/static/logo.png'
                     let widget = new RolesListing(data, this);
 
                     widget.checkbox.addEventListener('change', () => {

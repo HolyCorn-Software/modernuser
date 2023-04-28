@@ -73,7 +73,7 @@ export class PermissionGrantPopup extends PopupForm {
         this.ready().then(() => {
 
             this.is_role_switch?.addEventListener('change', () => {
-                this.subject_input.mode = this.is_role_switch.value ? 'roles' : 'users'
+                this.subject_input.mode = this.is_role_switch.value ? 'role' : 'user'
                 this.subject_input.label = this.is_role_switch.value ? `Role` : `User`
 
                 const user_fields = ['expiry_date', 'zone']
@@ -157,10 +157,10 @@ export class PermissionGrantPopup extends PopupForm {
         try {
 
 
-            
+
             await hcRpc.modernuser.permissions.grants.grantPermissions(this.value)
             this.positiveButton.state = 'success'
-            
+
             setTimeout(() => this.hide(), 900);
 
             this.dispatchEvent(new CustomEvent('create'))

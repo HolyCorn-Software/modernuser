@@ -12,7 +12,7 @@
 /**
  * This method checks for the occurence where a role is a parent to a role that is directly or indirectly it's parent
  * 
- * @param {import("faculty/modernuser/role/data/types.js").RoleData[]} all_roles
+ * @param {modernuser.role.data.Role[]} all_roles
  */
 function check_cyclic_role_inheritance(all_roles) {
     try {
@@ -30,7 +30,7 @@ function check_cyclic_role_inheritance(all_roles) {
 
 /**
  * This method checks for the occurence where a role supervises a role that somehow already supervises it
- * @param {import("faculty/modernuser/role/data/types.js").RoleData[]} all_roles
+ * @param {modernuser.role.data.Role[]} all_roles
  */
 function check_cyclic_role_supervision(all_roles) {
     try {
@@ -53,7 +53,7 @@ function check_cyclic_role_supervision(all_roles) {
 /**
  * This method checks for the occurence where a role is parent to a role that is it's parent or a parent to it's ancestor
  * 
- * @param {import("faculty/modernuser/role/data/types.js").RoleData[]} all_roles
+ * @param {modernuser.role.data.Role[]} all_roles
  * @param {string} relationship_property
  */
 function check_cyclic_relationship(all_roles, relationship_property) {

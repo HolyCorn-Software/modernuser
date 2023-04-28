@@ -6,7 +6,6 @@
  */
 
 import { AdminOnboardingData } from "faculty/modernuser/onboarding/types";
-import { RoleData } from "faculty/modernuser/role/data/types";
 import { RolePlay } from "faculty/modernuser/role/membership/types";
 import { ZoneData } from "faculty/modernuser/zonation/data/types";
 
@@ -14,8 +13,8 @@ import { ZoneData } from "faculty/modernuser/zonation/data/types";
 
 export type StateDataRaw = AdminOnboardingData & {
 
-    role_data: [RoleData],
-    zonation_data: [ZoneData],
+    role_data: modernuser.role.data.Role
+    zonation_data: ZoneData[]
 
 }
 

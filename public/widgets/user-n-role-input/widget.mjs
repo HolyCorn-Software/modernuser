@@ -51,7 +51,8 @@ export default class UserAndRoleInput extends SearchInput {
                             return {
                                 id: x.id,
                                 label: x.label,
-                                type: 'role'
+                                type: 'role',
+                                icon: x.icon,
                             }
                         })
                     ]
@@ -102,6 +103,7 @@ export default class UserAndRoleInput extends SearchInput {
      *  id: string,
      *  type: modernuser.permission.SubjectType,
      *  label: string
+     *  icon: string
      * }}
      */
     get value() {
