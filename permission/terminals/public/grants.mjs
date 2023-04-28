@@ -42,7 +42,7 @@ export default class PermissionGrantsPublicMethods {
         let promises = []
 
         for (let permission of permissions) {
-            if (typeof permission?.expires !== 'number' || typeof permission?.freedom !== 'object' || typeof permission?.name !== 'string' || typeof permission?.zone !== 'string') {
+            if (typeof permission?.freedom !== 'object' || typeof permission?.name !== 'string' || ((subject.type != 'role') && ((typeof permission.zone !== 'string') || (typeof permission?.expires !== 'number')))) {
                 throw new Exception(`Please check the information you entered. Make sure you have filled all the inputs.`)
             }
             await client_can_grant({ client: arguments[0], permission: permission.name, zone: permission.zone, controller: this[controller_symbol] })

@@ -49,13 +49,16 @@ global {
         declare interface Role {
             id: string
             label: string
+            icon: string
             description: string
             time: number
-            super_roles: [string]
-            supervised_roles: [string]
-            owners: [string]
+            super_roles: string[]
+            supervised_roles: string[]
+            owners: string[]
 
         }
+
+        type RoleInitData = Pick<Role, "label" | "icon" | "description">
 
         declare type RoleDataCollection = Collection<RoleData>
 

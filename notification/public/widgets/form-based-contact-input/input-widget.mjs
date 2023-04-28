@@ -16,7 +16,7 @@ export default class FormBasedContactInput extends Widget {
 
     /**
      * 
-     * @param {import("/$/system/static/html-hc/widgets/multi-flex-form/types.js").MultiFlexFormDefinitionData} structure 
+     * @param {htmlhc.widget.multiflexform.MultiFlexFormDefinitionData} structure 
      */
     constructor(structure) {
         super();

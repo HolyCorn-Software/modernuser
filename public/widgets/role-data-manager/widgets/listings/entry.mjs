@@ -29,7 +29,12 @@ export default class RolesListing extends Widget {
             innerHTML: `
                 <td class='checkbox'></td>
                 <td class='field id'></td>
-                <td class='field label'></td>
+                <td class='field'>
+                    <div class='content'>
+                        <div class='icon'></div>
+                        <div class='label'></div>
+                    </div>
+                </td>
                 <td class='field super_roles_labels is_label_list'></td>
                 <td class='field supervised_roles_labels is_label_list'></td>
                 <td class='field description'></td>
@@ -40,12 +45,23 @@ export default class RolesListing extends Widget {
         /** @type {string} */ this.id
         /** @type {string} */ this.super_roles_labels
         /** @type {string} */ this.supervised_roles_labels
-        /** @type {string} */ this.label
         /** @type {string} */ this.description
 
-        for (let _property of ['id', 'label', 'super_roles_labels', 'supervised_roles_labels', 'description']) {
+        for (let _property of ['id', 'super_roles_labels', 'supervised_roles_labels', 'description']) {
             this.htmlProperty(`.field.${_property}`, _property, 'innerHTML')
         }
+        /** @type {string} */ this.label
+        this.htmlProperty(`td.field >.content >.label`, 'label', 'innerHTML')
+
+
+        /** @type {string} */ this.icon
+        this.defineImageProperty(
+            {
+                selector: 'td.field >.content >.icon',
+                property: 'icon',
+                mode: 'background'
+            }
+        )
 
 
         /** @type {import("./types.js").SuperRoleData[]} */ this.super_roles
@@ -97,7 +113,7 @@ export default class RolesListing extends Widget {
             enumerable: true
         });
 
-        for (let field of ['id', 'label', 'super_roles', 'supervised_roles', 'description']) {
+        for (let field of ['id', 'icon', 'label', 'super_roles', 'supervised_roles', 'description']) {
             this.data.$0.addEventListener(`${field}-change`, (ev) => {
                 this[field] = this.data[field]
             })
@@ -107,7 +123,7 @@ export default class RolesListing extends Widget {
         for (let item of [{ name: 'label', label: 'Name' }, { name: 'description', label: 'Description' }]) {
 
 
-            this.html.$(`.field.${item.name}`).addEventListener('click', () => {
+            this.html.$(`.field${item.name === 'label' ? `>.content >.${item.name}` : `.${item.name}`}`).addEventListener('click', () => {
                 let popup = new RoleEditPopup({ fields: { [item.name]: item.label }, data: { id: this.data.id, [item.name]: this.data[item.name] } })
                 popup.show();
                 popup.addEventListener('update', () => {

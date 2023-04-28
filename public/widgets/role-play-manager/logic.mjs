@@ -56,6 +56,7 @@ function draw_actions_for_all_roles(role_data0, role_play0, widget) {
         return {
             id: rd.id,
             label: rd.label,
+            icon: rd.icon,
             parent: ''
         }
     });

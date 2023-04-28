@@ -9,16 +9,15 @@ import { PermissionGrant } from '../../../../../permission/grants/types.js'
 
 
 interface FrontendPermissionSubjectData {
-    label: string,
-    id: string,
+    label: string
+    id: string
     type: modernuser.permission.SubjectType
+    icon: string
 }
 
 export declare interface FrontendUserPermissions {
-    subject: FrontendPermissionSubjectData,
-    permissions: [
-        FrontendPermissionGrant
-    ]
+    subject: FrontendPermissionSubjectData
+    permissions: FrontendPermissionGrant[]
 }
 
 

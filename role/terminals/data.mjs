@@ -43,12 +43,10 @@ export default class RoleDataPublicMethods {
 
     /**
      * This method creates a new role
-     * @param {object} param0 
-     * @param {string} param0.label
-     * @param {string} param0.description
+     * @param {Omit<modernuser.role.data.Role, "id"|"super_roles"|"supervised_roles"|"time"|"owners">} data
      * @returns {Promise<string>}
      */
-    async create({ label, description }) {
+    async create(data) {
         const userid = (await muser_common.getUser(arguments[0])).id
         return await this[data_controller_symbol].createRole({ ...arguments[1], userid, owners: [userid] })
     }

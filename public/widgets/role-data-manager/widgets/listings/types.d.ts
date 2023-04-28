@@ -8,20 +8,16 @@
 
 
 
-export declare interface FrontendRoleData {
-    label: string,
-    id: string,
-    description: string,
+export declare interface FrontendRoleData extends modernuser.role.data.RoleInitData {
     super_roles: SuperRoleData[]
-
 }
 
 export declare interface SuperRoleData {
-    id: string,
+    id: string
     label: string
 }
 export declare interface SupervisedRoleData {
-    id: string,
+    id: string
     label: string
 }
 

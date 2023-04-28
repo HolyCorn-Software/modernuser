@@ -44,9 +44,10 @@ export default class RoleDataController {
      * @param {string} param0.description The description of the role
      * @param {string[]} param0.owners
      * @param {string} param0.userid
+     * @param {string} param0.icon
      * @returns {Promise<string>} Returns the id of the role
      */
-    async createRole({ label, description, owners, userid }) {
+    async createRole({ label, description, icon, owners, userid }) {
 
         if (userid) {
 
@@ -65,7 +66,8 @@ export default class RoleDataController {
         soulUtils.checkArgs(arguments[0], { label: 'string', description: 'string' }, 'input')
 
         await this[collection_symbol].insertOne({
-            id: id,
+            id,
+            icon,
             label,
             description,
             owners: [...owners],

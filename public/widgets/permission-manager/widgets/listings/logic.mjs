@@ -37,14 +37,22 @@ async function fetch_items() {
      * This method returns the label of subject, whether a subject is a user or a role
      * @param {string} subject 
      * @param {modernuser.permission.SubjectType} subject_type 
-     * @returns {Promise<string>}
+     * @returns {Promise<{label: string, icon: string}>}
      */
-    const get_subject_label = async (subject, subject_type) => {
+    const get_subject_label_n_icon = async (subject, subject_type) => {
         if (subject_type === 'role') {
-            return roles.find(x => x.id === subject).label
+            const role = roles.find(x => x.id === subject)
+            return {
+                label: role.label,
+                icon: role.icon
+            }
         }
         try {
-            return await hcRpc.modernuser.profile.getLabel(subject)
+            const profile = await hcRpc.modernuser.profile.getProfile(subject)
+            return {
+                label: profile.label,
+                icon: profile.icon
+            }
         } catch (e) {
             handle(e)
             return `Error`
@@ -64,7 +72,7 @@ async function fetch_items() {
             subject: {
                 id: grant.subject,
                 type: grant.subject_type,
-                label: await get_subject_label(grant.subject, grant.subject_type)
+                ...await get_subject_label_n_icon(grant.subject, grant.subject_type)
             },
             permissions: []
         }
