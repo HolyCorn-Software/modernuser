@@ -9,7 +9,7 @@ import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import ChooseAccountContent from "./content.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs";
-import HCTSBrandedPopup  from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
+import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
 
 
 
@@ -32,25 +32,7 @@ export default class ChooseAccount extends HCTSBrandedPopup {
         this.content = content_widget.html
 
         content_widget.addEventListener('complete', () => {
-
-            /** @type {ActionButton} */
-            const continue_button = content_widget.actions[0].widgetObject
-
-            continue_button.state = 'waiting'
-            
-            hcRpc.modernuser.authentication.advancedLogin({
-                ...login_data.login,
-                userid: content_widget.selected_account
-            }).then(() => {
-                continue_button.state = 'success'
-                setTimeout(()=>{
-                    this.dispatchEvent(new CustomEvent('complete'))
-                }, 1000);
-            }).catch(e => {
-                handle(e)
-                continue_button.state = 'initial'
-            })
-            
+            this.dispatchEvent(new CustomEvent('complete'))
         });
 
         content_widget.accounts = login_data.profiles.map(profile => {
@@ -63,6 +45,13 @@ export default class ChooseAccount extends HCTSBrandedPopup {
             }
         })
 
+    }
+
+    /**
+     * The account that was finally selected
+     */
+    get value() {
+        return this.content.widgetObject.selected_account
     }
 
 

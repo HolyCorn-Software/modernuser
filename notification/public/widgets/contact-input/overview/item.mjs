@@ -35,8 +35,8 @@ export default class ContactInputOverviewItem extends Widget {
         /** @type {string} */ this.provider
 
         Reflect.defineProperty(this, 'provider', {
-            set: () => {
-                this.image = `/$/modernuser/notification/providers/${provider}/public/icon.png`
+            set: (value) => {
+                this.image = `/$/modernuser/$plugins/${value}/@public/icon.png`
             },
             get: () => {
                 return /providers\/(.+)\/public\/icon.png$/.exec(this.image)[1]
@@ -48,18 +48,18 @@ export default class ContactInputOverviewItem extends Widget {
         /** @type {boolean} */ this.highlighted
         this.htmlProperty(undefined, 'highlighted', 'class', undefined, 'highlighted')
 
-        if(provider){
+        if (provider) {
             this.provider = provider
         }
-        
+
         /** @type {function(('highlight'), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
-        this.html.addEventListener('click', (event)=>{
-            if(event.target === this.html.$('.top') || event.target?.parentElement === this.html.$('.top')){
+        this.html.addEventListener('click', (event) => {
+            if (event.target === this.html.$('.top') || event.target?.parentElement === this.html.$('.top')) {
                 return;
             }
             this.dispatchEvent(new CustomEvent('highlight'))
         })
-        
+
     }
 
 }

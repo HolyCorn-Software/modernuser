@@ -36,7 +36,7 @@ export default class ProviderLoginWidget extends Widget {
      * 
      * @param {object} param0
      * @param {modernuser.authentication.AuthAction} param0.action
-     * @param {object} param0.data
+     * @param {modernuser.authentication.frontend.LoginStatus} param0.data
      */
     async onSystemAction({ action, data }) {
 

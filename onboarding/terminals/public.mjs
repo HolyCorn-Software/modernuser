@@ -25,7 +25,7 @@ export default class OnboardingPublicMethods {
     /**
      * This method is used to onboard new users unto the platform.
      * The onboarding set's the client's profile name, picture, as well as notification settings
-     * @param {import("faculty/modernuser/onboarding/types.js").OnboardingInputData} data 
+     * @param {modernuser.onboarding.OnboardingInputData} data 
      * @returns {Promise<void>}
      */
     async onboard(data) {
@@ -35,7 +35,7 @@ export default class OnboardingPublicMethods {
     /**
      * This method is used to get a single onboarding request
      * @param {string} param0.id 
-     * @returns {Promise<import("faculty/modernuser/onboarding/types.js").AdminOnboardingData>}
+     * @returns {Promise<modernuser.onboarding.AdminOnboardingData>}
      */
     async getRequest({ id }) {
         id = arguments[1]?.id

@@ -4,9 +4,7 @@
  * This widget represents a single clickable item on the contact-input widget
  */
 
-import { handle } from "/$/system/static/errors/error.mjs";
 import { Checkbox } from "/$/system/static/html-hc/widgets/checkbox/checkbox.mjs";
-import Spinner from "/$/system/static/html-hc/widgets/infinite-spinner/widget.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
@@ -121,26 +119,13 @@ export default class ContactInputItem extends Widget {
         let placeholder = hc.spawn({
             classes: ['hc-cayofedpeople-notification-contact-input-item-placeholder']
         })
-        const spinner = new Spinner()
-        spinner.start()
-        spinner.attach(placeholder);
-        this.loadBlock()
+        // await this.loadBlock()
 
         this.contentHTML = placeholder
 
-        try {
-            let widget = new (await import(this.path)).default
-            this.contentHTML.replaceWith(widget.html)
-            this.contentHTML = widget.html
-            widget.addEventListener('change', () => {
-                this.dispatchEvent(new CustomEvent('change'))
-            })
-        } catch (e) {
-            handle(e)
-        }
 
         placeholder.remove()
-        this.loadUnblock()
+        // await this.loadUnblock()
     }
 
 }

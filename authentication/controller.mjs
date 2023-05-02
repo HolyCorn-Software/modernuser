@@ -112,7 +112,7 @@ export default class UserAuthenticationController {
      * @param {object} param0 
      * @param {object} param0.data
      * @param {string} param0.provider
-     * @returns {Promise<{profile:modernuser.profile.UserProfileData, active:boolean}[]>}
+     * @returns {Promise<modernuser.authentication.LoginProfileInfo[]>}
      */
     async getProfiles({ data, provider }) {
 

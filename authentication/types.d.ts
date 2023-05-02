@@ -54,30 +54,35 @@ global {
 
         }
         interface UserAuthToken {
-            userid: string,
-            token: string,
+            userid: string
+            token: string
             lastRefresh: number
         }
         type UserAuthTokenCollection = Collection<UserAuthToken>
 
         declare interface PublicTokenData {
-            token: string,
+            token: string
             expires: number
         }
 
         interface UserLogin {
-            id: string,
-            userid: string,
-            plugin: string,
-            data: object,
-            active: boolean,
+            id: string
+            userid: string
+            plugin: string
+            data: object
+            active: boolean
             creationTime: number
         }
         type UserLoginCollection = Collection<UserLogin>
 
         interface AuthPluginPublicData {
-            name: string,
+            name: string
             credentials: object
+        }
+
+        interface LoginProfileInfo {
+            profile: modernuser.profile.UserProfileData
+            active: boolean
         }
 
 

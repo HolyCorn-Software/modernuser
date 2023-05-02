@@ -1,7 +1,9 @@
 .
 
-Added icons to roles
+Improved typing
 
-Corrected minor bug related to granting permissions
+Improved frontend error handling during user authentication 
 
-Generally improved typing
+Made provision for better handling of situations where the user is trying to sign in via an inactive logins, by providing minimal information on the login, to frontend components
+
+Corrected minor bugs with the contact-input widget

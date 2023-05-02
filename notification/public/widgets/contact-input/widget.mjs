@@ -125,6 +125,8 @@ export default class ContactInput extends Widget {
                             update_timeout = setTimeout(() => update_data(), 500)
                         })
 
+                        console.log(`While setting... widget.path is `, widget.path)
+
 
                         return widget.html
                     },
@@ -210,39 +212,38 @@ export default class ContactInput extends Widget {
 
 
     async populateUI() {
-        this.loadBlock();
 
-        try {
+        this.loadWhilePromise(
+            (
+                async () => {
 
-            //Fetch all providers
-            let providers = await hcRpc.modernuser.notification.getProviders()
-            this.providers = providers.map(x => {
-                return {
-                    provider: x.name,
-                    icon: `/$/${x.faculty}/$plugins/${x.name}/@public/icon.png`,
-                    form: x.form,
-                    label: x.label
+                    //Fetch all providers
+                    let providers = await hcRpc.modernuser.notification.getProviders()
+                    this.providers = providers.map(x => {
+                        return {
+                            provider: x.name,
+                            icon: `/$/${x.faculty}/$plugins/${x.name}/@public/icon.png`,
+                            form: x.form,
+                            label: x.label
+                        }
+                    });
+
+                    await Promise.race( //For any of the providers that load first...
+                        this.providerWidgets.map(x => x.ready())
+                    )
+
+                    //Create a new contact if necessary (This is for reasons of user experience. Instead of allowing the user to discover the create button)
+                    //Because, he might never find it
+                    setTimeout(async () => {
+
+                        if (this.statedata.contacts.length === 0) {
+                            this.create_new_contact()
+                        }
+                    }, 500)
                 }
-            });
+            )()
+        ).catch(e => handle(e))
 
-            await Promise.race( //For any of the providers that load first...
-                this.providerWidgets.map(x => x.ready())
-            )
-
-            //Create a new contact if necessary (This is for reasons of user experience. Instead of allowing the user to discover the create button)
-            //Because, he might never find it
-            setTimeout(async () => {
-
-                if (this.statedata.contacts.length === 0) {
-                    this.create_new_contact()
-                }
-            }, 500)
-
-        } catch (e) {
-            handle(e)
-        }
-
-        this.loadUnblock()
     }
 
 

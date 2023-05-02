@@ -27,7 +27,6 @@ async function fetchLoginWidgets() {
         } catch (e) {
             console.warn(`Failed to load provider ${plugin.name}\n`, e);
             hcRpc.system.error.report(e.toString());
-            window.eee = e;
         }
     });
 
@@ -41,9 +40,10 @@ async function fetchLoginWidgets() {
  * @param {modernuser.authentication.AuthAction|'account_share'} param0.action
  * @param {string} param0.provider
  * @param {object} param0.data
- * @returns {Promise<object>}
+ * @returns {Promise<modernuser.authentication.frontend.LoginStatus>}
  */
 async function executeAction({ action, provider, data }) {
+
 
 
     switch (action) {
@@ -51,13 +51,33 @@ async function executeAction({ action, provider, data }) {
 
 
             const profiles = await hcRpc.modernuser.authentication.getProfiles(provider, data)
+
+
+            // Now, if the login is not active, we just return false, so that the
+            // provider knows that the login requires activation
+            if (!profiles[0].active) {
+                return {
+                    active: false
+                }
+            }
+
+            /**
+             * This method is used to finally log in
+             * @param {string} profile 
+             * @returns {Promise<void>}
+             */
+            async function doLogin(profile) {
+                await hcRpc.modernuser.authentication.advancedLogin({ provider, data, userid: profile })
+            }
+
+
             if (profiles.length > 1) {
                 const popup = new ChooseAccount({
                     login: {
                         plugin: provider,
                         data
                     },
-                    profiles
+                    profiles: profiles
                 })
                 popup.show()
 
@@ -67,30 +87,44 @@ async function executeAction({ action, provider, data }) {
                     popup.addEventListener('hide', () => {
                         reject(new Error(`You failed to choose an account`))
                     })
-                    popup.addEventListener('complete', () => {
-                        resolve()
+                    popup.addEventListener('complete', async () => {
+                        try {
+                            resolve(await doLogin(popup.value))
+                        } catch (e) {
+                            reject(e)
+                        }
                         popup.hide()
                     })
                 })
             } else {
-                await hcRpc.modernuser.authentication.advancedLogin({ provider, data, userid: profiles[0].profile.id })
+                // Now, the user could be signing up to an inactive login
+                await doLogin(profiles[0].profile.id)
             }
-            break;
+            return {
+                active: true
+            }
+
         }
         case 'signup': {
             await hcRpc.modernuser.signup(provider, data)
-            break;
+            return {
+                active: false
+            }
         }
 
         case 'reset': {
             await hcRpc.modernuser.authentication.initiate_reset(provider, data)
-            break;
+            return {
+                active: true
+            }
         }
 
         case 'account_share': {
             await hcRpc.modernuser.addTenant(provider, data)
             window.location = '/$/modernuser/onboarding/static/request/'
-            break;
+            return {
+                active: true
+            }
 
         }
 

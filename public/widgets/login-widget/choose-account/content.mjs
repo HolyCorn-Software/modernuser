@@ -12,6 +12,9 @@ import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 
+/**
+ * @extends Widget<ChooseAccountContent>
+ */
 export default class ChooseAccountContent extends Widget {
 
     constructor() {
@@ -19,7 +22,7 @@ export default class ChooseAccountContent extends Widget {
         super()
 
 
-        this.html = hc.spawn({
+        super.html = hc.spawn({
             classes: ['hc-cayofedpeople-choose-account-content'],
             innerHTML: `
                 <div class='container'>

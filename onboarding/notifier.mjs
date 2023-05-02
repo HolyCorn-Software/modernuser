@@ -18,7 +18,7 @@ export default class OnboardingNotifier {
     /**
      * 
      * @param {object} param0
-     * @param {import("./types.js").OnboardingRequestsCollection} param0.collection 
+     * @param {modernuser.onboarding.OnboardingRequestsCollection} param0.collection 
      * @param {RoleContactController} param0.rolecontact_controller
      * @param {RoleDataController} param0.roledata_controller
      */

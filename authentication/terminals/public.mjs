@@ -57,7 +57,6 @@ export default class UserAuthenticationPublicMethods {
      * This method gets all the profiles attached to the given login
      * @param {string} provider 
      * @param {object} data 
-     * @returns {Promise<({profile:modernuser.profile.UserProfileData, active: boolean})[]>}
      */
     async getProfiles(provider, data) {
 

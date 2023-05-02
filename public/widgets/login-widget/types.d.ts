@@ -12,7 +12,7 @@ import { Widget } from '/$/system/static/html-hc/lib/widget/index.mjs'
 
 export type ProvidedWidget = Widget & {
     [provider: symbol]: {
-        name: string,
+        name: string
         credentials: object
     },
     values: object
@@ -22,4 +22,12 @@ export type ProvidedWidget = Widget & {
 interface LoginWidgetCustomizations {
     help: boolean
     navigation: boolean
+}
+
+global {
+    namespace modernuser.authentication.frontend {
+        interface LoginStatus {
+            active: boolean
+        }
+    }
 }

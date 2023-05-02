@@ -119,11 +119,11 @@ export default class CAYOFEDOnboarding extends Widget {
 
         this.navigation.value = 0
 
-        /** @type {import("faculty/modernuser/onboarding/types.js").OnboardingInputData} */ this.value
+        /** @type {modernuser.onboarding.OnboardingInputData} */ this.value
         Reflect.defineProperty(this, 'value', {
             /**
              * 
-             * @returns {import("faculty/modernuser/onboarding/types.js").OnboardingInputData}
+             * @returns {modernuser.onboarding.OnboardingInputData}
              */
             get: () => {
                 return {

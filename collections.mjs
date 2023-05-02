@@ -25,7 +25,7 @@ import { CollectionProxy } from "../../system/database/collection-proxy.js";
  * role_data: modernuser.role.data.RoleDataCollection,
  * role_play: import("./role/membership/types.js").RolePlayCollection,
  * role_contact: import("./role/contact/types.js").RoleContactCollection,
- * onboarding_requests: import("./onboarding/types.js").OnboardingRequestsCollection
+ * onboarding_requests: modernuser.onboarding.OnboardingRequestsCollection
  * notification_templates: modernuser.notification.TemplatesCollection,
  * notification_contacts: modernuser.notification.UserContactsCollection
  * }}

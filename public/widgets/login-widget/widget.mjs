@@ -11,7 +11,7 @@ import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import logic from "./logic.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import LoginWidgetNavigations from "./navigations.mjs";
-import { pluginData } from "/$/modernuser/static/authentication/lib/widget-model.mjs";
+import ProviderLoginWidget, { pluginData } from "/$/modernuser/static/authentication/lib/widget-model.mjs";
 
 
 export default class LoginWidget extends Widget {
@@ -52,7 +52,6 @@ export default class LoginWidget extends Widget {
                  */
                 set: (widget) => {
 
-                    console.log(`setting `, widget)
                     widget.addEventListener('complete', () => {
 
                         let action = widget.face || this.face;
@@ -61,10 +60,7 @@ export default class LoginWidget extends Widget {
                             try {
                                 const data = await logic.executeAction({ action, provider: widget[pluginData].name, data: widget.values });
 
-                                await widget.onSystemAction({ action: action, data: data })
-                                if (action === 'login') {
-                                    window.location = new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'
-                                }
+                                await this.onAction(widget, action, data);
                             } catch (e) {
                                 handle(e)
                             }
@@ -148,6 +144,28 @@ export default class LoginWidget extends Widget {
             }).catch(e => handle(e))
         })
 
+    }
+
+    /**
+     * This method is executed when action has been performed, such as successful login
+     * @param {ProviderLoginWidget} widget 
+     * @param {modernuser.authentication.AuthAction} action 
+     * @param {modernuser.authentication.frontend.LoginStatus} data 
+     * @returns {Promise<void>}
+     */
+    async onAction(widget, action, data) {
+        await widget.onSystemAction({ action, data });
+        if (action === 'login') {
+            if (data.active) {
+                await this.continue()
+            } //else, the login was not active
+        }
+    }
+    /**
+     * This method is used internally, when login is complete, and it is time to leave the page
+     */
+    async continue() {
+        window.location = new URLSearchParams(window.location.search).get('continue') || document.referrer || '/';
     }
 
     static get classList() {

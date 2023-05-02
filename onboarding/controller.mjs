@@ -26,7 +26,7 @@ export default class OnboardingController {
     /**
      * 
      * @param {object} param0
-     * @param {import("./types.js").OnboardingRequestsCollection} param0.collection 
+     * @param {modernuser.onboarding.OnboardingRequestsCollection} param0.collection 
      * @param {UserProfileController} param0.profile_controller
      * @param {NotificationController} param0.notification_controller
      * @param {RoleContactController} param0.role_contact_controller
@@ -49,7 +49,7 @@ export default class OnboardingController {
      * This method is used to perform some initializations with the consent of the client.
      * For example setting account names, picture and notification data
      * @param {object} param0
-     * @param {import("./types.js").OnboardingInputData} param0.data 
+     * @param {modernuser.onboarding.OnboardingInputData} param0.data 
      * @param {string} param0.userid
      * @returns {Promise<void>}
      */
@@ -122,7 +122,7 @@ export default class OnboardingController {
      * @param {object} param0 
      * @param {string} param0.id
      * @param {string} param0.userid
-     * @returns {Promise<import("./types.js").AdminOnboardingData>}
+     * @returns {Promise<modernuser.onboarding.AdminOnboardingData>}
      */
     async getSimplifiedRequest({ id, userid } = {}) {
 
