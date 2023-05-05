@@ -45,7 +45,7 @@ export default class Progress extends Widget {
         }
         this.points.push(point);
         this.html.$('.container .points').appendChild(point.html);
-        point.html.$('.data').on('click', () => {
+        point.html.$('.data').addEventListener('click', () => {
             this.value = this.points.indexOf(point);
 
         })
@@ -173,7 +173,7 @@ export class Point extends Widget {
 
     constructor({ value }) {
         super();
-        this.html = document.spawn({
+        this.html = hc.spawn({
             class: 'hc-multiform-progress-point',
             innerHTML: `
                 <div class='container'>
