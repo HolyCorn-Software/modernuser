@@ -133,7 +133,8 @@ export default async function init() {
             data: permission_data_controller,
             grants: permission_grants_controller
         },
-        role: role_controller
+        role: role_controller,
+        notification: notification_controller
     })
     faculty.remote.internal = internal_methods
 

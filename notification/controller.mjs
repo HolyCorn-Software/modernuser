@@ -10,7 +10,8 @@ import muser_common from "muser_common";
 import shortUUID from "short-uuid";
 import { ULTIMATE_PERMISSION } from "../permission/data/controller.mjs";
 import modernuserPlugins from "../plugins.mjs";
-import NotificationPlugin from "./plugin/model.mjs"; //Just Import this, so that the NotificationPlugin will be globally accessible
+import "./plugin/model.mjs"; //Just Import this, so that the NotificationPlugin will be globally accessible
+import ModernuserEventsServer from "./events.mjs";
 
 
 const collections = Symbol()
@@ -31,6 +32,7 @@ export default class NotificationController {
 
         this[collections] = args.collections
         NotificationController[instance] = this
+        this.events = new ModernuserEventsServer()
 
         setTimeout(() => this.test().catch(e => console.log(e)), 2000)
     }

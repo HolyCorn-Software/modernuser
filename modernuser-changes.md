@@ -1,3 +1,3 @@
 .
 
-Updated code to stop use of deprecated methods
+Added direct notification features, which other faculties can take advantage of

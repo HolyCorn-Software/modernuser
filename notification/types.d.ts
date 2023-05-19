@@ -98,3 +98,6 @@ global {
     }
 
 }
+
+
+export class EventServer extends JSONRPC.EventChannel.Server<undefined>{ }

@@ -19,6 +19,7 @@ export default class NotificationPublicMethods {
     constructor(controller) {
 
         this[controller_symbol] = controller
+        this.events = controller.events.public
 
     }
     async getProviders() {

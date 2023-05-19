@@ -20,6 +20,8 @@ import PermissionDataController from "../permission/data/controller.mjs";
 import PermissionGrantsController from "../permission/grants/controller.mjs";
 import UserRoleInternalMethods from "../role/terminals/internal.mjs";
 import RoleController from "../role/controller.mjs";
+import NotificationInternalMethods from "../notification/terminals/internal.mjs";
+import NotificationController from "../notification/controller.mjs";
 
 
 export default class UserInternalMethods extends FacultyFacultyRemoteMethods {
@@ -39,8 +41,9 @@ export default class UserInternalMethods extends FacultyFacultyRemoteMethods {
      * @param {PermissionDataController} param0.permissions.data
      * @param {PermissionGrantsController} param0.permissions.grants
      * @param {RoleController} param0.role
+     * @param {NotificationController} param0.notification
      */
-    constructor({ authentication, zonation, groups, profile, permissions, role }) {
+    constructor({ authentication, zonation, groups, profile, permissions, role, notification }) {
         super();
 
         this.authentication = new UserAuthenticationInternalMethods(authentication)
@@ -55,6 +58,8 @@ export default class UserInternalMethods extends FacultyFacultyRemoteMethods {
 
         this.roles = new UserRoleInternalMethods(role)
 
+        this.notification = new NotificationInternalMethods(notification)
+
     }
-    
+
 }
