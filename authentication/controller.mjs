@@ -240,8 +240,9 @@ export default class UserAuthenticationController {
         //First things first, does the plugin exist ?
         let pluginObject = await this.findPlugin(plugin)
 
+        const existing = await this.searchLoginByData({ plugin, intent: 'signup', data });
         //Then, we check for duplicates
-        if (await this.searchLoginByData({ plugin, intent: 'signup', data })) {
+        if (existing?.active) {
             throw new Exception(`Sorry, there's already an account with those credentials. If you forgot your password, consider resetting it instead.`)
         }
 
@@ -261,6 +262,10 @@ export default class UserAuthenticationController {
             throw new Exception(`Your input is invalid. We could not create a login for you. Check that you've entered the details correctly!`, {
                 code: 'error.inputValidation'
             })
+        }
+
+        if (existing) {
+            await this[login_collection_symbol].deleteOne({ id: existing.id })
         }
 
         await this[login_collection_symbol].insertOne({
