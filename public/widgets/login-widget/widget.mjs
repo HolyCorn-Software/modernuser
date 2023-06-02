@@ -167,7 +167,7 @@ export default class LoginWidget extends Widget {
     async continue() {
         let nextPage = new URLSearchParams(window.location.search).get('continue')
         const thisPage = new URL(window.location.href).pathname;
-        if (!nextPage || (nextPage && nextPage === thisPage || new URL(nextPage).pathname == thisPage)) {
+        if (!nextPage || (nextPage && nextPage === thisPage || new URL(nextPage, window.location.href).pathname == thisPage)) {
             nextPage = '/'
         }
         window.location = nextPage
