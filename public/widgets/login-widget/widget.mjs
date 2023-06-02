@@ -165,7 +165,12 @@ export default class LoginWidget extends Widget {
      * This method is used internally, when login is complete, and it is time to leave the page
      */
     async continue() {
-        window.location = new URLSearchParams(window.location.search).get('continue') || document.referrer || '/';
+        let nextPage = new URLSearchParams(window.location.search).get('continue')
+        const thisPage = new URL(window.location.href).pathname;
+        if (!nextPage || (nextPage && nextPage === thisPage || new URL(nextPage).pathname == thisPage)) {
+            nextPage = '/'
+        }
+        window.location = nextPage
     }
 
     static get classList() {
