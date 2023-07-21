@@ -82,7 +82,7 @@ async function draw_people_actions(role_item, widget) {
             id: path_id,
             label: zone.label,
             parent: zone.superzone === '' ? role_item.id : `${role_item.id}$${zone.superzone}`,
-            icon: new URL('../zonation-manager/res/zone.png', import.meta.url).href
+            icon: `/$/modernuser/zonation/static/widgets/zonation-manager/res/zone.png`
         });
 
 

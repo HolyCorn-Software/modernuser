@@ -54,7 +54,7 @@ export class PermissionGrantPopup extends PopupForm {
                         label: 'Zone',
                         name: 'zone',
                         type: 'customWidget',
-                        customWidgetUrl: '/$/modernuser/static/widgets/zone-input/widget.mjs'
+                        customWidgetUrl: '/$/modernuser/zonation/static/widgets/zone-input/widget.mjs'
                     }
                 ]
             ],

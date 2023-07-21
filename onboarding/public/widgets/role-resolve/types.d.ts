@@ -6,7 +6,6 @@
  */
 
 import { AdminOnboardingData } from "faculty/modernuser/onboarding/types";
-import { RolePlay } from "faculty/modernuser/role/membership/types";
 import { ZoneData } from "faculty/modernuser/zonation/data/types";
 
 

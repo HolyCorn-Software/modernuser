@@ -228,7 +228,7 @@ export default class RoleContactController {
      * @param {string} param0.zone
      * @param {string} param0.specific_user If specified, only the user's info will be fetched
      * @param {string} param0.userid If specified, checks will be made to see if the user is able to manage role contact persons
-     * @returns {Promise<import("./types.js").RolePlay[]>}
+     * @returns {Promise<modernuser.role.roleplay.RolePlay[]>}
      */
     async getUsers({ role, zone, specific_user, userid }) {
 

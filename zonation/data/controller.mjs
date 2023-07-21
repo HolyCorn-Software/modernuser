@@ -64,11 +64,12 @@ export default class ZonationDataController {
     }
 
     /**
+     * @deprecated use getChildZones() instead
      * This method returns all the zone under a given zone
      * @param {string} id 
      * @returns {Promise<import("./types.js").ZoneData[]>}
      */
-    async getChildZones(id) {
+    async _getChildZones(id) {
         const zones = await this.getAllZones()
 
         return zones.filter(zone => {
@@ -76,6 +77,28 @@ export default class ZonationDataController {
                 return false
             }
             return this.isChildOf0(zone.id, id, zones)
+        })
+    }
+
+    /**
+     * This method returns all sub-zones for a given set of zones
+     * @param {string[]} ids 
+     * @returns {Promise<import("./types.js").ZoneData[]>}
+     */
+    async getChildZones(ids) {
+
+        if (!Array.isArray(ids)) {
+            throw new Error(`ids is supposed to be an array of strings`)
+        }
+        
+        const zones = await this.getAllZones()
+
+
+        return zones.filter(zone => {
+            if (ids.findIndex(x => x == zone.id) !== -1) {
+                return false
+            }
+            return ids.findIndex(z => this.isChildOf0(zone.id, z, zones)) !== -1
         })
     }
 

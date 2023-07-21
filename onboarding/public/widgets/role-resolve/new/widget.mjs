@@ -37,7 +37,7 @@ export default class NewRole extends PopupForm {
                 {
                     label: 'Zone',
                     name: 'zone',
-                    customWidgetUrl: "/$/modernuser/static/widgets/zone-input/widget.mjs",
+                    customWidgetUrl: "/$/modernuser/zonation/static/widgets/zone-input/widget.mjs",
                     type: 'customWidget'
                 }
             ]

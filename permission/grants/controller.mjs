@@ -59,7 +59,7 @@ export default class PermissionGrantsController {
      * This method is expected to be implemented externally.
      * It returns all the roles played by a user
      * @param {string} userid 
-     * @returns {Promise<import("faculty/modernuser/role/membership/types.js").RolePlay[]>}
+     * @returns {Promise<modernuser.role.roleplay.RolePlay[]>}
      */
     async getUserRoles(userid) {
         throw new Error(`The getUserRoles() method was not implemented. This method is probably supposed to come from the RolePlayController`)

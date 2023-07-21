@@ -18,7 +18,7 @@ export default class CreatePopup extends PopupForm {
     constructor(data) {
         super({
             caption: `Choose a label`,
-            title: `Creating a new zone ${data.superzone_label ? `under ${data.superzone_label}` : ''}`,
+            title: `Creating a new place ${data.superzone_label ? `under ${data.superzone_label}` : ''}`,
             positive: 'Create',
             negative: 'Cancel'
         });

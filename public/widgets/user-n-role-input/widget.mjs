@@ -23,9 +23,10 @@ export default class UserAndRoleInput extends SearchInput {
      * @param {string} param0.name
      * @param {string} param0.label
      * @param {modernuser.permission.SubjectType|'dual'} param0.mode
+     * @param {boolean} param0.is_multi_select
      */
-    constructor({ name, label, mode } = {}) {
-        super({ name, label });
+    constructor({ name, label, mode, is_multi_select } = {}) {
+        super({ name, label, is_multi_select });
 
         this.html.classList.add('hc-cayofedpeople-user-n-role-input')
 

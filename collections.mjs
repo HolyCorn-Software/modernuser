@@ -23,11 +23,12 @@ import { CollectionProxy } from "../../system/database/collection-proxy.js";
  * group_membership: import("./group/membership/types.js").GroupMembershipCollection,
  * profile: modernuser.profile.UserProfileCollection
  * role_data: modernuser.role.data.RoleDataCollection,
- * role_play: import("./role/membership/types.js").RolePlayCollection,
+ * role_play: modernuser.role.roleplay.RolePlayCollection,
  * role_contact: import("./role/contact/types.js").RoleContactCollection,
  * onboarding_requests: modernuser.onboarding.OnboardingRequestsCollection
  * notification_templates: modernuser.notification.TemplatesCollection,
- * notification_contacts: modernuser.notification.UserContactsCollection
+ * notification_contacts: modernuser.notification.UserContactsCollection,
+ * rolegroups: modernuser.rolegroup.RoleGroupCollection
  * }}
  */
 let collections = new CollectionProxy({
@@ -47,6 +48,7 @@ let collections = new CollectionProxy({
     'onboarding_requests': 'onboarding.requests',
     'notification_templates': 'notification.templates',
     'notification_contacts': 'notification.contacts',
+    'rolegroups': 'rolegroup.rolegroups'
 })
 
 export default collections

@@ -4,8 +4,8 @@
  * This widget allows, multiple roles played, to be entered
  */
 
+import ZoneInput from "/$/modernuser/zonation/static/widgets/zone-input/widget.mjs";
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
-import ZoneInput from "/$/modernuser/static/widgets/zone-input/widget.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import LabelList from "/$/system/static/html-hc/widgets/label-list/widget.mjs";
 
@@ -101,7 +101,7 @@ export default class MultiRolePlayInput extends LabelList {
     }
 
     /**
-     * @returns {[Omit<import("faculty/modernuser/role/membership/types.js").RolePlay, "userid">]}
+     * @returns {Omit<modernuser.role.roleplay.RolePlay, "userid">[]}
      */
     get value() {
 
@@ -115,7 +115,7 @@ export default class MultiRolePlayInput extends LabelList {
     }
 
     /**
-     * @param {Omit<import("faculty/modernuser/role/membership/types.js").RolePlay, "userid">[]} value
+     * @param {Omit<modernuser.role.roleplay.RolePlay, "userid">[]} value
      */
     set value(value) {
         (async () => {

@@ -10,7 +10,7 @@ import RolePlayManager from "./widget.mjs";
 import AddUserPopup from './add-user-popup.mjs'
 import { handle } from "/$/system/static/errors/error.mjs";
 import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
-import * as zm_utils from '../zonation-manager/util.mjs'
+import * as zm_utils from '/$/modernuser/zonation/static/widgets/zonation-manager/util.mjs'
 
 
 
@@ -18,7 +18,7 @@ import * as zm_utils from '../zonation-manager/util.mjs'
  * This returns data that can be used by the widget
  * 
  * @param {modernuser.role.data.Role[]} role_data
- * @param {import("faculty/modernuser/role/membership/types.js").RolePlay[]} role_play
+ * @param {modernuser.role.roleplay.RolePlay[]} role_play
  * @param {RolePlayManager} widget
  * 
  * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
@@ -34,7 +34,7 @@ function draw_actions_for_all_roles(role_data0, role_play0, widget) {
     /** @type {modernuser.role.data.Role[]} */
     const role_data = copy(role_data0)
 
-    /** @type {import("faculty/modernuser/role/membership/types.js").RolePlay[]} */
+    /** @type {modernuser.role.roleplay.RolePlay[]} */
     const role_play = copy(role_play0)
 
     /**
@@ -86,7 +86,7 @@ async function draw_people_actions(role_item, widget) {
             id: path_id,
             label: zone.label,
             parent: zone.superzone === '' ? role_item.id : `${role_item.id}$${zone.superzone}`,
-            icon: new URL('../zonation-manager/res/zone.png', import.meta.url).href
+            icon: `/$/modernuser/zonation/static/widgets/zonation-manager/res/zone.png`
         });
 
 

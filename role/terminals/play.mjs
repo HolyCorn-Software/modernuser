@@ -28,7 +28,7 @@ export default class RolePlayPublicMethods {
 
     /**
      * This returns all the information about roleplay in the system
-     * @returns {Promise<import("../membership/types.js").RolePlay[]>}
+     * @returns {Promise<modernuser.role.roleplay.RolePlay[]>}
      */
     async fetchAll() {
         await this[permission_grants_controller_symbol].userPermitted(
@@ -62,7 +62,7 @@ export default class RolePlayPublicMethods {
             }
         );
 
-        let role_play_data = await this[roleplay_controller_symbol].getUsers({ ...arguments[1] })
+        let role_play_data = await this[roleplay_controller_symbol]._getUsers({ ...arguments[1] })
 
         let promises = role_play_data.map(async rp => {
             return {

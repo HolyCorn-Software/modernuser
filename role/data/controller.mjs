@@ -176,22 +176,29 @@ export default class RoleDataController {
      * @param {string} filter 
      * @returns {Promise<modernuser.role.data.Role[]>}
      */
-    async fetchRoles(filter = '') {
+    async fetchRoles(filter) {
 
+        /**
+         * @type {import("mongodb").Filter<modernuser.role.data.Role>}
+         */
+        const query = {
 
-        if (filter.length < 2) {
+        }
+
+        if (typeof filter !== 'undefined' && filter.length < 2) {
             return [];
         }
 
-        const parts = filter.split(/[^A-Za-z0-9 ]/);
 
+        if (filter) {
 
-        let roles = await this[collection_symbol].find({
-            label: {
+            const parts = filter.split(/[^A-Za-z0-9]/);
+            query.label = {
                 $regex: new RegExp(parts.join('.*'), 'i')
-            },
+            }
+        }
 
-        }).toArray();
+        let roles = await this[collection_symbol].find(query).toArray();
 
         return roles;
     }

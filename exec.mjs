@@ -21,6 +21,7 @@ import PermissionGrantsController, { permissions as grants_permissions } from ".
 import NotificationController from "./notification/controller.mjs";
 import OnboardingController from "./onboarding/controller.mjs";
 import RoleController, { role_permissions } from "./role/controller.mjs";
+import RoleGroupController, { PERMISSIONS as rolegroupPermissions } from "./rolegroup/controller.mjs";
 
 
 
@@ -92,7 +93,16 @@ export default async function init() {
         profile_controller,
         role_contact_controller: role_controller.contact,
         roleplay_controller: role_controller.roleplay
-    })
+    });
+
+
+    const rolegroup_controller = new RoleGroupController(
+        collections.rolegroups,
+        {
+            roleplay: role_controller.roleplay,
+            zonation: zonation_data_controller,
+        }
+    )
 
 
     //Setup public methods
@@ -113,7 +123,8 @@ export default async function init() {
             grants: permission_grants_controller
         },
         notification: notification_controller,
-        onboarding: onboarding_controller
+        onboarding: onboarding_controller,
+        rolegroup: rolegroup_controller
     });
 
 
@@ -156,7 +167,8 @@ export default async function init() {
         ...zonation_permissions,
         ...role_permissions,
         ...grants_permissions,
-        ...profilePermissions
+        ...profilePermissions,
+        ...rolegroupPermissions
     ]
 
     for (let permission of permissions) {

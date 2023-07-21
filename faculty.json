@@ -14,7 +14,9 @@
             "${fPath}/role/static": "./role/public",
             "${fPath}/static/authentication/lib/": "./authentication/lib/",
             "${fPath}/notification/static": "./notification/public",
-            "${fPath}/onboarding/static": "./onboarding/public"
+            "${fPath}/onboarding/static": "./onboarding/public",
+            "${fPath}/rolegroup/static": "./rolegroup/public",
+            "${fPath}/zonation/static": "./zonation/public"
         }
     },
     "plugin": {
@@ -76,6 +78,13 @@
         "backend_dashboard": {
             "admin": [
                 {
+                    "name": "modernuser_zonation",
+                    "label": "Places",
+                    "view": "/$/modernuser/zonation/static/widgets/zonation-manager/widget.mjs",
+                    "icon": "/$/modernuser/zonation/static/res/manage-zones.png"
+
+                },
+                {
                     "name": "modernuser",
                     "label": "User Security",
                     "icon": "/$/modernuser/static/icons/user-security.png",
@@ -94,6 +103,11 @@
                                     "label": "Data",
                                     "view": "/$/modernuser/static/widgets/role-data-manager/widget.mjs",
                                     "icon": "/$/modernuser/static/icons/roles-data.png"
+                                },
+                                "rolegroup": {
+                                    "label": "Role Groups",
+                                    "icon": "/$/modernuser/static/icons/roles-data.png",
+                                    "view": "/$/modernuser/rolegroup/static/widgets/rolegroup-manager/widget.mjs"
                                 }
                             }
                         },

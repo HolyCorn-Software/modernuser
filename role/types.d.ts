@@ -5,11 +5,10 @@
  * This module (types) contains data structures used by it's parent module (role)
  */
 
- import { RolePlayCollection } from "./membership/types";
 import RoleContactController from "./contact/controller.mjs";
 
-export declare interface RoleCollections{
+export declare interface RoleCollections {
     data: modernuser.role.data.RoleDataCollection
-    roleplay: RolePlayCollection,
+    roleplay: modernuser.role.roleplay.RolePlayCollection,
     contact: RoleContactController
 }

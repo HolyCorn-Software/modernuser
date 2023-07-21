@@ -21,7 +21,7 @@ export default class RolePlayController {
     /**
      * 
      * @param {object} param0 
-     * @param {import("./types.js").RolePlayCollection} param0.collection
+     * @param {modernuser.role.roleplay.RolePlayCollection} param0.collection
      * @param {PermissionGrantsController} param0.permission_grants_controller
      * @param {ZonationDataController} param0.zonation_data_controller
      * @param {RoleDataController} param0.role_data_controller
@@ -29,7 +29,7 @@ export default class RolePlayController {
     constructor({ collection, permission_grants_controller, zonation_data_controller, role_data_controller }) {
 
         RolePlayController.prepareCollections(collection);
-        /**  @type {import("./types.js").RolePlayCollection} */
+        /**  @type {modernuser.role.roleplay.RolePlayCollection} */
         this.collection = collection
         this[permission_grants_controller_symbol] = permission_grants_controller
         this[zonation_data_controller_symbol] = zonation_data_controller
@@ -39,7 +39,7 @@ export default class RolePlayController {
     /**
      * This method gets all the roles the user plays
      * @param {string} userid The id of the user
-     * @returns {Promise<import("./types.js").RolePlay[]>}
+     * @returns {Promise<modernuser.role.roleplay.RolePlay[]>}
      */
     async getUserRoles(userid) {
         return await this.collection.find({ userid }).toArray()
@@ -47,21 +47,22 @@ export default class RolePlayController {
 
     /**
      * This method gets all roleplay information
-     * @returns {Promise<import('./types.js').RolePlay[]>}
+     * @returns {Promise<modernuser.role.roleplay.RolePlay[]>}
      */
     async getAll() {
         return await this.collection.find({}).toArray()
     }
 
     /**
+     * @deprecated  use getMembers()
      * This gets all the users who play a role
      * @param {object} param0 
      * @param {string} param0.role
      * @param {string} param0.zone
      * @param {string} param0.specific_user If specified, only the user's info will be fetched
-     * @returns {Promise<import("./types.js").RolePlay[]>}
+     * @returns {Promise<modernuser.role.roleplay.RolePlay[]>}
      */
-    async getUsers({ role, zone, specific_user }) {
+    async _getUsers({ role, zone, specific_user }) {
         const query = {
             role
         }
@@ -73,6 +74,76 @@ export default class RolePlayController {
         }
 
         return await this.collection.find(query).toArray()
+    }
+    /**
+     * This gets all the users who play a given set of roles
+     * @param {object} param0 
+     * @param {string} param0.roles
+     * @param {string[]} param0.zones
+     * @param {string[]} param0.userids If specified, only the user's info in the given list will be fetched
+     */
+    async* getMembers({ roles, zones, userids }) {
+        /**
+         * @type {import("mongodb").Filter<modernuser.role.roleplay.RolePlay>}
+         */
+        const query = {
+            role: {
+                $in: roles
+            }
+        }
+        if (zones) {
+
+            query.zone = {
+                $in: [
+                    ...(await this[zonation_data_controller_symbol].getChildZones(zones)).map(x => x.id),
+                    ...zones
+                ]
+            }
+        }
+        if (userids) {
+            query.userid = {
+                $in: userids
+            }
+        }
+
+        const results = this.collection.find(query)
+
+        while (await results.hasNext()) {
+            yield await results.next()
+        }
+    }
+    /**
+     * This gets the number users who play a given set of roles
+     * @param {object} param0 
+     * @param {string} param0.roles
+     * @param {string[]} param0.zones
+     * @param {string[]} param0.userids If specified, only the user's info in the given list will be fetched
+     */
+    async countMembers({ roles, zones, userids }) {
+        /**
+         * @type {import("mongodb").Filter<modernuser.role.roleplay.RolePlay>}
+         */
+        const query = {
+            role: {
+                $in: roles
+            }
+        }
+        if (zones) {
+
+            query.zone = {
+                $in: [
+                    ...(await this[zonation_data_controller_symbol].getChildZones(zones)).map(x => x.id),
+                    ...zones
+                ]
+            }
+        }
+        if (userids) {
+            query.userid = {
+                $in: userids
+            }
+        }
+
+        return await this.collection.countDocuments(query)
     }
 
     /**
@@ -156,7 +227,7 @@ export default class RolePlayController {
             throw new Exception(`The zone was not found! Ouch`)
         }
         /** @type {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} */
-        const allowed_zones = [subject_zone_data, ...await this[zonation_data_controller_symbol].getChildZones(zone)]
+        const allowed_zones = [subject_zone_data, ...await this[zonation_data_controller_symbol]._getChildZones(zone)]
 
         const role_data = await this[role_data_controller_symbol].getAll()
         if (!role_data.find(x => x.id === role)) {
@@ -300,7 +371,7 @@ export default class RolePlayController {
 
     /**
      * This is an internal method used to prepare collections to be used by the module
-     * @param {import("./types.js").RolePlayCollection} collections 
+     * @param {modernuser.role.roleplay.RolePlayCollection} collections 
      */
     static async prepareCollections(collection) {
         await collection.createIndex({ userid: 1, role: 1, zone: 1 }, { unique: true })

@@ -24,9 +24,9 @@ import NotificationController from "../notification/controller.mjs";
 import OnboardingPublicMethods from "../onboarding/terminals/public.mjs";
 import OnboardingController from "../onboarding/controller.mjs";
 import RoleController from "../role/controller.mjs";
+import RoleGroupPublicMethods from "../rolegroup/terminals/public.mjs";
+import RoleGroupController from "../rolegroup/controller.mjs";
 
-
-const faculty = FacultyPlatform.get()
 
 const permission_grants_controller_symbol = Symbol()
 const profile_controller_symbol = Symbol(`UserPublicMethods.prototype.profile_controller`)
@@ -51,8 +51,9 @@ export default class UserPublicMethods extends FacultyPublicMethods {
      * @param {PermissionGrantsController} param0.permissions.grants
      * @param {NotificationController} param0.notification
      * @param {OnboardingController} param0.onboarding
+     * @param {RoleGroupController} param0.rolegroup
      */
-    constructor({ authentication, zonation, groups, profile, role, permissions, notification, onboarding }) {
+    constructor({ authentication, zonation, groups, profile, role, permissions, notification, onboarding, rolegroup }) {
         super();
 
         this.authentication = new UserAuthenticationPublicMethods(authentication)
@@ -74,6 +75,8 @@ export default class UserPublicMethods extends FacultyPublicMethods {
         this.notification = new NotificationPublicMethods(notification)
 
         this.onboarding = new OnboardingPublicMethods(onboarding)
+
+        this.rolegroup = new RoleGroupPublicMethods(rolegroup)
 
     }
 

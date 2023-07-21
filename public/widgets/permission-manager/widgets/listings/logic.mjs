@@ -4,7 +4,7 @@
  * This module contains the necessary logic for managing the permission-manager listing
  */
 
-import { fetchZones } from "../../../zonation-manager/util.mjs";
+import { fetchZones } from "/$/modernuser/zonation/static/widgets/zonation-manager/util.mjs";
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
 

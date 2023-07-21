@@ -6,8 +6,7 @@
  * This widget represents a single item (single permission) in the permission listings details widget
  */
 
-import { fetchZones } from "../../../../zonation-manager/util.mjs";
-import ZoneInput from "../../../../zone-input/widget.mjs";
+import ZoneInput from "/$/modernuser/zonation/static/widgets/zone-input/widget.mjs";
 import ExpiresEditPopup from "./expires-edit-popup.mjs";
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 import { handle } from "/$/system/static/errors/error.mjs";
@@ -17,6 +16,7 @@ import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import DualSwitch from "/$/system/static/html-hc/widgets/dual-switch/switch.mjs";
+import { fetchZones } from "/$/modernuser/zonation/static/widgets/zonation-manager/util.mjs";
 
 
 export default class PermissionActions extends Widget {

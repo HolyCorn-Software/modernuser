@@ -43,7 +43,7 @@ export default class ZonationInternalMethods {
      * @returns {Promise<import("../data/types.js").ZoneData[]>}
      */
     async getChildZones(id) {
-        return await this[data_controller_symbol].getChildZones(arguments[1])
+        return await this[data_controller_symbol]._getChildZones(arguments[1])
     }
 
     /**

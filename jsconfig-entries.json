@@ -15,6 +15,12 @@
             ],
             "/$/modernuser/onboarding/static/*": [
                 "./onboarding/public/*"
+            ],
+            "/$/modernuser/rolegroup/static/*": [
+                "./rolegroup/public/*"
+            ],
+            "/$/modernuser/zonation/static/*":[
+                "./zonation/public/*"
             ]
         }
     }

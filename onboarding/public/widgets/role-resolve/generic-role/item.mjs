@@ -6,13 +6,13 @@
 
 import InfoWidget from "./info.mjs";
 import RoleSelectPopup from "./role-select-popup.mjs";
-import ZoneInput from "/$/modernuser/static/widgets/zone-input/widget.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
 import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs"
 import BrandedBinaryPopup from "/$/system/static/html-hc/widgets/branded-binary-popup/widget.mjs";
 import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import ZoneInput from "/$/modernuser/zonation/static/widgets/zone-input/widget.mjs";
 
 
 export default class GenericRole extends Widget {
