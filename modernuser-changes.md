@@ -1,9 +1,9 @@
 .
 
-Added a feature called rolegroup, which allows roles to be better managed, and population statistics obtained.
+Improved typing of notification templates.
 
-Moved the zone-input, and zonation-manager widgets to more organized locations.
+Added internal method createTemplate() to allow other faculties create templates.
 
-Deprecated, and created more efficient replacements for the getChildZones(), and getUsers() methods.
+Created the notifyUser() method which makes it easier to notify a user, regardless of his contacts.
 
-Improved typing.
+Improved code quality, by renaming modernuser.notification.plugins, to modernuser.plugins.notification, putting all plugins close to each other.

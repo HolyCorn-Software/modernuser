@@ -44,7 +44,7 @@ export default class NotificationController {
                 fields: {
                     en: {
 
-                        /** @type {modernuser.notification.plugins.whatsapp.TemplateDefinition} */
+                        /** @type {modernuser.plugins.notification.whatsapp.TemplateDefinition} */
                         whatsapp: {
                             category: 'UTILITY',
                             components: [
@@ -183,9 +183,8 @@ export default class NotificationController {
 
 
     /**
-     * @template TemplateDataType
      * This method creates a new notification template
-     * @param {modernuser.notification.Template<TemplateDataType>} data 
+     * @param {modernuser.notification.Template} data 
      * @returns {Promise<void>}
      */
     async createTemplate(data) {
@@ -197,6 +196,7 @@ export default class NotificationController {
             return;
         }
 
+        await modernuserPlugins.waitForLoad()
         const results = await modernuserPlugins.loaded.namespaces.notification.callback.reviewTemplate(data);
 
         if (results.failure.length > 0) {
@@ -222,13 +222,12 @@ export default class NotificationController {
     }
 
     /**
-     * @template TemplateDataType
      * This method is used to notify a contact
      * @param {object} param0 
      * @param {modernuser.notification.MinContactData<{}>} param0.contact
      * @param {string} param0.template
      * @param {string} param0.language
-     * @param {TemplateDataType} param0.data
+     * @param {string[]} param0.data
      * @returns {Promise<void>}
      */
     async notify({ contact, template, language, data }) {
@@ -243,13 +242,13 @@ export default class NotificationController {
             throw new Exception(`Could not send notification. Error ID: ${errorId}`)
         }
         /**
-         * This method replaces text with array values E.g interpolate("Hello, how are {{0}} today?.", ["you"]) gives how are you today?
+         * This method replaces text with array values E.g interpolate("Hello, how are {{1}} today?.", ["you"]) gives how are you today?
          * @param {string} text 
          * @param {string[]} array 
          * @returns {string}
          */
         function interpolate(text, array) {
-            array.forEach((x, i) => text = text?.replaceAll(`{{${i}}}`, x))
+            array.forEach((x, i) => text = text?.replaceAll(`{{${i + 1}}}`, x))
             return text
         }
 
@@ -258,6 +257,26 @@ export default class NotificationController {
         templatedata.fields.html = interpolate(templatedata.fields.html, data)
 
         await provider.instance.notify({ contact: contact.data, template: templatedata, language, data })
+    }
+
+    /**
+     * This method notifies a user, via all his contacts
+     * @param {object} param0 
+     * @param {string} param0.userid
+     * @param {string} param0.template
+     * @param {string} param0.language
+     * @param {string[]} param0.data
+     * @returns {Promise<void>}
+     */
+    async notifyUser({ userid, template, language, data }) {
+        const contacts = await this[collections].contacts.find({ userid }).toArray()
+
+        return await (
+            Promise.any(contacts.map((contact) => this.notify({ contact, data, language, template })))
+        ).catch(e => {
+            console.warn(`Could not send notification to userid ${userid}, using template ${template}, in ${language} language\n`, e)
+            throw new Exception(`Could not notify user`)
+        })
     }
 
 

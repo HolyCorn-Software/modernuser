@@ -13,11 +13,11 @@ import UserPublicMethods from "./terminals/public.mjs"
 global {
 
 
-    namespace modernuser {
+    namespace modernuser.plugins {
 
         interface PluginMap {
             auth: AuthenticationPlugin<{}>
-            notification: NotificationPlugin<{}, {}, {}>
+            notification: NotificationPlugin<{}, {}>
         }
     }
 

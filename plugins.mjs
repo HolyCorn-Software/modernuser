@@ -8,7 +8,7 @@
 
 
 /**
- * @type {import("system/lib/libFaculty/plugin/manager.mjs").default<modernuser.PluginMap>}
+ * @type {import("system/lib/libFaculty/plugin/manager.mjs").default<modernuser.plugins.PluginMap>}
  */
 const modernuserPlugins = FacultyPlatform.get().pluginManager
 

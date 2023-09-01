@@ -8,7 +8,6 @@
 
 /**
  * @template PluginCredentials
- * @template TemplateStructure
  * @template ContactStructure
  * @extends PluginModelModel<PluginCredentials>
  */
@@ -48,7 +47,7 @@ export default class NotificationPlugin extends PluginModelModel {
      * Any exception being thrown, will be regarded as a failure to approve the template, not that the template is wrong
      * If the plugin has to add this template to a remote database, it better does so now, because no callback will be made asking it to do so
      * @param {object} param0 
-     * @param {modernuser.notification.Template<TemplateStructure>} param0.data
+     * @param {modernuser.notification.Template} param0.data
      * @returns {Promise<modernuser.notification.TemplateReviewResult>}
      */
     async reviewTemplate({ data }) {
@@ -61,7 +60,7 @@ export default class NotificationPlugin extends PluginModelModel {
      * @param {ContactStructure} data
      * @returns {Promise<modernuser.notification.ContactReviewResult>}
      */
-    async reviewContact( data ) {
+    async reviewContact(data) {
 
     }
 
@@ -70,13 +69,13 @@ export default class NotificationPlugin extends PluginModelModel {
      * This method is used to notify someone, via his contact data
      * @param {object} param0 
      * @param {ContactStructure} param0.contact
-     * @param {modernuser.notification.Template<TemplateStructure>} param0.template
+     * @param {modernuser.notification.Template} param0.template
      * @param {string} param0.language
-     * @param {TemplateStructure} param0.data
+     * @param {string[]} param0.data
      * @returns {Promise<void>}
      */
     async notify({ contact, template, data }) {
-        
+
     }
 
 

@@ -7,6 +7,7 @@
  * Updated 2023 to support plugins
  */
 
+import { Collection } from 'mongodb'
 import _NotificationPlugin from './plugin/model.mjs'
 
 
@@ -14,7 +15,7 @@ import _NotificationPlugin from './plugin/model.mjs'
 
 
 global {
-    class NotificationPlugin<CredentialsType, TemplateStructure, ContactStructure> extends _NotificationPlugin<CredentialsType, TemplateStructure, ContactStructure> { }
+    class NotificationPlugin<CredentialsType, ContactStructure> extends _NotificationPlugin<CredentialsType, ContactStructure> { }
 
 
 
@@ -25,7 +26,7 @@ global {
             /**
              * This data structure defines the information contained in a template
              */
-            interface Template<T = {}> {
+            interface Template {
                 /** A unique name for the template */
                 name: string
 
@@ -44,7 +45,7 @@ global {
                  * Standard fields such as text, and html are used by multiple plugins.
                  */
                 fields: {
-                    [language: string]: T & {
+                    [language: string]: modernuser.plugins.notification.TemplatesGlobal & {
                         text: string
                         html: string
                     }
@@ -90,9 +91,19 @@ global {
                 message: string
             };
 
-            type UserContactsCollection = import('mongodb').Collection<Contact>;
+            type UserContactsCollection = Collection<Contact>;
 
-            type TemplatesCollection = import('mongodb').Collection<Template>
+            type TemplatesCollection = Collection<Template>
+
+        }
+    }
+    namespace modernuser.plugins.notification {
+
+        /**
+         * Notification plugins should override this interface to provide information about the data needed to create its
+         * compatible plugin
+         */
+        interface TemplatesGlobal {
 
         }
     }
