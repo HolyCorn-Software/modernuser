@@ -530,6 +530,15 @@ export default class UserAuthenticationController {
 
         return token_string;
     }
+    /**
+     * This method invalidates an authentication token, so that a user can no longer use it.
+     * @param {object} param0 
+     * @param {string} param0.token
+     * @returns {Promise<void>}
+     */
+    async destroyToken({ token }) {
+        await this[token_collection_symbol].deleteMany({ token })
+    }
 
     /**
      * This method creates a new user profile, and returns the user id of the user

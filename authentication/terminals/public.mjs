@@ -134,6 +134,21 @@ export default class UserAuthenticationPublicMethods {
         return profile;
     }
 
+    /**
+     * This method signs the user out
+     * @returns {Promise<void>}
+     */
+    async signout() {
+        /** @type {FacultyPublicJSONRPC} */
+        const client = arguments[0];
+
+        const session = await client.resumeSessionFromMeta();
+        await this[controller_symbol].destroyToken({
+            token: await session.getVar(UserAuthenticationController.sessionVarName)
+        });
+        await session.rmVar(UserAuthenticationController.sessionVarName)
+    }
+
 
     /**
      * This interface contains public methods from all plugins.
