@@ -91,10 +91,32 @@ global {
                 message: string
             };
 
+            /**
+             * This data structure defines the caption data of a contact.
+             * 
+             * "text" should be a short one-line universal representation of the contact.
+             * 
+             * "html" can be any fancy representation of the contact, displayable in browser environments.
+             */
+            interface ContactCaption {
+                text: string
+                html: string
+            }
+
+            interface ContactExtra extends Contact {
+                caption: ContactCaption
+            }
+
             type UserContactsCollection = Collection<Contact>;
 
             type TemplatesCollection = Collection<Template>
 
+        }
+    }
+    namespace modernuser.permission {
+        interface AllPermissions {
+            'permissions.modernuser.notification.contacts.view': true
+            'permissions.modernuser.notification.contacts.modify': true
         }
     }
     namespace modernuser.plugins.notification {

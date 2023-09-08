@@ -78,6 +78,28 @@ export default class NotificationPlugin extends PluginModelModel {
 
     }
 
+    /**
+     * This property to should contain the form a user should fill, in order to add a contact for this template
+     * @returns {htmlhc.widget.multiflexform.MultiFlexFormDefinitionData}
+     */
+    get contactForm() {
+
+    }
+
+    /**
+     * This method can be optionally implemented, so as to produce a human-friendly representation of the contact.
+     * @param {ContactStructure} data 
+     * @returns {Promise<modernuser.notification.ContactCaption>}
+     */
+    async captionContact(data) {
+
+        const text = data[(this?.contactForm?.flat?.(3)[0]?.name) || (Reflect.ownKeys(data)[0])]
+        return {
+            text,
+            html: text,
+        }
+
+    }
 
 
 

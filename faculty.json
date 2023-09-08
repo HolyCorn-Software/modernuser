@@ -36,7 +36,8 @@
                     "module": {
                         "reviewTemplate": "function",
                         "reviewContact": "function",
-                        "notify": "function"
+                        "notify": "function",
+                        "contactForm": "object"
                     }
                 }
             }

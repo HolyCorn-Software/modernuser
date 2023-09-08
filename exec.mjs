@@ -18,7 +18,7 @@ import ZonationDataController, { zonation_permissions } from "./zonation/data/co
 import ZoneMembershipController from "./zonation/membership/controller.mjs";
 import PermissionDataController, { ULTIMATE_PERMISSION } from "./permission/data/controller.mjs";
 import PermissionGrantsController, { permissions as grants_permissions } from "./permission/grants/controller.mjs";
-import NotificationController from "./notification/controller.mjs";
+import NotificationController, { PERMISSIONS as notification_permissions } from "./notification/controller.mjs";
 import OnboardingController from "./onboarding/controller.mjs";
 import RoleController, { role_permissions } from "./role/controller.mjs";
 import RoleGroupController, { PERMISSIONS as rolegroupPermissions } from "./rolegroup/controller.mjs";
@@ -163,16 +163,17 @@ export default async function init() {
 
 
     //Now set the permissions that are ours (modernuser)
-    let permissions = [
+    const permissions = [
         ...zonation_permissions,
         ...role_permissions,
         ...grants_permissions,
         ...profilePermissions,
-        ...rolegroupPermissions
+        ...rolegroupPermissions,
+        ...notification_permissions
     ]
 
     for (let permission of permissions) {
-        await permission_data_controller.createPermission(permission)
+        permission_data_controller.createPermission(permission).catch(e => console.error(`Failed to create permission\n`, permission, `\nError:\n`, e))
     }
 
 

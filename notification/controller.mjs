@@ -74,7 +74,7 @@ export default class NotificationController {
      * @param {string} param0.provider
      * @param {object} param0.data
      * @param {string} param0.userid
-     * @returns {Promise<string>}
+     * @returns {Promise<modernuser.notification.ContactExtra>}
      */
     async createContact({ data, provider, userid }) {
 
@@ -83,7 +83,7 @@ export default class NotificationController {
 
         const id = shortUUID.generate()
 
-        this[collections].contacts.insertOne(
+        await this[collections].contacts.insertOne(
             {
                 id,
                 data,
@@ -92,7 +92,14 @@ export default class NotificationController {
             }
         )
 
-        return id
+        return {
+            id,
+            caption: await this.getContactCaption({ data }),
+            data,
+            provider,
+            userid
+        }
+
 
     }
 
@@ -152,6 +159,27 @@ export default class NotificationController {
 
         await this.getAndCheckOwnership({ id, userid })
         this[collections].contacts.deleteOne({ id })
+    }
+
+    /**
+     * This method gets the contacts of a given user
+     * @param {object} param0 
+     * @param {string} param0.userid The userid of the calling user
+     * @param {string} param0.target The id of the user whose contacts are being fetched
+     * @returns {Promise<modernuser.notification.ContactExtra[]>}
+     */
+    async getContacts({ userid, target }) {
+
+        await muser_common.whitelisted_permission_check(
+            {
+                userid,
+                whitelist: [target],
+                permissions: ['permissions.modernuser.notification.contacts.view'],
+            }
+        )
+        const contacts = await this[collections].contacts.find({ userid: target }).toArray()
+
+        return await Promise.all(contacts.map(async contact => ({ ...contact, caption: await this.getContactCaption(contact) })))
     }
 
     /**
@@ -279,6 +307,36 @@ export default class NotificationController {
         })
     }
 
+    /**
+     * This method returns caption data for a contact
+     * @param {modernuser.notification.Contact} data 
+     * @returns {Promise<modernuser.notification.ContactCaption>}
+     */
+    async getContactCaption(data) {
+        const provider = await modernuserPlugins.loaded.namespaces.notification.find(x => x.descriptor.name === data.provider)
+        if (!provider) {
+            return await NotificationPlugin.prototype.captionContact.apply(undefined, [data.data])
+        }
+        return await provider.instance.captionContact(data.data)
+    }
+
 
 }
 
+
+
+/** @type {modernuser.permission.PermissionDataInput[]} */
+const PERMISSIONS = [
+    {
+        label: `View other's contacts`,
+        name: 'permissions.modernuser.notification.contacts.view',
+    },
+    {
+        label: `Modify other's contacts`,
+        name: 'permissions.modernuser.notification.contacts.modify',
+        inherit: ['permissions.modernuser.notification.contacts.view']
+    }
+]
+
+
+export { PERMISSIONS }
