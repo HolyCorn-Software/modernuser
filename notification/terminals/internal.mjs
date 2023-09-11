@@ -16,7 +16,7 @@ export default class NotificationInternalMethods {
      * @param {NotificationController} _controller 
      */
     constructor(_controller) {
-        this.events = new NotificationEventsInternalMethods(controller.events)
+        this.events = new NotificationEventsInternalMethods(_controller.events)
         this[controller] = _controller
     }
 

@@ -45,6 +45,11 @@ global {
 
         type PermissionEnum = keyof AllPermissions
 
+        interface PermissionCollections{
+            data: PermissionsDataCollection
+            grants: PermissionGrantsCollection
+        }
+
 
     }
 }

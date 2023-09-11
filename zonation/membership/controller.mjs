@@ -12,13 +12,13 @@ export default class ZoneMembershipController {
     /**
      * 
      * @param {object} param0 
-     * @param {import("./types.js").ZoneMembershipCollection} param0.collection
+     * @param {modernuser.zonation.ZoneMembershipCollection param0.collection
      */
     constructor({ collection }) {
 
         ZoneMembershipController.processCollection(collection);
 
-        /** @type {import("./types.js").ZoneMembershipCollection} */
+        /** @type {modernuser.zonation.ZoneMembershipCollection */
         this[collection_symbol] = collection;
 
     }
@@ -61,7 +61,7 @@ export default class ZoneMembershipController {
      * This method is called on the collection passed to the ZonationMembershipController.
      * 
      * This method enforces constraints on the collection
-     * @param {import("./types.js").ZoneMembershipCollection} collection 
+     * @param {modernuser.zonation.ZoneMembershipCollection collection 
      * 
      * @returns {Promise<void>}
      */

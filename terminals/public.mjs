@@ -5,9 +5,7 @@
  * This module is responsible for providing the methods that are accessible to the public
  */
 
-import GroupDataController from "../group/data/controller.mjs";
-import GroupMembershipController from "../group/membership/controller.mjs";
-import UserGroupPublicMethods from "../group/terminals/public.mjs";
+
 import UserProfileController from "../profile/controller.mjs";
 import UserAuthenticationController from "../authentication/controller.mjs";
 import UserAuthenticationPublicMethods from "../authentication/terminals/public.mjs";
@@ -41,9 +39,6 @@ export default class UserPublicMethods extends FacultyPublicMethods {
      * @param {object} param0.zonation
      * @param {ZonationDataController} param0.zonation.data
      * @param {ZoneMembershipController} param0.zonation.membership
-     * @param {object} param0.groups
-     * @param {GroupDataController} param0.groups.data
-     * @param {GroupMembershipController} param0.groups.membership
      * @param {UserProfileController} param0.profile
      * @param {RoleController} param0.role
      * @param {object} param0.permissions
@@ -53,15 +48,13 @@ export default class UserPublicMethods extends FacultyPublicMethods {
      * @param {OnboardingController} param0.onboarding
      * @param {RoleGroupController} param0.rolegroup
      */
-    constructor({ authentication, zonation, groups, profile, role, permissions, notification, onboarding, rolegroup }) {
+    constructor({ authentication, zonation, profile, role, permissions, notification, onboarding, rolegroup }) {
         super();
 
         this.authentication = new UserAuthenticationPublicMethods(authentication)
 
         this.zonation = new ZonationPublicMethods(zonation.data, zonation.membership);
-
-        this.groups = new UserGroupPublicMethods(groups.data, groups.membership)
-
+        
         this.permissions = new PermissionsPublicMethods(permissions.data, permissions.grants)
 
         this.profile = new UserProfilePublicMethods(profile, authentication, permissions.grants)

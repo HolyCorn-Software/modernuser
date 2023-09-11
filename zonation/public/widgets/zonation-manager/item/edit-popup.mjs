@@ -13,7 +13,7 @@ export default class NavigationItemRenamePopup extends PopupForm {
 
     /**
      * 
-     * @param {import("faculty/modernuser/zonation/data/types.js").ZoneData} data 
+     * @param {modernuser.zonation.ZoneData data 
      */
     constructor(data) {
         super({

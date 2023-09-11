@@ -5,9 +5,7 @@
  * This module is responsible for providing useful methods to other faculties
  */
 
-import GroupDataController from "../group/data/controller.mjs";
-import GroupMembershipController from "../group/membership/controller.mjs";
-import UserGroupInternalMethods from "../group/terminals/internal.mjs";
+
 import UserProfileController from "../profile/controller.mjs";
 import UserProfileInternalMethods from "../profile/terminals/internal.mjs";
 import UserAuthenticationController from "../authentication/controller.mjs";
@@ -32,10 +30,7 @@ export default class UserInternalMethods extends FacultyFacultyRemoteMethods {
      * @param {UserAuthenticationController} param0.authentication
      * @param {object} param0.zonation
      * @param {ZonationDataController} param0.zonation.data
-     * @param {ZoneMembershipController} param0.zonation.membership
-     * @param {object} param0.groups
-     * @param {GroupDataController} param0.groups.data
-     * @param {GroupMembershipController} param0.groups.membership
+     * @param {ZoneMembershipController} param0.zonation.membershi
      * @param {UserProfileController} param0.profile
      * @param {object} param0.permissions
      * @param {PermissionDataController} param0.permissions.data
@@ -43,14 +38,12 @@ export default class UserInternalMethods extends FacultyFacultyRemoteMethods {
      * @param {RoleController} param0.role
      * @param {NotificationController} param0.notification
      */
-    constructor({ authentication, zonation, groups, profile, permissions, role, notification }) {
+    constructor({ authentication, zonation, profile, permissions, role, notification }) {
         super();
 
         this.authentication = new UserAuthenticationInternalMethods(authentication)
 
         this.zonation = new ZonationInternalMethods(zonation.data, zonation.membership);
-
-        this.groups = new UserGroupInternalMethods(groups.data, groups.membership);
 
         this.profile = new UserProfileInternalMethods(profile, authentication)
 

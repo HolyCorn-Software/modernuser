@@ -1,7 +1,7 @@
 .
 
-Added ability for contacts to have captions, that describe them.
+Greatly improved typing.
 
-Added possibility for a user on the public web to update his notification contacts, or an admin changing the notification contacts of a user.
+Improved the reliability, and efficiency of notification dispatch.
 
-Added possibility of frontend components to know the information to provide in order to create a contact for a particular provider. This information is called the contactForm.
+Added ability to send inApp notifications.

@@ -95,6 +95,18 @@ export default class NotificationPublicMethods {
         await this[controller_symbol].deleteContact({ id: arguments[1]?.id, userid: (await muser_common.getUser(arguments[0])).id, })
     }
 
+    /**
+     * This method gets the inApp notifications for a given target user
+     * @param {object} param0 
+     * @param {string} param0.target
+     */
+    async getInAppNotifications({ target }) {
+        return await this[controller_symbol].getInAppNotifications({
+            target: arguments[1].target,
+            userid: (await muser_common.getUser(arguments[0])).id,
+        })
+    }
+
 
 
 }

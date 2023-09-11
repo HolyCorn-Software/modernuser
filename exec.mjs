@@ -8,8 +8,6 @@
  */
 
 import collections from "./collections.mjs";
-import GroupDataController from "./group/data/controller.mjs";
-import GroupMembershipController from "./group/membership/controller.mjs";
 import UserProfileController from "./profile/controller.mjs";
 import UserAuthenticationController from "./authentication/controller.mjs";
 import UserInternalMethods from "./terminals/internal.mjs";
@@ -35,10 +33,6 @@ export default async function init() {
 
     //Setup the logic (controllers)
 
-    const group_membership_controller = new GroupMembershipController({ collection: collections.group_membership });
-
-    const group_data_controller = new GroupDataController({ collection: collections.group_data });
-
     const profile_controller = new UserProfileController({ collection: collections.profile })
 
     const authentication_controller = new UserAuthenticationController({
@@ -49,14 +43,14 @@ export default async function init() {
         user_profile_controller: profile_controller
     });
 
-    const zonation_data_controller = new ZonationDataController({ collection: collections.zonation_data })
+    const zonation_data_controller = new ZonationDataController({ collection: collections.zonation.data })
 
-    const zonation_membership_controller = new ZoneMembershipController({ collection: collections.zonation_membership })
+    const zonation_membership_controller = new ZoneMembershipController({ collection: collections.zonation.membership })
 
-    const permission_data_controller = new PermissionDataController({ collection: collections.permission_data })
+    const permission_data_controller = new PermissionDataController({ collection: collections.permission.data })
 
     const permission_grants_controller = new PermissionGrantsController({
-        collection: collections.permission_grants,
+        collection: collections.permission.data,
         data_controller: permission_data_controller,
         zonation_data_controller: zonation_data_controller
     });
@@ -64,11 +58,7 @@ export default async function init() {
 
 
     const role_controller = new RoleController({
-        collections: {
-            data: collections.role_data,
-            roleplay: collections.role_play,
-            contact: collections.role_contact
-        },
+        collections: collections.role,
         permission_grants_controller,
         zonation_data_controller
     })
@@ -79,11 +69,9 @@ export default async function init() {
 
     const notification_controller = new NotificationController(
         {
-            collections: {
-                contacts: collections.notification_contacts,
-                templates: collections.notification_templates
-            }
+            collections: collections.notification
         }
+
     )
 
 
@@ -107,10 +95,6 @@ export default async function init() {
 
     //Setup public methods
     faculty.remote.public = new UserPublicMethods({
-        groups: {
-            data: group_data_controller,
-            membership: group_membership_controller
-        },
         authentication: authentication_controller,
         zonation: {
             membership: zonation_membership_controller,
@@ -130,10 +114,6 @@ export default async function init() {
 
     //Setup internal methods
     const internal_methods = new UserInternalMethods({
-        groups: {
-            data: group_data_controller,
-            membership: group_membership_controller
-        },
         authentication: authentication_controller,
         zonation: {
             membership: zonation_membership_controller,
@@ -178,7 +158,7 @@ export default async function init() {
 
 
     async function isFirstTime() {
-        return (await collections.role_data.find().toArray()).length === 0
+        return (await collections.role.data.find().toArray()).length === 0
     }
 
     if (await isFirstTime()) {

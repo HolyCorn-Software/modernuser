@@ -19,7 +19,7 @@ export default class NavigationItemDeletePopup extends HCTSBrandedPopup {
 
     /**
      * 
-     * @param {import("faculty/modernuser/zonation/data/types.js").ZoneData} data 
+     * @param {modernuser.zonation.ZoneData data 
      */
     constructor(data) {
         super();

@@ -8,11 +8,13 @@
 
 import { Collection } from 'mongodb'
 
-export declare interface ZoneMembershipData {
-    subject: string,
-    zone: string,
-    time: number
+global {
+    namespace modernuser.zonation {
+        interface ZoneMembershipData {
+            subject: string,
+            zone: string,
+            time: number
+        }
+        type ZoneMembershipCollection = Collection<ZoneMembershipData>
+    }
 }
-
-
-export type ZoneMembershipCollection = Collection<ZoneMembershipData>

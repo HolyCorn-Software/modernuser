@@ -7,8 +7,15 @@
 
 import RoleContactController from "./contact/controller.mjs";
 
-export declare interface RoleCollections {
-    data: modernuser.role.data.RoleDataCollection
-    roleplay: modernuser.role.roleplay.RolePlayCollection,
-    contact: RoleContactController
+global {
+    namespace modernuser.role {
+
+        interface Collections {
+            data: modernuser.role.data.RoleDataCollection
+            roleplay: modernuser.role.roleplay.RolePlayCollection,
+            contact: RoleContactController
+        }
+
+
+    }
 }

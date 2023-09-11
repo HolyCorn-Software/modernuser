@@ -21,7 +21,7 @@ export default class RoleController {
     /**
      * 
      * @param {object} param0
-     * @param {import("./types.js").RoleCollections} param0.collections 
+     * @param {modernuser.role.Collections} param0.collections 
      * @param {PermissionGrantsController} param0.permission_grants_controller
      * @param {ZonationDataController} param0.zonation_data_controller
      */

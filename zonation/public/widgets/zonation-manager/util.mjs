@@ -34,11 +34,11 @@ export async function createZone({ label, superzone }) {
 
 
 
-/** @type {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} */
+/** @type {modernuser.zonation.ZoneData]} */
 let zones_cache;
 /**
  * Fetches all the zones in the system
- * @returns {Promise<import("faculty/modernuser/zonation/data/types.js").ZoneData[]>}
+ * @returns {Promise<modernuser.zonation.ZoneData]>}
  */
 export async function fetchZones() {
 
@@ -50,7 +50,7 @@ export async function fetchZones() {
 
 /**
  * Converts data from from zone structure into something in the nature of a directory structure
- * @param {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} data
+ * @param {modernuser.zonation.ZoneData]} data
  * @returns {[import("/$/system/static/html-hc/widgets/file-explorer/types.js").DirectoryData]}
  */
 export function toFileStructure(data) {

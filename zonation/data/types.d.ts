@@ -6,23 +6,21 @@
  */
 
 
-import {Collection} from 'mongodb'
+import ''
 
-
-export declare interface ZoneData {
-    id: string,
-    label: string,
-    superzone: string,
-    time: number
-}
-
-
-export type ZoneDataCollection = Collection<ZoneData>
-
-global{
-    namespace modernuser.permission{
-        interface AllPermissions{
+global {
+    namespace modernuser.permission {
+        interface AllPermissions {
             'permissions.modernuser.zonation.admin': true
         }
+    }
+    namespace modernuser.zonation {
+        interface ZoneData {
+            id: string,
+            label: string,
+            superzone: string,
+            time: number
+        }
+        type ZoneDataCollection = Collection<ZoneData>
     }
 }

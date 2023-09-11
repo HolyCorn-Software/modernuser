@@ -6,14 +6,13 @@
  */
 
 import { AdminOnboardingData } from "faculty/modernuser/onboarding/types";
-import { ZoneData } from "faculty/modernuser/zonation/data/types";
 
 
 
 export type StateDataRaw = AdminOnboardingData & {
 
     role_data: modernuser.role.data.Role
-    zonation_data: ZoneData[]
+    zonation_data: modernuser.zonation.ZoneData[]
 
 }
 
@@ -30,7 +29,7 @@ export declare interface FrontendRoleData {
         id: string
     },
     readonly: boolean,
-    user:{
+    user: {
         label: string,
         icon: string,
         id: string

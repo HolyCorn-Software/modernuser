@@ -19,12 +19,12 @@ export default class ZonationDataController {
     /**
      * 
      * @param {object} param0 
-     * @param {import("./types.js").ZoneDataCollection} param0.collection
+     * @param {modernuser.zonation.ZoneDataCollection param0.collection
      */
     constructor({ collection }) {
 
-        /** @type {import("./types.js").ZoneDataCollection} */
-        this[collection_symbol] = collection
+        /** @type {modernuser.zonation.ZoneDataCollection */
+        this[collection_symbol] = collection;
 
 
         this[collection_symbol].findOne({ id: '0' }).then(v => {
@@ -49,7 +49,7 @@ export default class ZonationDataController {
     /**
      * This method returns info of the specified zone
      * @param {string} id 
-     * @returns {Promise<import("./types.js").ZoneData>}
+     * @returns {Promise<modernuser.zonation.ZoneData}
      */
     async getZone(id) {
         return await this[collection_symbol].findOne({ id })
@@ -57,7 +57,7 @@ export default class ZonationDataController {
 
     /**
      * Fetches all zones in the entire system
-     * @returns {Promise<import("./types.js").ZoneData[]>}
+     * @returns {Promise<modernuser.zonation.ZoneData]>}
      */
     async getAllZones() {
         return await this[collection_symbol].find().toArray()
@@ -67,7 +67,7 @@ export default class ZonationDataController {
      * @deprecated use getChildZones() instead
      * This method returns all the zone under a given zone
      * @param {string} id 
-     * @returns {Promise<import("./types.js").ZoneData[]>}
+     * @returns {Promise<modernuser.zonation.ZoneData]>}
      */
     async _getChildZones(id) {
         const zones = await this.getAllZones()
@@ -83,7 +83,7 @@ export default class ZonationDataController {
     /**
      * This method returns all sub-zones for a given set of zones
      * @param {string[]} ids 
-     * @returns {Promise<import("./types.js").ZoneData[]>}
+     * @returns {Promise<modernuser.zonation.ZoneData]>}
      */
     async getChildZones(ids) {
 
@@ -105,8 +105,8 @@ export default class ZonationDataController {
     /**
      * This method returns the parent, the parent of the parent, the parent of the parent of the parent ... zone 
      * @param {string} id 
-     * @param {import("./types.js").ZoneData} zone_data
-     * @returns {[import("./types.js").ZoneData]}
+     * @param {modernuser.zonation.ZoneData zone_data
+     * @returns {[modernuser.zonation.ZoneData}
      */
     getAncestors0(id, zone_data) {
         const zone_info = zone_data.find(z => z.id == id)
@@ -129,7 +129,7 @@ export default class ZonationDataController {
      * 
      * That is the parent, th parent of the parent, and the parent of the parent of the parent ... 
      * @param {string} id 
-     * @returns {Promise<import("./types.js").ZoneData[]>}
+     * @returns {Promise<modernuser.zonation.ZoneData]>}
      */
     async getAncestors(id) {
         return this.getAncestors0(id, await this.getAllZones())
@@ -145,7 +145,7 @@ export default class ZonationDataController {
 
         const zonation_data = await this.getAllZones()
 
-        /** @param {string} id @returns {import("./types.js").ZoneData} */
+        /** @param {string} id @returns {modernuser.zonation.ZoneData */
         const get_zone = (id) => zonation_data.find(z => z.id === id)
 
         /**
@@ -213,7 +213,7 @@ export default class ZonationDataController {
      * This method returns true if the child is in someway a child of parent
      * @param {string} child 
      * @param {string} parent 
-     * @param {import("./types.js").ZoneData} zones
+     * @param {modernuser.zonation.ZoneData zones
      * @returns {boolean}
      */
     isChildOf0(child, parent, zones) {
@@ -341,7 +341,7 @@ export default class ZonationDataController {
 
     /**
      * Some operations done on a collection prior to use
-     * @param {import("./types.js").ZoneDataCollection} collection
+     * @param {modernuser.zonation.ZoneDataCollection collection
      */
     static prepareCollection(collection) {
         collection.createIndex({ id: 1 }, { unique: true }).catch(e => {

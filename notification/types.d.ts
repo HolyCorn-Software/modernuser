@@ -48,6 +48,7 @@ global {
                     [language: string]: modernuser.plugins.notification.TemplatesGlobal & {
                         text: string
                         html: string
+                        inApp: InAppNotificationInput
                     }
                 }
             }
@@ -107,9 +108,48 @@ global {
                 caption: ContactCaption
             }
 
+
+            interface InAppNotification extends InAppNotificationInput {
+                id: string
+                target: string
+                time: number
+                expires: number
+                text: string
+                html: string
+            }
+
+            interface InAppNotificationInput {
+                title: string
+                caption: string
+                icon?: string
+            }
+
+
             type UserContactsCollection = Collection<Contact>;
 
             type TemplatesCollection = Collection<Template>
+
+            interface NotificationJob {
+                userid: string
+                template: string
+                language: string
+                data: string[]
+            }
+
+            type NotificationJobsCollection = soul.util.workerworld.TaskCollection<NotificationJob>
+            type InAppNotificationsCollection = Collection<InAppNotification>
+            interface InAppNotificationsCollections {
+                read: InAppNotificationsCollection
+                unread: InAppNotificationsCollection
+            }
+
+
+            interface Collections {
+                contacts: UserContactsCollection
+                jobs: NotificationJob,
+                inApp: InAppNotificationsCollections
+                templates: TemplatesCollection
+            }
 
         }
     }
@@ -117,6 +157,8 @@ global {
         interface AllPermissions {
             'permissions.modernuser.notification.contacts.view': true
             'permissions.modernuser.notification.contacts.modify': true
+            'permissions.modernuser.notification.inApp.markRead': true
+            'permissions.modernuser.notification.inApp.read': true
         }
     }
     namespace modernuser.plugins.notification {

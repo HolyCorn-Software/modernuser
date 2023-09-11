@@ -226,7 +226,7 @@ export default class RolePlayController {
             console.trace(`Zone ${zone} not found.`)
             throw new Exception(`The zone was not found! Ouch`)
         }
-        /** @type {import("faculty/modernuser/zonation/data/types.js").ZoneData[]} */
+        /** @type {modernuser.zonation.ZoneData]} */
         const allowed_zones = [subject_zone_data, ...await this[zonation_data_controller_symbol]._getChildZones(zone)]
 
         const role_data = await this[role_data_controller_symbol].getAll()

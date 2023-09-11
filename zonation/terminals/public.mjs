@@ -15,8 +15,6 @@ import muser_common from "muser_common";
 import ZonationDataController from "../data/controller.mjs";
 import ZoneMembershipController from "../membership/controller.mjs";
 
-const faculty = FacultyPlatform.get();
-
 
 export default class ZonationPublicMethods {
 
@@ -34,7 +32,7 @@ export default class ZonationPublicMethods {
 
     /**
      * Fetches all the zones in the entire system
-     * @returns {Promise<import("../data/types.js").ZoneData[]>}
+     * @returns {Promise<modernuser.zonation.ZoneData]>}
      */
     async getZones() {
         return await this[data_controller_symbol].getAllZones()

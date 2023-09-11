@@ -12,43 +12,54 @@ import { CollectionProxy } from "../../system/database/collection-proxy.js";
 
 /**
  * @type {{
- * zonation_data: import("./zonation/data/types.js").ZoneDataCollection,
- * zonation_membership: import("./zonation/membership/types.js").ZoneMembershipCollection,
+ * zonation: modernuser.zonation.Collections
  * authentication_tokens: modernuser.authentication.UserAuthTokenCollection,
  * authentication_logins: modernuser.authentication.UserLoginCollection,
  * authentication_provider_credentials: Collection,
- * permission_data: modernuser.permission.PermissionsDataCollection,
- * permission_grants: modernuser.permission.PermissionGrantsCollection,
- * group_data: import("./group/data/types.js").GroupsCollection,
+ * permission: modernuser.permission.PermissionCollections,
+ * group_data: modernuser.group.GroupsCollection
  * group_membership: import("./group/membership/types.js").GroupMembershipCollection,
  * profile: modernuser.profile.UserProfileCollection
- * role_data: modernuser.role.data.RoleDataCollection,
- * role_play: modernuser.role.roleplay.RolePlayCollection,
- * role_contact: import("./role/contact/types.js").RoleContactCollection,
- * onboarding_requests: modernuser.onboarding.OnboardingRequestsCollection
- * notification_templates: modernuser.notification.TemplatesCollection,
- * notification_contacts: modernuser.notification.UserContactsCollection,
- * rolegroups: modernuser.rolegroup.RoleGroupCollection
+ * role: modernuser.role.Collections,
+ * onboarding_requests: modernuser.onboarding.OnboardingRequestsCollection,
+ * rolegroups: modernuser.rolegroup.RoleGroupCollection,
+ * notification: modernuser.notification.Collections
  * }}
  */
 let collections = new CollectionProxy({
-    'zonation_data': 'zonation.data',
-    'zonation_membership': 'zonation.membership',
+    'zonation': {
+        'data': 'zonation.data',
+        'membership': 'zonation.membership',
+    },
     'authentication_tokens': 'authentication.tokens',
     'authentication_provider_credentials': 'authentication.providers.credentials',
-    'permission_data': 'permission.data',
-    'permission_grants': 'permission.grants',
+    'permission': {
+        'data': 'permission.data',
+        'grants': 'permission.grants',
+    },
     'group_data': 'group.data',
     'group_membership': 'group.membership',
     'profile': 'profile',
     'authentication_logins': 'authentication.logins',
-    'role_data': 'role.data',
-    'role_play': 'role.play',
     'role_contact': 'role.contact',
+    'role': {
+        'roleplay': 'role.play',
+        'data': 'role.data',
+        'contact': 'role.contacts',
+    },
     'onboarding_requests': 'onboarding.requests',
-    'notification_templates': 'notification.templates',
-    'notification_contacts': 'notification.contacts',
-    'rolegroups': 'rolegroup.rolegroups'
+    'rolegroups': 'rolegroup.rolegroups',
+    'notification': {
+        'templates': 'notification.templates',
+        'contacts': 'notification.contacts',
+        'jobs': 'notification.jobs',
+        'inApp': {
+            'read': 'notification.inApp.read',
+            'unread': 'notification.inApp.unread'
+        }
+
+    }
+
 })
 
 export default collections
