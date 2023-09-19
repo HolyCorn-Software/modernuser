@@ -74,7 +74,7 @@ export default class NotificationPlugin extends PluginModelModel {
      * @param {string[]} param0.data
      * @returns {Promise<void>}
      */
-    async notify({ contact, template, data }) {
+    async notify({ contact, template, language, data }) {
 
     }
 

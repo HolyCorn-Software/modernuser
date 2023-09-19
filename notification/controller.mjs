@@ -63,6 +63,7 @@ export default class NotificationController {
                     */
                     function interpolate(text) {
                         task.data.data.forEach((x, i) => text = text?.replaceAll(`{{${i + 1}}}`, x))
+                        text = text?.replaceAll(/\\\{\\\{(.+)\\\}\\\}/g, `{{$1}}`)
                         return text
                     }
 
@@ -78,12 +79,15 @@ export default class NotificationController {
                         inAppData.icon ||= `/$/shared/static/logo.png`
                         inAppData.title ||= template.label
                         inAppData.caption ||= inAppData.title
+                        inAppData.html ||= inAppData.text || inAppData.caption
 
 
 
                         inAppData.icon = interpolate(inAppData.icon)
                         inAppData.title = interpolate(inAppData.title)
                         inAppData.caption = interpolate(inAppData.caption)
+                        inAppData.html = interpolate(inAppData.html)
+                        inAppData.text = interpolate(inAppData.text)
 
 
                         await this[collections].inApp.unread.insertOne(
@@ -92,8 +96,6 @@ export default class NotificationController {
                                 time: Date.now(),
                                 target: task.data.userid,
                                 expires: Date.now() + (30 * 24 * 60 * 60 * 1000),
-                                html: interpolate(template.fields[task.data.language].html),
-                                text: interpolate(template.fields[task.data.language].text),
                                 id: shortUUID.generate()
                             }
                         );
@@ -134,6 +136,15 @@ export default class NotificationController {
                         providerErrorMsg = results.map((x, i) => `${i + 1}\n${x.reason}`).join('\n\n')
                     }
 
+                    const providerFailedList = results.filter(res => res.status === 'rejected');
+
+                    if (providerFailedList.length > 0) {
+                        console.warn(
+                            `Some notification channels failed to deliver notification template ${task.data.template.magenta} to user id ${task.data.userid.magenta}\n`,
+                            providerFailedList.map(x => `${x.reason?.stack || x.reason}`).join('\n')
+                        )
+                    }
+
 
                     return {
                         error: failed.provider && failed.inApp ? {
@@ -159,19 +170,92 @@ export default class NotificationController {
      * @param {string} param0.userid If passed, this user id would be used to authenticate the mark as read action
      * @returns {Promise<void>}
      */
-    async readInAppNotifications({ ids, userid }) {
-        const notifications = await this[collections].inApp.unread.find({ id: { $in: ids } }).toArray();
+    async markInAppNotificationsSeen({ ids, userid }) {
+        const notifications = await this.authenticateInAppNotifications(
+            {
+                ids,
+                userid,
+                permissions: ['permissions.modernuser.notification.inApp.markRead']
+            }
+        )
+        await this[collections].inApp.unread.deleteMany({ id: { $in: ids } });
+        await this[collections].inApp.read.deleteMany({ id: { $in: ids } });
+        notifications.forEach(noti => {
+            noti.expires = Date.now() + (30 * 24 * 60 * 60 * 1000)
+            noti.seen = Date.now()
+        })
+        this[collections].inApp.read.insertMany(notifications)
+    }
+
+    /**
+     * This method deletes inApp notifications
+     * @param {object} param0 
+     * @param {string[]} param0.ids
+     * @param {string} param0.userid
+     * @returns {Promise<void>}
+     */
+    async deleteInAppNotifications({ ids, userid }) {
+        await this.authenticateInAppNotifications({
+            ids,
+            userid,
+            permissions: ['permissions.modernuser.notification.inApp.delete']
+        });
+
+        [this[collections].inApp.unread, this[collections].inApp.read].map(collection => {
+            collection.deleteMany({ id: { $in: ids } })
+        })
+    }
+
+
+    /**
+     * This method counts the number of unread notifications of a given user
+     * @param {string} param0.target The id of the user, whose unread messages are being counted.
+     * @param {string} param0.userid The id of the user performing the count
+     * @returns {Promise<number>}
+     */
+    async countInAppUnread({ target, userid }) {
+        // In case we only know one of the parties, then either the calling user is the target user, or vice versa
+        target ||= userid
+        userid ||= target
+
+        await muser_common.whitelisted_permission_check(
+            {
+                userid,
+                whitelist: [target],
+                permissions: ['permissions.modernuser.notification.inApp.read'],
+            }
+        );
+
+        return await this[collections].inApp.unread.countDocuments({ target })
+    }
+
+
+    /**
+     * This method checks if a calling user has a given permission over a set of notifications.
+     * If so, this method returns the notifications
+     * @param {object} param0 
+     * @param {string[]} param0.ids
+     * @param {string} param0.userid
+     * @param {modernuser.permission.PermissionEnum[]} param0.permissions
+     */
+    async authenticateInAppNotifications({ ids, userid, permissions }) {
+        const notifications = (
+            await Promise.all(
+                [this[collections].inApp.unread, this[collections].inApp.read].map(
+                    collection => collection.find({ id: { $in: ids } }).toArray()
+                )
+            )
+        ).flat();
+
+
         await Promise.all(
             [...(new Set(notifications.map(x => x.target)))].filter(x => x !== userid).map(target => muser_common.whitelisted_permission_check({
                 userid,
                 whitelist: [target],
-                permissions: ['permissions.modernuser.notification.inApp.markRead'],
+                permissions,
             }))
         );
-
-        await this[collections].inApp.unread.deleteMany({ id: { $in: ids } });
-        notifications.forEach(noti => noti.expires = Date.now() + (30 * 24 * 60 * 60 * 1000))
-        this[collections].inApp.read.insertMany(notifications)
+        return notifications
     }
 
     /**
@@ -191,10 +275,17 @@ export default class NotificationController {
             }
         );
 
-        const cursor = this[collections].inApp.unread.find({ target })
-        while (await cursor.hasNext()) {
-            yield await cursor.next()
+        const cursorU = this[collections].inApp.unread.find({ target })
+        while (await cursorU.hasNext()) {
+            yield await cursorU.next()
         }
+        cursorU.close()
+
+        const cursorR = this[collections].inApp.read.find({ target })
+        while (await cursorR.hasNext()) {
+            yield await cursorR.next()
+        }
+        cursorR.close()
 
     }
 
@@ -388,7 +479,7 @@ export default class NotificationController {
 
         const langs = Reflect.ownKeys(data.fields)
         for (const lang of langs) {
-            soulUtils.checkArgs(data.fields[lang], { html: 'string', text: 'string' })
+            soulUtils.checkArgs(data.fields[lang], { html: 'string', text: 'string', inApp: { title: 'string', caption: 'string' } })
         }
 
         await modernuserPlugins.waitForLoad()
@@ -399,7 +490,7 @@ export default class NotificationController {
         }
 
         //Now, find the providers that found the template usable, but data faulty
-        const incorrect = results.success.filter(res => res.value.usable && !res.value.correct)
+        const incorrect = results.success.filter(res => (res.value?.usable ?? true) && !res.value.correct)
         if (incorrect.length > 0) {
             throw new Exception(`Some fields in this template are wrongly formatted.\n\n${incorrect.map((x, i, arr) => `${arr.length > 1 ? `${i + 1})\t` : ''}${x.value.remark}`).join('\n')}`)
         }
@@ -448,8 +539,11 @@ export default class NotificationController {
         }
 
         //Do interpolation for text, and HTML
-        templatedata.fields.text = interpolate(templatedata.fields.text, data)
-        templatedata.fields.html = interpolate(templatedata.fields.html, data)
+        templatedata.fields[language].text = interpolate(templatedata.fields[language].text, data)
+        templatedata.fields[language].html = interpolate(templatedata.fields[language].html, data)
+        templatedata.fields[language].inApp.caption = interpolate(templatedata.fields[language].inApp.caption, data)
+        templatedata.fields[language].inApp.icon = interpolate(templatedata.fields[language].inApp.icon, data)
+        templatedata.fields[language].inApp.title = interpolate(templatedata.fields[language].inApp.title, data)
 
         await provider.instance.notify({ contact: contact.data, template: templatedata, language, data })
     }
@@ -514,6 +608,10 @@ const PERMISSIONS = [
     {
         label: `Read InApp notifications of others`,
         name: 'permissions.modernuser.notification.inApp.read',
+    },
+    {
+        label: `Delete InApp notifications of others`,
+        name: 'permissions.modernuser.notification.inApp.delete'
     }
 ]
 

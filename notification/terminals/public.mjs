@@ -98,15 +98,53 @@ export default class NotificationPublicMethods {
     /**
      * This method gets the inApp notifications for a given target user
      * @param {object} param0 
-     * @param {string} param0.target
+     * @param {string} param0.target Pass the id of the user whose notifications are being retrieved. If left blank, the calling user's would be fetched
      */
-    async getInAppNotifications({ target }) {
+    async getInAppNotifications({ target } = {}) {
+        const userid = (await muser_common.getUser(arguments[0])).id;
         return await this[controller_symbol].getInAppNotifications({
-            target: arguments[1].target,
-            userid: (await muser_common.getUser(arguments[0])).id,
+            target: arguments[1].target || userid,
+            userid: userid,
         })
     }
 
+    /**
+     * This method is used to mark notifications as read
+     * @param {object} param0 
+     * @param {string[]} param0.ids
+     * @returns {Promise<void>}
+     */
+    async markInAppNotificationsSeen({ ids }) {
+        ids = arguments[1].ids
+        await this[controller_symbol].markInAppNotificationsSeen({
+            ids,
+            userid: (await muser_common.getUser(arguments[0])).id
+        })
+    }
+
+    /**
+     * This method deletes several inApp notifications.
+     * @param {object} param0 
+     * @param {string[]} param0.ids
+     * @returns {Promise<void>}
+     */
+    async deleteInAppNotifications({ ids }) {
+        ids = arguments[1].ids
+        await this[controller_symbol].deleteInAppNotifications({
+            ids,
+            userid: (await muser_common.getUser(arguments[0])).id
+        })
+    }
+
+    /**
+     * This method counts the number of unread notifications the calling user has
+     * @returns {Promise<number>}
+     */
+    async countMyInAppUnread() {
+        return await this[controller_symbol].countInAppUnread({
+            userid: (await muser_common.getUser(arguments[0])).id
+        })
+    }
 
 
 }

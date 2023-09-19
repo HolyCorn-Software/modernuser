@@ -114,14 +114,15 @@ global {
                 target: string
                 time: number
                 expires: number
-                text: string
-                html: string
+                seen: number
             }
 
             interface InAppNotificationInput {
                 title: string
                 caption: string
                 icon?: string
+                html: string
+                text: string
             }
 
 
@@ -159,6 +160,7 @@ global {
             'permissions.modernuser.notification.contacts.modify': true
             'permissions.modernuser.notification.inApp.markRead': true
             'permissions.modernuser.notification.inApp.read': true
+            'permissions.modernuser.notification.inApp.delete': true
         }
     }
     namespace modernuser.plugins.notification {

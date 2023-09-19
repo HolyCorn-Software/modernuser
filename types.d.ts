@@ -16,7 +16,7 @@ global {
     namespace modernuser.plugins {
 
         interface PluginMap {
-            auth: AuthenticationPlugin<{}>
+            auth: AuthenticationPlugin<{}, {}, {}>
             notification: NotificationPlugin<{}, {}>
         }
     }

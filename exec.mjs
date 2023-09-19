@@ -50,7 +50,7 @@ export default async function init() {
     const permission_data_controller = new PermissionDataController({ collection: collections.permission.data })
 
     const permission_grants_controller = new PermissionGrantsController({
-        collection: collections.permission.data,
+        collection: collections.permission.grants,
         data_controller: permission_data_controller,
         zonation_data_controller: zonation_data_controller
     });
