@@ -121,7 +121,7 @@ global {
                 title: string
                 caption: string
                 icon?: string
-                html: string
+                html?: string
                 text: string
             }
 

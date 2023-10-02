@@ -12,6 +12,7 @@ import modernuserPlugins from "../plugins.mjs";
 import "./plugin/model.mjs"; //Just Import this, so that the NotificationPlugin will be globally accessible
 import ModernuserEventsServer from "./events.mjs";
 import WorkerWorld from "../../../system/util/worker-world/main.mjs";
+import nodeUtil from 'node:util'
 
 
 const collections = Symbol()
@@ -306,6 +307,14 @@ export default class NotificationController {
                                     text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!'
                                 }
                             ]
+                        },
+                        html: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!',
+                        text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!',
+                        inApp: {
+                            text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!',
+                            icon: '/$/shared/static/logo.png',
+                            title: `Welcome to HolyCorn Software`,
+                            caption: `Please, read our guide.`
                         }
                     }
                 }
@@ -479,7 +488,14 @@ export default class NotificationController {
 
         const langs = Reflect.ownKeys(data.fields)
         for (const lang of langs) {
-            soulUtils.checkArgs(data.fields[lang], { html: 'string', text: 'string', inApp: { title: 'string', caption: 'string' } })
+            try {
+                soulUtils.checkArgs(data.fields[lang], { html: 'string', text: 'string' })
+                if (data.fields[lang].inApp) {
+                    soulUtils.checkArgs(data.fields[lang], { inApp: { title: 'string', caption: 'string' } })
+                }
+            } catch (e) {
+                throw new Error(`Could not create template with data\n${nodeUtil.inspect(data, { showHidden: true, depth: Infinity, colors: true })}\nBecause:\n${nodeUtil.inspect(e.message || e.stack || e, { colors: true })}`)
+            }
         }
 
         await modernuserPlugins.waitForLoad()
