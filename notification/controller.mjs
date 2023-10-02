@@ -489,7 +489,10 @@ export default class NotificationController {
         const langs = Reflect.ownKeys(data.fields)
         for (const lang of langs) {
             try {
-                soulUtils.checkArgs(data.fields[lang], { html: 'string', text: 'string', inApp: { title: 'string', caption: 'string' } })
+                soulUtils.checkArgs(data.fields[lang], { html: 'string', text: 'string' })
+                if (data.fields[lang].inApp) {
+                    soulUtils.checkArgs(data.fields[lang], { inApp: { title: 'string', caption: 'string' } })
+                }
             } catch (e) {
                 throw new Error(`Could not create template with data\n${nodeUtil.inspect(data, { showHidden: true, depth: Infinity, colors: true })}\nBecause:\n${nodeUtil.inspect(e.message || e.stack || e, { colors: true })}`)
             }

@@ -1,5 +1,5 @@
 .
 
-Improved error reporting.
+Improved code quality.
 
-Edited default template message.
+Made InApp information for templates optional.
