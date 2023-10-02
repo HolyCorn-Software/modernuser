@@ -490,9 +490,9 @@ export default class NotificationController {
         }
 
         //Now, find the providers that found the template usable, but data faulty
-        const incorrect = results.success.filter(res => (res.value?.usable ?? true) && !res.value.correct)
+        const incorrect = results.success.filter(res => (res.value?.usable ?? true) && !res.value?.correct)
         if (incorrect.length > 0) {
-            throw new Exception(`Some fields in this template are wrongly formatted.\n\n${incorrect.map((x, i, arr) => `${arr.length > 1 ? `${i + 1})\t` : ''}${x.value.remark}`).join('\n')}`)
+            throw new Exception(`Some fields in this template are wrongly formatted.\n\n${incorrect.map((x, i, arr) => `${arr.length > 1 ? `${i + 1})\t` : ''}${x.value?.remark}`).join('\n')}`)
         }
 
         this[collections].templates.updateOne(
