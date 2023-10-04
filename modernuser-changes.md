@@ -1,6 +1,3 @@
 .
 
-Made template management more robust.
-Improved code quality.
-
-Made InApp information for templates optional.
+Made it possible for authentication templates to ignore the inApp notification sections.

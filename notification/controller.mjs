@@ -39,9 +39,6 @@ export default class NotificationController {
         NotificationController[instance] = this
         this.events = new ModernuserEventsServer()
 
-        setTimeout(() => this.test().catch(e => console.log(e)), 2000);
-
-
         this[processor] = new WorkerWorld(
             {
                 stages: [
@@ -290,38 +287,6 @@ export default class NotificationController {
 
     }
 
-    async test() {
-        await this.createTemplate(
-            {
-                name: 'hello_holycorn_b',
-                label: `Hello HolyCorn`,
-                fields: {
-                    en: {
-
-                        /** @type {modernuser.plugins.notification.whatsapp.TemplateDefinition} */
-                        whatsapp: {
-                            category: 'UTILITY',
-                            components: [
-                                {
-                                    type: 'BODY',
-                                    text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!'
-                                }
-                            ]
-                        },
-                        html: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!',
-                        text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!',
-                        inApp: {
-                            text: 'Hello, and welcome to HolyCorn Software. Do well to read our user guide.\n Click the following link to get more information. {{1}}. Thank you!',
-                            icon: '/$/shared/static/logo.png',
-                            title: `Welcome to HolyCorn Software`,
-                            caption: `Please, read our guide.`
-                        }
-                    }
-                }
-            }
-        );
-
-    }
 
     /**
      * @returns { NotificationController}
@@ -502,11 +467,12 @@ export default class NotificationController {
         const results = await modernuserPlugins.loaded.namespaces.notification.callback.reviewTemplate(data);
 
         if (results.failure.length > 0) {
-            throw new Exception(`Could not create message template because some plugins failed to validate it\n\n${results.failure.map(x => x.error.stack || x.error.message || x.error).join('\n')}`)
+            throw new Exception(`Could not create message template ${data.name.magenta} because some plugins failed to validate it\n${results.failure.map(x => `${x.plugin.descriptor.label.red} (${x.plugin.descriptor.name.red.bold}) rejected the template.\n` + (x.error.message || x.error)).join('\n')}`)
         }
 
         //Now, find the providers that found the template usable, but data faulty
-        const incorrect = results.success.filter(res => (res.value?.usable ?? true) && !res.value?.correct)
+        const incorrect = results.success.filter(res => (res.value?.usable ?? true) && !(res.value?.correct ?? true))
+
         if (incorrect.length > 0) {
             throw new Exception(`Some fields in this template are wrongly formatted.\n\n${incorrect.map((x, i, arr) => `${arr.length > 1 ? `${i + 1})\t` : ''}${x.value?.remark}`).join('\n')}`)
         }
@@ -557,9 +523,11 @@ export default class NotificationController {
         //Do interpolation for text, and HTML
         templatedata.fields[language].text = interpolate(templatedata.fields[language].text, data)
         templatedata.fields[language].html = interpolate(templatedata.fields[language].html, data)
-        templatedata.fields[language].inApp.caption = interpolate(templatedata.fields[language].inApp.caption, data)
-        templatedata.fields[language].inApp.icon = interpolate(templatedata.fields[language].inApp.icon, data)
-        templatedata.fields[language].inApp.title = interpolate(templatedata.fields[language].inApp.title, data)
+        if (templatedata.fields[language].inApp) {
+            templatedata.fields[language].inApp.caption = interpolate(templatedata.fields[language].inApp?.caption, data)
+            templatedata.fields[language].inApp.icon = interpolate(templatedata.fields[language].inApp.icon, data)
+            templatedata.fields[language].inApp.title = interpolate(templatedata.fields[language].inApp.title, data)
+        }
 
         await provider.instance.notify({ contact: contact.data, template: templatedata, language, data })
     }
