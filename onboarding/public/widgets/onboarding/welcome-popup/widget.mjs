@@ -51,7 +51,7 @@ export default class WelcomePopup extends HCTSBrandedPopup {
                 {
                     content: `Get Started`,
                     onclick: () => {
-                        window.location = '/'
+                        window.location = new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'
                     }
                 }
             )

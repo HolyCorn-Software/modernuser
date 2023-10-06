@@ -4,7 +4,13 @@ The CAYOFED People System Project
 This page allows the user to answer a form
 */
 
-html, body{
-    margin:0px;
-    position:relative;
+html,
+body {
+    margin: 0px;
+    position: relative;
+}
+
+body {
+    padding-top: clamp(5em, 10vh, 10em);
+
 }

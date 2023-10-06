@@ -6,6 +6,7 @@
 
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs";
 import { handle } from "/$/system/static/errors/error.mjs";
+import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 const doLoad = async () => {
@@ -25,11 +26,12 @@ try {
 
     const page = await hcRpc.system.settings.get({ faculty: 'modernuser', namespace: 'appearance', name: 'loginPage' })
     if (page) {
-        window.location = `${page}?continue=${new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'}`
+        window.location = `${page}?continue=${new URLSearchParams(window.location.search).get('continue') || new URL(document.referrer).pathname || '/'}`
     } else {
-        console.log(`There's no login page: ${page}`)
         doLoad().catch((e) => handle(e))
     }
 } catch (e) {
     handle(e)
 }
+
+hc.importModuleCSS(import.meta.url)

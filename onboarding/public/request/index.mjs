@@ -11,7 +11,7 @@ import { handle } from '/$/system/static/errors/error.mjs'
 try {
     const onboardingPageURL = await hcRpc.system.settings.get({ faculty: 'modernuser', name: 'onboardingPage', namespace: 'appearance' })
     if (onboardingPageURL) {
-        window.location = `${onboardingPageURL}${window.location.search || '?'}&continue=${new URLSearchParams(window.location.search).get('continue') || document.referrer || '/'}`
+        window.location = `${onboardingPageURL}${window.location.search || '?'}&continue=${new URLSearchParams(window.location.search).get('continue') || new URL(document.referrer).pathname || '/'}`
     } else {
         await main()
     }
