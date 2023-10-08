@@ -150,6 +150,9 @@ export default class PermissionDataController {
      * @returns {Promise<void>}
      */
     async init(collection) {
+
+        await PermissionDataController.prepareCollection(collection)
+        
         await this.createPermission(ULTIMATE_PERMISSION)
 
         const faculties = await FacultyPlatform.get().base.channel.remote.faculties()
@@ -161,7 +164,6 @@ export default class PermissionDataController {
             }
         }
 
-        await PermissionDataController.prepareCollection(collection)
     }
 
 

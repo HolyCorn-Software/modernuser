@@ -1,5 +1,5 @@
 .
 
-Improved UI of the login page.
+Corrected minor bug related to storage of permissions.
 
-Improved the algorithm for redirecting the user after login, and after onboarding.
+Improved performance by caching profile information.
