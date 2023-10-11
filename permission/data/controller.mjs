@@ -150,6 +150,7 @@ export default class PermissionDataController {
      * @returns {Promise<void>}
      */
     async init(collection) {
+        await PermissionDataController.prepareCollection(collection)
         await this.createPermission(ULTIMATE_PERMISSION)
 
         const faculties = await FacultyPlatform.get().base.channel.remote.faculties()
@@ -161,7 +162,6 @@ export default class PermissionDataController {
             }
         }
 
-        await PermissionDataController.prepareCollection(collection)
     }
 
 
@@ -171,7 +171,7 @@ export default class PermissionDataController {
      */
     static async prepareCollection(collection) {
         await collection.dropIndexes()
-        
+
         await collection.createIndex({ name: 1 }, { unique: true }).catch(e => {
             console.warn(`Failed to perform necessary operation on a collection meant to store permission info `, e)
         });
