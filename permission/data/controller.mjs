@@ -150,6 +150,7 @@ export default class PermissionDataController {
      * @returns {Promise<void>}
      */
     async init(collection) {
+
         await PermissionDataController.prepareCollection(collection)
         
         await this.createPermission(ULTIMATE_PERMISSION)
