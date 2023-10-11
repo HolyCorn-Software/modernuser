@@ -131,7 +131,7 @@ export default class UserAuthenticationPublicMethods {
             throw new Exception(`You did not complete the onboarding (registration) process. <a href='/$/${faculty.descriptor.name}/onboarding/static/request/'>Click here</a> to complete it.`)
         }
 
-        return profile;
+        return new JSONRPC.CacheObject(profile, { expiry: 10 * 60 * 1000 })
     }
 
     /**
