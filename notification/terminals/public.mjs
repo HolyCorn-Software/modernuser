@@ -24,7 +24,14 @@ export default class NotificationPublicMethods {
 
     }
     async getProviders() {
-        return modernuserPlugins.loaded.namespaces.notification.map(x => ({ name: x.descriptor.name, label: x.descriptor.label, faculty: x.descriptor.faculty, form: x.descriptor.credentials.form, contactForm: x.instance.contactForm }))
+        return new JSONRPC.MetaObject(
+            modernuserPlugins.loaded.namespaces.notification.map(x => ({ name: x.descriptor.name, label: x.descriptor.label, faculty: x.descriptor.faculty, form: x.descriptor.credentials.form, contactForm: x.instance.contactForm })),
+            {
+                cache: {
+                    expiry: 10 * 60 * 1000
+                }
+            }
+        )
     }
 
 

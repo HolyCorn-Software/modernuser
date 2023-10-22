@@ -35,7 +35,15 @@ export default class ZonationPublicMethods {
      * @returns {Promise<modernuser.zonation.ZoneData]>}
      */
     async getZones() {
-        return await this[data_controller_symbol].getAllZones()
+        return new JSONRPC.MetaObject(
+            await this[data_controller_symbol].getAllZones(),
+            {
+                cache: {
+                    expiry: 20 * 60 * 1000,
+                    tag: 'modernuser.zonation.zones'
+                }
+            }
+        )
     }
 
 
@@ -52,7 +60,12 @@ export default class ZonationPublicMethods {
         id = arguments[1]
         newlabel = arguments[2]
 
-        return await this[data_controller_symbol].renameZone(id, newlabel)
+        return new JSONRPC.MetaObject(
+            await this[data_controller_symbol].renameZone(id, newlabel),
+            {
+                rmCache: ['modernuser.zonation.zones']
+            }
+        )
     }
 
     /**
@@ -67,7 +80,13 @@ export default class ZonationPublicMethods {
         id = arguments[1]
         superzone = arguments[2]
 
-        return await this[data_controller_symbol].moveZone(id, superzone)
+        return new JSONRPC.MetaObject(
+            await this[data_controller_symbol].moveZone(id, superzone),
+            {
+                rmCache: ['modernuser.zonation.zones']
+            }
+        )
+
     }
 
 
@@ -81,7 +100,13 @@ export default class ZonationPublicMethods {
         await clientPermitted(arguments[0])
         id = arguments[1]
 
-        return await this[data_controller_symbol].deleteZone(id)
+        return new JSONRPC.MetaObject(
+            await this[data_controller_symbol].deleteZone(id),
+            {
+                rmCache: ['modernuser.zonation.zones']
+            }
+        )
+
     }
 
     /**
@@ -97,7 +122,12 @@ export default class ZonationPublicMethods {
         label = arguments[1].label
         superzone = arguments[1].superzone
 
-        return await this[data_controller_symbol].createZone({ label, superzone })
+        return new JSONRPC.MetaObject(
+            await this[data_controller_symbol].createZone({ label, superzone }),
+            {
+                rmCache: ['modernuser.zonation.zones']
+            }
+        )
     }
 
 }

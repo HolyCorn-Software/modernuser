@@ -45,7 +45,7 @@ export default class PermissionDataPublicMethods {
      * @returns {Promise<modernuser.permission.PermissionData[]>}
      */
     async getAll() {
-        return await this[controller_symbol].getAll()
+        return new JSONRPC.MetaObject(await this[controller_symbol].getAll(), { cache: { expiry: 30 * 60 * 1000 } })
     }
 
 }

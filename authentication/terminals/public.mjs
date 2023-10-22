@@ -91,10 +91,9 @@ export default class UserAuthenticationPublicMethods {
 
     /**
      * @deprecated Use .getPluginsPublicData() instead
-     * @returns {Promise<modernuser.authentication.AuthPluginPublicData[]>}
      */
     async getProvidersData() {
-        return await this[controller_symbol].getPluginsPublicData()
+        return await this.getPluginsPublicData()
     }
 
 
@@ -103,7 +102,14 @@ export default class UserAuthenticationPublicMethods {
      * @returns {Promise<modernuser.authentication.AuthPluginPublicData[]>}
      */
     async getPluginsPublicData() {
-        return await this[controller_symbol].getPluginsPublicData()
+        return new JSONRPC.MetaObject(
+            await this[controller_symbol].getPluginsPublicData(),
+            {
+                cache: {
+                    expiry: 10 * 60 * 1000 // Keep information about providers, for up to 10 minutes
+                }
+            }
+        )
     }
 
 
@@ -131,7 +137,7 @@ export default class UserAuthenticationPublicMethods {
             throw new Exception(`You did not complete the onboarding (registration) process. <a href='/$/${faculty.descriptor.name}/onboarding/static/request/'>Click here</a> to complete it.`)
         }
 
-        return new JSONRPC.CacheObject(profile, { expiry: 10 * 60 * 1000 })
+        return new JSONRPC.MetaObject(profile, { cache: { expiry: 10 * 60 * 1000, tag: ['modernuser.profile'] } })
     }
 
     /**
@@ -147,6 +153,9 @@ export default class UserAuthenticationPublicMethods {
             token: await session.getVar(UserAuthenticationController.sessionVarName)
         });
         await session.rmVar(UserAuthenticationController.sessionVarName)
+        return new JSONRPC.MetaObject(undefined, {
+            rmCache: ['/modernuser.*profile/']
+        })
     }
 
 

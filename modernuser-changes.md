@@ -1,6 +1,3 @@
 .
 
-Fixed git issue.
-Corrected minor bug related to storage of permissions.
-
-Improved performance by caching profile information.
+Improved performance by caching several types of data.
