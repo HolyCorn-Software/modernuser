@@ -26,7 +26,7 @@ try {
 
     const page = await hcRpc.system.settings.get({ faculty: 'modernuser', namespace: 'appearance', name: 'loginPage' })
     if (page) {
-        window.location = `${page}?continue=${new URLSearchParams(window.location.search).get('continue') || new URL(document.referrer).pathname || '/'}`
+        window.location = `${page}?continue=${new URLSearchParams(window.location.search).get('continue') || new URL(document.referrer, window.location.origin).pathname || '/'}`
     } else {
         doLoad().catch((e) => handle(e))
     }

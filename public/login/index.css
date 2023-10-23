@@ -9,8 +9,3 @@ body {
     margin: 0px;
     position: relative;
 }
-
-body {
-    padding-top: clamp(5em, 10vh, 10em);
-
-}
