@@ -39,7 +39,7 @@ export default class LoginWidget extends Widget {
             `
         });
 
-        /** @type {Widget[]} */ this.providers
+        /** @type {ProviderLoginWidget[]} */ this.providers
         this.pluralWidgetProperty({
             selector: '*',
             parentSelector: '.container >.main-section >.providers-section',

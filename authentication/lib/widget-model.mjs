@@ -10,15 +10,25 @@ import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 
 export const pluginData = Symbol()
+const pluginData0 = Symbol()
 
 export default class ProviderLoginWidget extends Widget {
 
     constructor() {
         super(...arguments);
 
-        /** @type {modernuser.authentication.AuthPluginPublicData} */ this[pluginData]
 
         /** @type {function(('complete'), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
+    }
+    /**
+     * @param {modernuser.authentication.AuthPluginPublicData} val
+     */
+    set [pluginData](val) {
+        this[pluginData0] = val
+    }
+
+    get [pluginData]() {
+        return this[pluginData0]
     }
 
     /**
