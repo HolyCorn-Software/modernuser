@@ -53,6 +53,26 @@ export default class UserAuthenticationPublicMethods {
 
 
     /**
+     * This method is called when a user wants to add a login to his account.
+     * @param {object} param0 
+     * @param {string} param0.plugin
+     * @param {object} param0.data
+     */
+    async addLogin({ plugin, data }) {
+        plugin = arguments[1]?.plugin
+        data = arguments[1]?.data
+
+        await this[controller_symbol].createLogin({
+            userid: (await muser_common.getUser(arguments[0])).id,
+            clientRpc: arguments[0],
+            data,
+            plugin: plugin
+        })
+    }
+
+
+
+    /**
      * This method is the advanced way of logging in.
      * This method gets all the profiles attached to the given login
      * @param {string} provider 
@@ -86,6 +106,17 @@ export default class UserAuthenticationPublicMethods {
         session.setVar(UserAuthenticationController.sessionVarName, credentials.token)
 
         return
+    }
+
+
+    /**
+     * This method deletes a user's login
+     * @param {object} param0 
+     * @param {string} param0.id ID of the login being deleted
+     * @returns {Promise<void>}
+     */
+    async deleteLogin({ id }) {
+        await this[controller_symbol].deleteLogin({ id: arguments[1]?.id, userid: (await muser_common.getUser(arguments[0]).id) })
     }
 
 
@@ -156,6 +187,17 @@ export default class UserAuthenticationPublicMethods {
         return new JSONRPC.MetaObject(undefined, {
             rmCache: ['/modernuser.*profile/']
         })
+    }
+
+    /**
+     * This method gets the logins of the calling user.
+     * 
+     * The logins contain the bare minimum data
+     */
+    async getMyLoginsMin() {
+        const user = await muser_common.getUser(arguments[0]);
+
+        return (await this[controller_symbol].getUserLogins({ userid: user.id })).map(x => ({ id: x.id, label: x.label || this[controller_symbol].findPlugin(x.plugin, { throwError: false })?.descriptor.label || x.plugin, plugin: x.plugin, creationTime: x.creationTime }))
     }
 
 

@@ -55,7 +55,7 @@ async function executeAction({ action, provider, data }) {
 
             // Now, if the login is not active, we just return false, so that the
             // provider knows that the login requires activation
-            if (!profiles[0].active) {
+            if (profiles.findIndex(x => !x.active) !== -1) {
                 return {
                     active: false
                 }

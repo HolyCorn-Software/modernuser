@@ -78,7 +78,9 @@ export default class UserProfileController {
         let query = {}
         /** @type {(keyof modernuser.profile.MutableUserProfileData)[]} */
         const keys = ['icon', 'label', 'meta']
-        const illegalRegExp = /[<>.+-]/
+        const illegalRegExp = /[<>.+-:'"&^$~`]/
+
+        // TODO: Put in place a mechanism for protecting meta data fields
         for (let key of keys) {
             if (typeof profile[key] !== 'undefined') {
                 query[key] = profile[key]

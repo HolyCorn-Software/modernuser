@@ -115,6 +115,15 @@ export default class AuthenticationPlugin extends PluginModelModel {
 
     }
 
+    /**
+     * This method should return a user-friendly name for the login, passed in.
+     * @param {object} param0 
+     * @returns {Promise<string>}
+     */
+    async makeCaption({ data } = {}) {
+        return data[Reflect.ownKeys(data)[0]]
+    }
+
 
     /**
      * The plugin should override and return an interface which contains remote methods.

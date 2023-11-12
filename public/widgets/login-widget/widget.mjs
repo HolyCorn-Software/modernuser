@@ -52,7 +52,9 @@ export default class LoginWidget extends Widget {
                  */
                 set: (widget) => {
 
-                    widget.addEventListener('complete', () => {
+
+                    widget.removeEventListener('complete', widget.onComplete) // To prevent duplicate actions, when providers are re-ordered.
+                    widget.addEventListener('complete', widget.onComplete = () => {
 
                         let action = widget.face || this.face;
 

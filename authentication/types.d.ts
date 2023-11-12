@@ -65,18 +65,20 @@ global {
             expires: number
         }
 
-        interface UserLogin {
+        interface UserLogin<T = {}> {
             id: string
             userid: string
             plugin: string
-            data: object
+            data: T
             active: boolean
             creationTime: number
+            label: string
         }
         type UserLoginCollection = Collection<UserLogin>
 
         interface AuthPluginPublicData {
             name: string
+            label: string
             credentials: object
         }
 
@@ -86,6 +88,12 @@ global {
         }
 
 
+    }
+
+    namespace modernuser.permission {
+        interface AllPermissions {
+            'permissions.modernuser.authentication.supervise': true
+        }
     }
 
 }

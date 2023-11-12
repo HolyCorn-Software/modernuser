@@ -90,6 +90,17 @@ export default class AuthPluginSystemAPI {
     }
 
     /**
+     * This method gets a user's login, by id
+     * @param {object} param0 
+     * @param {string} param0.id
+     * @param {string} param0.userid If specified, checks would be made, to ensure that this user is the owner of the login.
+     * @returns {Promise<modernuser.authentication.UserLogin<PluginUserDataSchema>>}
+     */
+    async findUserLoginById({ id, userid }) {
+        return await this[auth_controller_symbol].getUserLogin({ userid, id })
+    }
+
+    /**
      * This method updates a user profile
      * @param {modernuser.profile.MutableUserProfileData & Pick<modernuser.profile.UserProfileData, "id">} profile 
      * @returns {Promise<void>}

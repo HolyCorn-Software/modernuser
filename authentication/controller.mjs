@@ -10,6 +10,7 @@
 
 import shortUUID from "short-uuid";
 import UserProfileController from "../profile/controller.mjs";
+import muser_common from "muser_common";
 
 import('./plugin/model.mjs').catch(e => console.error(e))
 
@@ -126,9 +127,9 @@ export default class UserAuthenticationController {
 
         const results = await Promise.all(
             (await this[login_collection_symbol].find({
-                plugin: provider,
-                data: unique_data
-            }).toArray()).map(async login => {
+                    plugin: provider,
+                    ...Object.fromEntries(Reflect.ownKeys(unique_data).map(x => [`data.${x}`, unique_data[x]]))
+                }).toArray()).map(async login => {
                 return {
                     active: login.active,
                     profile: await this[user_profile_controller_symbol].getProfile({ id: login.userid })
@@ -168,7 +169,7 @@ export default class UserAuthenticationController {
 
         let login_data = await this[login_collection_symbol].findOne({
             plugin: provider,
-            data: unique_data,
+            ...Object.fromEntries(Reflect.ownKeys(unique_data).map(x => [`data.${x}`, unique_data[x]])),
             userid
         });
 
@@ -220,6 +221,7 @@ export default class UserAuthenticationController {
             UserAuthenticationController.plugins.map(async plugin => {
                 return {
                     name: plugin.descriptor.name,
+                    label: plugin.descriptor.label,
                     credentials: await plugin.instance.getClientCredentials()
                 }
             })
@@ -274,6 +276,7 @@ export default class UserAuthenticationController {
             id,
             data: unique_data,
             active: false,
+            label: await pluginObject.makeCaption({ data }),
             creationTime: Date.now()
         });
 
@@ -301,6 +304,7 @@ export default class UserAuthenticationController {
             id,
             data,
             active,
+            label: await this.findPlugin(plugin).makeCaption({ data }),
             creationTime: Date.now()
         });
 
@@ -360,7 +364,7 @@ export default class UserAuthenticationController {
     }
 
     /**
-     * This method is used to activate or deactivate a login.
+     * This method is used to update a login.
      * 
      * The data passed to this method should already be minified Using plugin.toMinimalUniqueCredentials()
      * @param {object} param0
@@ -411,6 +415,33 @@ export default class UserAuthenticationController {
             intent: 'reset',
             clientRpc
         })
+    }
+
+    /**
+     * This method deletes a login.
+     * @param {object} param0 
+     * @param {string} param0.id
+     * @param {string} param0.userid The id of the user performing the action
+     * @returns {Promise<void>}
+     */
+    async deleteLogin({ id, userid } = {}) {
+        const login = await this[login_collection_symbol].findOne({ id })
+        if (!login) {
+            throw new Exception(`The login you're trying to delete doesn't even exists`)
+        }
+        await muser_common.whitelisted_permission_check(
+            {
+                userid,
+                permissions: ['permissions.modernuser.authentication.supervise'],
+                whitelist: [login.userid]
+            }
+        )
+
+        if ((await this[login_collection_symbol].countDocuments({ userid })) < 2) {
+            throw new Exception(`Cannot delete this login, because it's the only one.`)
+        }
+
+        await this[login_collection_symbol].deleteOne({ id })
     }
 
     /**
@@ -467,6 +498,25 @@ export default class UserAuthenticationController {
             ...query,
             plugin
         })
+    }
+
+    /**
+     * This method gets all the logins of a particular user
+     * @param {object} param0 
+     * @param {string} param0.userid
+     */
+    async getUserLogins({ userid }) {
+        return await this[login_collection_symbol].find({ userid }).toArray()
+    }
+
+    /**
+     * This method gets a login, seemingly belonging to a given user.
+     * @param {object} param0 
+     * @param {string} param0.userid
+     * @param {string} param0.id
+     */
+    async getUserLogin({ userid, id }) {
+        return await this[login_collection_symbol].findOne({ userid, id })
     }
 
 
@@ -564,6 +614,14 @@ export default class UserAuthenticationController {
 
 }
 
+/** @type {modernuser.permission.PermissionDataInput[]} */
+export const permissions = [
+    {
+        label: `Modify Others' logins`,
+        name: 'permissions.modernuser.authentication.supervise',
+        inherit: ['permissions.modernuser.profiles.search']
+    }
+]
 
 
 const token_collection_symbol = Symbol(`UserAuthenticationController.prototype.token_collection`)

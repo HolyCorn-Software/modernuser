@@ -38,7 +38,7 @@ export default class NotificationPublicMethods {
     /**
      * This method gets the contacts of a given user
      * @param {object} param0 
-     * @param {string} param0.target The id of the user whose contacts are being fetched
+     * @param {string} param0.target The id of the user whose contacts are being fetched. If omitted, the calling user's contact would be fetched
      * @returns {Promise<modernuser.notification.ContactExtra[]>}
      */
     async getContacts({ target }) {

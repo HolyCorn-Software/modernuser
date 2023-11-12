@@ -14,11 +14,15 @@ const pluginData0 = Symbol()
 
 export default class ProviderLoginWidget extends Widget {
 
-    constructor() {
+    /**
+     * 
+     * @param {object} credentials 
+     */
+    constructor(credentials) {
         super(...arguments);
 
 
-        /** @type {function(('complete'), function(CustomEvent), AddEventListenerOptions)} */ this.addEventListener
+        /** @type {function(ev:('complete'), cb:function(CustomEvent), opts?:AddEventListenerOptions)} */ this.addEventListener
     }
     /**
      * @param {modernuser.authentication.AuthPluginPublicData} val

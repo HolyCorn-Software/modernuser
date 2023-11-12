@@ -9,7 +9,7 @@
 
 import collections from "./collections.mjs";
 import UserProfileController from "./profile/controller.mjs";
-import UserAuthenticationController from "./authentication/controller.mjs";
+import UserAuthenticationController, { permissions as authentication_permissions } from "./authentication/controller.mjs";
 import UserInternalMethods from "./terminals/internal.mjs";
 import UserPublicMethods, { profilePermissions } from "./terminals/public.mjs";
 import ZonationDataController, { zonation_permissions } from "./zonation/data/controller.mjs";
@@ -149,7 +149,8 @@ export default async function init() {
         ...grants_permissions,
         ...profilePermissions,
         ...rolegroupPermissions,
-        ...notification_permissions
+        ...notification_permissions,
+        ...authentication_permissions
     ]
 
     for (let permission of permissions) {
