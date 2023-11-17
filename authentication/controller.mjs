@@ -127,9 +127,9 @@ export default class UserAuthenticationController {
 
         const results = await Promise.all(
             (await this[login_collection_symbol].find({
-                    plugin: provider,
-                    ...Object.fromEntries(Reflect.ownKeys(unique_data).map(x => [`data.${x}`, unique_data[x]]))
-                }).toArray()).map(async login => {
+                plugin: provider,
+                ...Object.fromEntries(Reflect.ownKeys(unique_data).map(x => [`data.${x}`, unique_data[x]]))
+            }).toArray()).map(async login => {
                 return {
                     active: login.active,
                     profile: await this[user_profile_controller_symbol].getProfile({ id: login.userid })

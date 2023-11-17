@@ -118,7 +118,7 @@ export default class UserAuthenticationPublicMethods {
      * @returns {Promise<void>}
      */
     async deleteLogin({ id }) {
-        await this[controller_symbol].deleteLogin({ id: arguments[1]?.id, userid: (await muser_common.getUser(arguments[0]).id) })
+        await this[controller_symbol].deleteLogin({ id: arguments[1]?.id, userid: (await muser_common.getUser(arguments[0])).id })
     }
 
 
