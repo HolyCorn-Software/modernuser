@@ -18,7 +18,7 @@ export default class ChooseAccount extends HCTSBrandedPopup {
      * @param {object} login_data.login 
      * @param {string} login_data.login.plugin
      * @param {object} login_data.login.data
-     * @param {{active: boolean, profile: modernuser.profile.UserProfileData}[]} login_data.profiles
+     * @param {modernuser.authentication.LoginProfileInfo[]} login_data.profiles
      */
     constructor(login_data) {
         super()
@@ -35,8 +35,8 @@ export default class ChooseAccount extends HCTSBrandedPopup {
         content_widget.accounts = login_data.profiles.map(profile => {
             return {
                 active: profile.active,
-                image: profile.profile.icon,
-                label: profile.profile.label,
+                image: profile.profile.icon || '/$/shared/static/logo.png',
+                label: profile.profile.label || '&lt;No Name&gt;',
                 time: profile.profile.time,
                 userid: profile.profile.id
             }

@@ -137,7 +137,7 @@ export default class ChooseAccountContent extends Widget {
      * @returns {string}
      */
     get selected_account() {
-        return this.accountWidgets.find(x => x.checkbox.checked && x.active)?.userid
+        return this.accountWidgets.find(x => x.checkbox.checked)?.userid
     }
 
 

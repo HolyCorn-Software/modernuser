@@ -105,7 +105,9 @@ export default class UserAuthenticationPublicMethods {
 
         session.setVar(UserAuthenticationController.sessionVarName, credentials.token)
 
-        return
+        return new JSONRPC.MetaObject({}, {
+            rmCache: ['/modernuser.*profile/']
+        })
     }
 
 

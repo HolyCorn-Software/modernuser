@@ -56,7 +56,7 @@ declare global {
              * This field can be expanded by multiple ts modules,
              *  to determine the final meta data to be contained in profiles 
              * */
-            interface UserProfileMeta{
+            interface UserProfileMeta {
 
             }
 
@@ -64,10 +64,21 @@ declare global {
 
             type UserProfileCollection = Collection<UserProfileData>
         }
-        namespace permission{
-            interface AllPermissions{
+        namespace permission {
+            interface AllPermissions {
                 'permissions.modernuser.profiles.search': true
             }
+        }
+    }
+
+    namespace faculty {
+        interface FacultyEvents {
+            'modernuser.profile-delete': [
+                string,
+                modernuser.profile.UserProfileData
+            ]
+            'modernuser.profile-genesis': [string]
+            'modernuser.role-delete': [string]
         }
     }
 }

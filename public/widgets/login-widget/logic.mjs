@@ -55,7 +55,7 @@ async function executeAction({ action, provider, data }) {
 
             // Now, if the login is not active, we just return false, so that the
             // provider knows that the login requires activation
-            if (profiles.findIndex(x => !x.active) !== -1) {
+            if (profiles.length == 1 && !profiles[0].active) {
                 return {
                     active: false
                 }
@@ -63,11 +63,19 @@ async function executeAction({ action, provider, data }) {
 
             /**
              * This method is used to finally log in
-             * @param {string} profile 
-             * @returns {Promise<void>}
+             * @param {modernuser.authentication.LoginProfileInfo} login 
+             * @returns {Promise<modernuser.authentication.frontend.LoginStatus>}
              */
-            async function doLogin(profile) {
-                await hcRpc.modernuser.authentication.advancedLogin({ provider, data, userid: profile })
+            async function doLogin(login) {
+                if (!login.active) {
+                    return {
+                        active: false,
+                    }
+                }
+                await hcRpc.modernuser.authentication.advancedLogin({ provider, data, userid: login.profile.id })
+                return {
+                    active: true
+                }
             }
 
 
@@ -81,7 +89,7 @@ async function executeAction({ action, provider, data }) {
                 })
                 popup.show()
 
-                await new Promise((resolve, reject) => {
+                return await new Promise((resolve, reject) => {
                     popup.hideOnOutsideClick = false;
 
                     popup.addEventListener('hide', () => {
@@ -89,7 +97,7 @@ async function executeAction({ action, provider, data }) {
                     })
                     popup.addEventListener('complete', async () => {
                         try {
-                            resolve(await doLogin(popup.value))
+                            resolve(await doLogin(profiles.find(x => x.profile.id == popup.value)))
                         } catch (e) {
                             reject(e)
                         }
@@ -98,10 +106,7 @@ async function executeAction({ action, provider, data }) {
                 })
             } else {
                 // Now, the user could be signing up to an inactive login
-                await doLogin(profiles[0].profile.id)
-            }
-            return {
-                active: true
+                return await doLogin(profiles[0])
             }
 
         }

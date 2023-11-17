@@ -60,20 +60,20 @@ export default class NotificationController {
                     * @returns {string}
                     */
                     function interpolate(text) {
-                        task.data.data.forEach((x, i) => text = text?.replaceAll(`{{${i + 1}}}`, x))
+                        task.data.forEach((x, i) => text = text?.replaceAll(`{{${i + 1}}}`, x))
                         text = text?.replaceAll(/\\\{\\\{(.+)\\\}\\\}/g, `{{$1}}`)
                         return text
                     }
 
                     // First, inApp
                     const processInApp = async () => {
-                        const template = await this[collections].templates.findOne({ name: task.data.template })
+                        const template = await this[collections].templates.findOne({ name: task.template })
                         if (!template) {
                             const error = new Error(`Message template not found.`)
                             error.fatal = true
                             throw error
                         }
-                        const inAppData = template.fields[task.data.language].inApp
+                        const inAppData = template.fields[task.language].inApp
                         inAppData.icon ||= `/$/shared/static/logo.png`
                         inAppData.title ||= template.label
                         inAppData.caption ||= inAppData.title
@@ -92,7 +92,7 @@ export default class NotificationController {
                             {
                                 ...inAppData,
                                 time: Date.now(),
-                                target: task.data.userid,
+                                target: task.userid,
                                 expires: Date.now() + (30 * 24 * 60 * 60 * 1000),
                                 id: shortUUID.generate()
                             }
@@ -104,7 +104,7 @@ export default class NotificationController {
                     try {
                         await processInApp()
                     } catch (e) {
-                        console.error(`Failed to issue inApp notification for notification job ${task.id}\n`, e)
+                        console.error(`Failed to issue inApp notification for notification job ${task["@worker-world-task"].id}\n`, e)
                         failed.inApp = true
                     }
 
@@ -114,9 +114,9 @@ export default class NotificationController {
 
                     const results = await (
                         Promise.allSettled(
-                            (await this[collections].contacts.find({ userid: task.data.userid }).toArray()).map(
+                            (await this[collections].contacts.find({ userid: task.userid }).toArray()).map(
                                 (contact) => this.notify({
-                                    contact, data: task.data.data, language: task.data.language, template: task.data.template
+                                    contact, data: task.data, language: task.language, template: task.template
                                 })
                             )
                         )
@@ -138,7 +138,7 @@ export default class NotificationController {
 
                     if (providerFailedList.length > 0) {
                         console.warn(
-                            `Some notification channels failed to deliver notification template ${task.data.template.magenta} to user id ${task.data.userid.magenta}\n`,
+                            `Some notification channels failed to deliver notification template ${task.template.magenta} to user id ${task.userid.magenta}\n`,
                             providerFailedList.map(x => `${x.reason?.stack || x.reason}`).join('\n')
                         )
                     }
@@ -542,17 +542,17 @@ export default class NotificationController {
      * @returns {Promise<void>}
      */
     async notifyUser({ userid, template, language, data }) {
-        await this[collections].jobs.insertOne({
-            id: shortUUID.generate(),
-            created: Date.now(),
-            expires: Date.now() + (30 * 24 * 60 * 60 * 1000),
-            data: {
+        this[processor].insertOne(
+            {
                 data,
-                template,
                 language,
-                userid
+                userid,
+                template,
             },
-        })
+            {
+                expires: Date.now() + (30 * 24 * 60 * 60 * 1000)
+            }
+        )
     }
 
     /**
