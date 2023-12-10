@@ -37,6 +37,18 @@ export default class PermissionGrantsInternalMethods {
     }
 
 
+    /**
+     * This method finds all users that have a given set of permissions.
+     * 
+     * For example, we could find all users that have the right to modify other's contacts
+     * @param {object} param0 
+     * @param {(keyof modernuser.permission.AllPermissions)[]} param0.permissions
+     */
+    async findUsersByPermission({ permissions }) {
+        return await this[controller_symbol].getUsersWithPermissions({ ...arguments[1] })
+    }
+
+
 
 
 }

@@ -96,4 +96,10 @@ global {
         }
     }
 
+    namespace modernuser.ui.notification {
+        interface ClientFrontendEvents {
+            'modernuser-authentication-login-complete': undefined
+        }
+    }
+
 }

@@ -106,7 +106,12 @@ export default class UserAuthenticationPublicMethods {
         session.setVar(UserAuthenticationController.sessionVarName, credentials.token)
 
         return new JSONRPC.MetaObject({}, {
-            rmCache: ['/modernuser.*profile/']
+            rmCache: ['/modernuser.*profile/'],
+            events: [
+                {
+                    type: 'modernuser-authentication-login-complete'
+                }
+            ]
         })
     }
 

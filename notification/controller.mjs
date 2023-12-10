@@ -149,6 +149,7 @@ export default class NotificationController {
                             fatal,
                             message: providerErrorMsg,
                         } : undefined,
+                        delete: true
                     }
 
 

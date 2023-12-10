@@ -114,6 +114,25 @@ export default class UserProfilePublicMethods {
     }
 
 
+    /**
+     * This method fetches a set of users, by id.
+     * @param {string[]} ids 
+     * 
+     */
+    async getProfiles(ids) {
+
+        // First things first, let's authenticate the caller
+        await muser_common.whitelisted_permission_check(
+            {
+                userid: (await muser_common.getUser(arguments[0])).id,
+                permissions: ['permissions.modernuser.profiles.search'],
+            }
+        );
+
+        return await this[controller_symbol].getProfiles(arguments[1])
+    }
+
+
 }
 
 

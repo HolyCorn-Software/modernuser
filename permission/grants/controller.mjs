@@ -11,6 +11,7 @@
 
 
 
+import RoleController from "../../role/controller.mjs";
 import PermissionDataController, { ULTIMATE_PERMISSION } from "../data/controller.mjs";
 
 const faculty = FacultyPlatform.get();
@@ -19,6 +20,7 @@ const faculty = FacultyPlatform.get();
 
 const data_controller_symbol = Symbol(`PermissionGrantsController.prototype.data_controller`)
 const zonation_data_controller_symbol = Symbol(`PermissionGrantsController.prototype.zonation_data_controller`)
+const profile_controller_symbol = Symbol()
 
 export default class PermissionGrantsController {
 
@@ -28,14 +30,16 @@ export default class PermissionGrantsController {
      * @param {modernuser.permission.PermissionGrantsCollection} param0.collection
      * @param {PermissionDataController} param0.data_controller
      * @param {import("faculty/modernuser/zonation/data/controller.mjs").default} param0.zonation_data_controller
+     * @param {import('faculty/modernuser/profile/controller.mjs').default} param0.profile_controller
      */
-    constructor({ collection, data_controller, zonation_data_controller }) {
+    constructor({ collection, data_controller, zonation_data_controller, profile_controller }) {
 
 
         this.collection = collection
 
         this[data_controller_symbol] = data_controller
         this[zonation_data_controller_symbol] = zonation_data_controller
+        this[profile_controller_symbol] = profile_controller
 
 
 
@@ -51,7 +55,9 @@ export default class PermissionGrantsController {
                 zone: '0',
                 expires: (Date.now() + (30 * 24 * 60 * 60 * 1000)) //Grant him those permissions for a period of thirty(30) days so he can setup the platform,
             })
-        })
+        });
+
+        /** @type {RoleController} */ this.role_controller;
     }
 
 
@@ -360,6 +366,54 @@ export default class PermissionGrantsController {
 
         return validated;
 
+    }
+
+    /**
+     * This method gets all users that are capable of a given set of permissions
+     * @param {object} param0 
+     * @param {(keyof modernuser.permission.AllPermissions)[]} param0.permissions
+     */
+    async *getUsersWithPermissions({ permissions }) {
+        const related = new Set(
+            (await Promise.all(
+                permissions.map(x => this[data_controller_symbol].getPermissionAndChildren(x))
+            )).flat(3).map(x => x.name)
+        )
+
+        const cursor = this.collection.find({ permission: { $in: related } })
+
+        const checkedSubjects = new Set()
+
+        const roles = new Set()
+
+        for await (const item of cursor) {
+            if (checkedSubjects.has(item.subject)) {
+                continue
+            }
+            if (item.subject_type == 'role') {
+                roles.add(item.subject)
+                continue
+            }
+
+            // TODO: Group in batches, for more efficiency
+            try {
+                yield await this[profile_controller_symbol].getProfile({ id: item.subject })
+            } catch (e) {
+                console.warn(`Could not fetch user profile info for ${item.subject}\n`, e)
+            }
+
+            checkedSubjects.add(item.subject)
+        }
+        if (roles.size > 0) {
+
+            for await (const entry of (await this.role_controller.roleplay.getMembers({ roles: [...roles] }))) {
+                if (!checkedSubjects.has(entry)) {
+                    yield await this[profile_controller_symbol].getProfile({ id: entry.userid })
+                }
+            }
+
+
+        }
     }
 
 

@@ -110,6 +110,9 @@ export default class UserAndRoleInput extends SearchInput {
     get value() {
         return super.value
     }
+    set value(value) {
+        super.setValue(value)
+    }
 
 
     static get classList() {

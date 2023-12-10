@@ -6,11 +6,16 @@
 
 import JSONRPC from "/$/system/static/comm/rpc/json-rpc/json-rpc.mjs";
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs";
+import { report_error_direct } from "/$/system/static/errors/error.mjs";
 
 
-let registrationComplete
+/** @type {ModernuserEventClient} */
+let instance
 const authSymbol = Symbol()
 
+/**
+ * @extends JSONRPC.EventChannel.Client<modernuser.ui.notification.ClientFrontendEvents>
+ */
 export default class ModernuserEventClient extends JSONRPC.EventChannel.Client {
 
     /**
@@ -25,14 +30,30 @@ export default class ModernuserEventClient extends JSONRPC.EventChannel.Client {
             throw new Error(`Use the ModernuserEventClient.new() method`)
         }
         super(jsonrpc, init)
+        this.events.addEventListener('modernuser-authentication-login-complete', () => {
+            console.log(`Login is complete, so the event client will re-initialize`)
+            this.forceInit()
+        });
     }
 
     static async get() {
-        if (!registrationComplete) {
-            await hcRpc.modernuser.notification.events.register()
+        if (instance) {
+            return instance
         }
-        registrationComplete = true
-        return new this(hcRpc.modernuser.$jsonrpc, hcRpc.modernuser.notification.events.register, authSymbol)
+        await hcRpc.modernuser.notification.events.register()
+        return instance = new this(hcRpc.modernuser.$jsonrpc, hcRpc.modernuser.notification.events.register, authSymbol)
     }
 
 }
+
+async function init() {
+    (window.libModernuser ||= {}).eventChannel ||= await ModernuserEventClient.get()
+    await window.libModernuser.eventChannel.init()
+    window.dispatchEvent(
+        new CustomEvent('modernuser-event-client-ready')
+    )
+}
+
+init().catch(e => {
+    report_error_direct(`Failed to initialize event client `, e)
+})

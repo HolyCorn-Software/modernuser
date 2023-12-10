@@ -52,7 +52,8 @@ export default async function init() {
     const permission_grants_controller = new PermissionGrantsController({
         collection: collections.permission.grants,
         data_controller: permission_data_controller,
-        zonation_data_controller: zonation_data_controller
+        zonation_data_controller: zonation_data_controller,
+        profile_controller
     });
 
 
@@ -64,6 +65,7 @@ export default async function init() {
     })
 
     permission_grants_controller.getUserRoles = (userid) => role_controller.roleplay.getUserRoles(userid)
+    permission_grants_controller.role_controller = role_controller
 
 
 

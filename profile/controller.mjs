@@ -36,7 +36,7 @@ export default class UserProfileController {
      * @readonly
      * @returns { UserProfileController}
      */
-    static get instance(){
+    static get instance() {
         return this[instance]
     }
 
@@ -49,7 +49,7 @@ export default class UserProfileController {
     async getProfile({ id }) {
         let profile = await this[collection_symbol].findOne({ id })
         if (!profile) {
-            throw new Exception(`The user was not found.`)
+            throw new Exception(`The user ${id ? JSON.stringify(id) : id}, was not found.`)
         }
         delete profile._id;
         return profile;

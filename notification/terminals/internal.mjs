@@ -57,10 +57,11 @@ class NotificationEventsInternalMethods {
 
     /**
      * This method informs users of an event
+     * @template EventType
      * @param {object} param0 
      * @param {string[]} param0.userids
-     * @param {string} param0.event
-     * @param {object} param0.detail
+     * @param {(keyof modernuser.ui.notification.ClientFrontendEvents) | EventType} param0.event
+     * @param { modernuser.ui.notification.ClientFrontendEvents[EventType]} param0.detail
      * @returns {Promise<void>}
      */
     async inform({ userids, event, detail }) {
