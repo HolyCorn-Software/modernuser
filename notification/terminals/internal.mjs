@@ -62,9 +62,10 @@ class NotificationEventsInternalMethods {
      * @param {string[]} param0.userids
      * @param {(keyof modernuser.ui.notification.ClientFrontendEvents) | EventType} param0.event
      * @param { modernuser.ui.notification.ClientFrontendEvents[EventType]} param0.detail
+     * @param {soul.comm.rpc.event_channel.ClientOptions} param0.options
      * @returns {Promise<void>}
      */
-    async inform({ userids, event, detail }) {
-        await this[controller].inform(userids, new CustomEvent(event, { detail }))
+    async inform({ userids, event, detail, options }) {
+        await this[controller].inform(userids, new CustomEvent(event, { detail }), { ...options })
     }
 }
