@@ -1,5 +1,3 @@
 .
 
-Exposed vital features to internal components (faculties), to be used for reaching clients.
-
-Improved efficiency of modernuser event-client.
+Improved the load-time of components that depend on the event-client module.

@@ -63,10 +63,8 @@ async function init() {
     )
 }
 
-try {
-    await init()
-} catch (e) {
+init().catch(e => {
     if (e.accidental) {
         report_error_direct(`Failed to initialize event client `, e)
     }
-}
+})
