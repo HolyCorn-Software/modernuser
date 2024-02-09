@@ -24,15 +24,15 @@
     border-radius: 50%;
     width: 3em;
     height: 3em;
-
+    aspect-ratio: 1/1;
     background: var(--image);
     background-position: center;
     background-size: cover;
 }
 
-.hc-hcts-modernuser-inline-profile>.container>.main >.label{
+.hc-hcts-modernuser-inline-profile>.container>.main>.label {
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space:nowrap;
-    max-width:100%;
+    white-space: nowrap;
+    max-width: 100%;
 }
