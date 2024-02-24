@@ -38,16 +38,15 @@ export default class InlineUserProfile extends Widget {
         });
 
 
-        /** @type {string} */ this.icon
-        Reflect.defineProperty(this, 'icon', {
-            get: () => /url('(.+)')/.exec(this.html.style.getPropertyValue('--image'))[1],
-            set: v => {
-                //When setting the image url, calculate it relative to the caller
-                this.html.style.setProperty('--image', `url('${new URL(v, hc.getCaller(1) || window.location.href).href}')`)
-            },
-            enumerable: true,
-            configurable: true
-        });
+        /** @type {string} */ this.icon;
+        this.defineImageProperty(
+            {
+                selector: '.container >.main >.icon',
+                property: 'icon',
+                mode: 'background',
+                fallback: '/$/shared/static/logo.png',
+            }
+        )
 
         /** @type {string} */ this.label
         this.htmlProperty('.container >.main >.label', 'label', 'innerHTML')

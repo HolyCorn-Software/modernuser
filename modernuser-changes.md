@@ -1,3 +1,3 @@
 .
 
-Improved UI of inline-profile widget.
+Improved stability of the inline-profile widget.
