@@ -63,10 +63,17 @@ export default class UserProfilePublicMethods {
     async updateMyProfile(data) {
         data = arguments[1]
 
-        await this[controller_symbol].setProfile(
+        return new JSONRPC.MetaObject(
+            await this[controller_symbol].setProfile(
+                {
+                    id: (await muser_common.getUser(arguments[0])).id,
+                    profile: data
+                }
+            ),
             {
-                id: (await muser_common.getUser(arguments[0])).id,
-                profile: data
+                rmCache: [
+                    'modernuser.profile'
+                ]
             }
         )
     }

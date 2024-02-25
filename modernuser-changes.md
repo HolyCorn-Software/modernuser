@@ -1,3 +1,3 @@
 .
 
-Improved stability of the inline-profile widget.
+Fixed minor caching bug.
