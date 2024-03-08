@@ -66,6 +66,6 @@ class NotificationEventsInternalMethods {
      * @returns {Promise<void>}
      */
     async inform({ userids, event, detail, options }) {
-        await this[controller].inform(userids, new CustomEvent(event, { detail }), { ...options })
+        await this[controller].inform(userids, new CustomEvent(event, { detail }), { noError: true, ...options })
     }
 }
