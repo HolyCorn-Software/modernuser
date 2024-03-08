@@ -1,3 +1,3 @@
 .
 
-Fixed minor caching bug.
+Updated frontend component to support modern standards.
