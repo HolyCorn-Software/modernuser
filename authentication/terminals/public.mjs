@@ -187,10 +187,13 @@ export default class UserAuthenticationPublicMethods {
         const client = arguments[0];
 
         const session = await client.resumeSessionFromMeta();
-        await this[controller_symbol].destroyToken({
-            token: await session.getVar(UserAuthenticationController.sessionVarName)
-        });
+        const token = await session.getVar(UserAuthenticationController.sessionVarName);
+        
         await session.rmVar(UserAuthenticationController.sessionVarName)
+
+        await this[controller_symbol].destroyToken({
+            token
+        });
         return new JSONRPC.MetaObject(undefined, {
             rmCache: ['/modernuser.*profile/']
         })

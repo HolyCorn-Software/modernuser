@@ -94,13 +94,17 @@ export default class UserProfileInternalMethods {
 
     /**
      * This method creates a temporary user profile
+     * @param {object} param0
+     * @param {string} param0.label
+     * @param {string} param0.icon
+     * @param {boolean} param0.temporal
      * @returns {Promise<{token: string, profile: modernuser.profile.UserProfileData}>}
      */
-    async createTemporalProfile() {
+    async createTemporalProfile({ label, icon, temporal }) {
         const userid = await this[controller_symbol].createProfile({
-            icon: `${FacultyPlatform.get().server_domains.secure}/$/shared/static/logo.png`,
-            label: `Temporal ${new Date().toTimeString()}`,
-            temporal: true
+            icon: arguments[1]?.icon || `${FacultyPlatform.get().server_domains.secure}/$/shared/static/logo.png`,
+            label: arguments[1]?.label || `Temporal ${new Date().toTimeString()}`,
+            temporal: arguments[1]?.temporal || true
         });
 
         const token = await this[authentication_controller_symbol].issueToken({ userid })
