@@ -43,7 +43,7 @@ export default class UserProfileInternalMethods {
         id = arguments[1].id
         token = arguments[1].token
 
-        if ((typeof token !== 'undefined') && token != null) {
+        if ((typeof token !== 'undefined') && token != null || !id) {
             id = await this[authentication_controller_symbol].tokenAuth({ token })
         }
 

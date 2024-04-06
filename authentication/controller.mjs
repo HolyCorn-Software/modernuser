@@ -529,14 +529,24 @@ export default class UserAuthenticationController {
      * @returns {Promise<string>}
      */
     async tokenAuth({ token }) {
+
+        const throwError = () => {
+            throw new Exception(`You are not authorized. Please log in to continue. <a href='/$/modernuser/static/login/?return'>Click to login</a>`, {
+                code: 'error.modernuser.authError'
+            })
+        }
+
+        if (!token) {
+            throwError()
+        }
+
         let auth_data = await this[token_collection_symbol].findOne({
             token
         });
 
+
         if (!auth_data) {
-            throw new Exception(`You are not authorized. Please log in to continue. <a href='/$/modernuser/static/login/?return'>Click to login</a>`, {
-                code: 'error.modernuser.authError'
-            })
+            throwError()
         }
 
         //Prolong the expiry of the token
