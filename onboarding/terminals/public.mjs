@@ -51,9 +51,9 @@ export default class OnboardingPublicMethods {
      * @param {string} param0.role.zone
      * @returns {Promise<void>}
      */
-     async addRoleToRequest({ id, role }) {
+    async addRoleToRequest({ id, role }) {
 
-        
+
         await this[controller_symbol].addRoleToRequest(
             {
                 id: arguments[1]?.id,
@@ -62,6 +62,11 @@ export default class OnboardingPublicMethods {
             }
         )
     }
+    async checkMyOnboarding() {
+        const userid = (await muser_common.getUser(arguments[0])).id
+        return await (this[controller_symbol].checkOnboardingStatus({ userid }))
+    }
+
     /**
      * This method removes a role from a request
      * @param {object} param0 
@@ -73,7 +78,7 @@ export default class OnboardingPublicMethods {
      */
     async removeRoleFromRequest({ id, role }) {
 
-        
+
         await this[controller_symbol].removeRoleFromRequest(
             {
                 id: arguments[1]?.id,

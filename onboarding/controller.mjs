@@ -46,6 +46,17 @@ export default class OnboardingController {
     }
 
     /**
+     * This method checks if a user is fully onboarded
+     * @param {object} param0 
+     * @param {string} param0.userid
+     * 
+     */
+    async checkOnboardingStatus({ userid }) {
+        const profile = await this[profile_controller_symbol].getProfile({ id: userid })
+        return typeof profile.label !== 'undefined' && typeof profile.icon !== 'undefined'
+    }
+
+    /**
      * This method is used to perform some initializations with the consent of the client.
      * For example setting account names, picture and notification data
      * @param {object} param0
@@ -132,7 +143,7 @@ export default class OnboardingController {
             }
         );
 
-        if(!data){
+        if (!data) {
             throw new Exception(`The request you are loking for was not found.`)
         }
 
@@ -202,7 +213,7 @@ export default class OnboardingController {
      * @param {string} param0.userid
      * @returns {Promise<void>}
      */
-     async addRoleToRequest({ id, role, userid }) {
+    async addRoleToRequest({ id, role, userid }) {
         await this.updateRoleInRequest({ id, role, userid, action: 'add' })
     }
     /**
@@ -230,7 +241,7 @@ export default class OnboardingController {
      * @returns {Promise<void>}
      */
     async updateRoleInRequest({ id, role, userid, action }) {
-        
+
         if (
             userid &&
             !await this[roleplay_controller_symbol].userCanGrantRole(

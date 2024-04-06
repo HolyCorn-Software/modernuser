@@ -32,7 +32,7 @@ export default class ZonationPublicMethods {
 
     /**
      * Fetches all the zones in the entire system
-     * @returns {Promise<modernuser.zonation.ZoneData]>}
+     * @returns {Promise<modernuser.zonation.ZoneData[]>}
      */
     async getZones() {
         return new JSONRPC.MetaObject(

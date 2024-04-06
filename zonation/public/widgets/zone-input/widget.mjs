@@ -9,6 +9,7 @@ import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 
 import ZoneInputPopup from './popup.mjs'
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs";
 
 
 
@@ -69,7 +70,7 @@ export default class ZoneInput extends Widget {
         popup.addEventListener('complete', () => {
             this[value_symbol] = popup.value
             popup.hide()
-            this.html.$('.container >.main >.label').innerHTML = this[value_symbol].label
+            this.updateLabel()
             this.dispatchEvent(new CustomEvent('change'))
             completed = true;
         })
@@ -86,6 +87,10 @@ export default class ZoneInput extends Widget {
         return ['hc-cayofedpeople-zonation-zone-input']
     }
 
+    updateLabel() {
+        this.html.$('.container >.main >.label').innerText = this[value_symbol].label
+    }
+
     /**
      * The id of the selected zone
      * @returns {string}
@@ -93,12 +98,22 @@ export default class ZoneInput extends Widget {
     get value() {
         return this[value_symbol]?.id
     }
+    set value(v) {
+        (this[value_symbol] ||= {}).id = v;
+        delete this[value_symbol].label;
+
+        this.blockWithAction(async () => {
+            if (this[value_symbol].label || this[value_symbol].id != v) return;
+            this[value_symbol].label = (await hcRpc.modernuser.zonation.getZones()).find(x => x.id == v).label
+            this.updateLabel()
+        })
+    }
 
     /**
      * The label of the selected zone
      * @returns {string}
      */
-    get valueLabel(){
+    get valueLabel() {
         return this[value_symbol]?.label
     }
 

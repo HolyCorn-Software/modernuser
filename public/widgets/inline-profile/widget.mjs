@@ -25,7 +25,7 @@ export default class InlineUserProfile extends Widget {
         super();
 
 
-        this.html = hc.spawn({
+        super.html = hc.spawn({
             classes: InlineUserProfile.classList,
             innerHTML: `
                 <div class='container'>
