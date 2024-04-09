@@ -93,6 +93,34 @@ export default class NotificationPublicMethods {
     }
 
     /**
+     * This method is called to caption a contact, based on how the contact provider understands it
+     * @param {object} param0 
+     * @param {modernuser.notification.Contact} param0.contact
+     */
+    async captionContact({ contact }) {
+        contact = arguments[1]?.contact
+        soulUtils.checkArgs(contact, {
+            data: 'object',
+            provider: 'string',
+        });
+        return await this[controller_symbol].getContactCaption(contact)
+    }
+
+    /**
+     * This method checks if a contact is correct.
+     * @param {object} param0 
+     * @param {modernuser.notification.Contact} param0.contact
+     */
+    async validateContact({ contact }) {
+        contact = arguments[1]?.contact
+        soulUtils.checkArgs(contact, {
+            provider: 'string',
+            data: 'object',
+        })
+        await this[controller_symbol].checkContactData(contact.provider, contact.data)
+    }
+
+    /**
      * This method deletes a contact
      * @param {object} param0 
      * @param {string} param0.id

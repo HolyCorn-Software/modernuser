@@ -1,265 +1,293 @@
 /**
- * Copyright 2022 HolyCorn Software
- * The CAYOFED People System
+ * Copyright 2024 HolyCorn Software
  * The Modern Faculty of Users
- * The Notification module
- * This widget allows a user to enter his preferred means of contact
+ * This widget allows someone to input contacts
  */
 
-import ContactInputItem from "./item.mjs";
-import ContactInputOverview from "./overview/overview.mjs";
-import { handle } from "/$/system/static/errors/error.mjs";
-import { hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
-import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs"
-import { Widget } from "/$/system/static/html-hc/lib/widget/index.mjs";
 import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs";
+import { handle } from "/$/system/static/errors/error.mjs";
+import AlarmObject from "/$/system/static/html-hc/lib/alarm/alarm.mjs";
+import DelayedAction from "/$/system/static/html-hc/lib/util/delayed-action/action.mjs";
+import { Widget, hc } from "/$/system/static/html-hc/lib/widget/index.mjs";
+import ActionButton from "/$/system/static/html-hc/widgets/action-button/button.mjs";
+import HCTSBrandedPopup from "/$/system/static/html-hc/widgets/branded-popup/popup.mjs";
+import MultiFlexForm from "/$/system/static/html-hc/widgets/multi-flex-form/flex.mjs";
+
 
 
 export default class ContactInput extends Widget {
-
 
 
     /**
      * 
      * @param {object} param0 
      * @param {string} param0.label
-     * @param {string} param0.name Pretty optional parameter. This parameter is simply stored within the widget and changes nothing
+     * @param {string} param0.name
+     * @param {ContactInput['value']} param0.value
      */
-    constructor({ label, name } = {}) {
-        super();
+    constructor({ label, name, value } = {}) {
+        super()
 
-        this.html = hc.spawn(
-            {
-                classes: ['hc-cayofedpeople-notification-contact-input'],
-                innerHTML: `
-                    <div class='container'>
-                        <div class='label'>Select your preferred means of contact</div>
-                        <div class='overview-section'></div>
-                        <div class='icons-select'></div>
-                        <div class='content-section'></div>
+        super.html = hc.spawn({
+            classes: ContactInput.classList,
+            innerHTML: `
+                <div class='container'>
+                    <div class='label'>Contact Input</div>
+                    <div class='main'>
+                        <div class='icon'></div>
+                        <div class='caption'>Tap to add contact</div>
                     </div>
-                `
-            }
-        );
-
-        /** @type {import("./types.js").StateData} */ this.statedata
-        this.statedata = new AlarmObject()
-        this.statedata.contacts = []
+                </div>
+            `
+        });
 
         /** @type {string} */ this.label
-        this.htmlProperty('.container >.label', 'label', 'innerHTML')
+        this.htmlProperty(':scope >.container >.label', 'label', 'innerText')
+        /** @type {string} */ this.name
 
-
-        /** @type {HTMLElement} */ this.contentHTML
-        this.widgetProperty(
-            {
-                selector: '*',
-                parentSelector: '.container >.content-section',
-                childType: 'html',
-                property: 'contentHTML'
-            }
-        )
-
-
-        /** @type {ContactInputItem[]} */ this.providerWidgets
-        this.pluralWidgetProperty(
-            {
-                selector: '.hc-cayofedpeople-notification-contact-input-item',
-                parentSelector: '.container >.icons-select',
-                property: 'providerWidgets',
-                childType: 'widget'
-            }
-        )
+        /** @type {modernuser.ui.notification.contact_input.Statedata} */ this.statedata = new AlarmObject({ abortSignal: this.destroySignal })
 
 
 
-        /** @type {{icon: string, path:string, selected: boolean, label: string}[]} */ this.providers
-        this.pluralWidgetProperty(
-            {
-                selector: '.hc-cayofedpeople-notification-contact-input-item',
-                parentSelector: '.container >.icons-select',
-                property: 'providers',
-                transforms: {
-                    set: (data) => {
-                        let widget = new ContactInputItem({ ...data });
-                        //Now load the ui for that provider
-                        widget.waitTillDOMAttached().then(() => {
-                            widget.loadUI(data)
-                        })
+        /** @type {string} */ this.icon
+        this.defineImageProperty({
+            selector: ':scope >.container >.main >.icon',
+            mode: 'inline',
+            property: 'icon'
+        });
 
-                        widget.checkbox.addEventListener('change', () => {
+        /** @type {HCTSBrandedPopup} */
+        let popup
 
-                            if (widget.checkbox.value == true) {
+        this.html.addEventListener('click', () => {
+            (popup ||= (() => {
+                return new HCTSBrandedPopup(
+                    {
+                        content: (() => {
+                            const widget = new ContactInput.PopupContent(this.statedata)
+                            widget.addEventListener('done', () => {
+                                popup.hide()
+                                popup = null
+                            })
 
-                                for (let other of this.providerWidgets) {
-                                    if (other !== widget) {
-                                        other.checkbox.silent_value = false
-                                    }
-                                }
+                            setTimeout(() => {
+                                widget.refresh()
+                            }, 250)
 
-                                this.contentHTML = widget.contentHTML
-
-                                if (typeof this.statedata.contact_edit_index !== 'undefined') {
-                                    this.statedata.contacts[this.statedata.contact_edit_index] = {
-                                        data: widget.value = {},
-                                        provider: widget.provider
-                                    }
-
-                                }
-                            }
-                        });
-
-                        const update_data = () => {
-
-                            this.statedata.contacts[this.statedata.contact_edit_index] = {
-                                data: widget.value,
-                                provider: widget.provider
-                            }
-                        }
-
-                        let update_timeout
-
-
-                        widget.addEventListener('change', () => {
-                            clearTimeout(update_timeout)
-                            update_timeout = setTimeout(() => update_data(), 500)
-                        })
-
-                        console.log(`While setting... widget.path is `, widget.path)
-
-
-                        return widget.html
-                    },
-                    get: (html) => {
-                        /** @type {ContactInputItem} */
-                        const widget = html?.widgetObject
-                        return {
-                            icon: widget.icon,
-                            path: widget.path,
-                            selected: widget.selected
-                        }
+                            return widget
+                        })().html
                     }
-                }
-            }
-        );
+                )
+            })()).show()
+        });
 
-        /** @type {ContactInputOverview} */ this.overview
-        this.widgetProperty(
-            {
-                selector: `.hc-cayofedpeople-contact-input-overview`,
-                parentSelector: `.container >.overview-section`,
-                property: 'overview',
-                childType: 'widget',
-            }
-        )
-        this.overview = new ContactInputOverview()
-
-        const contacts_on_change = () => {
-            this.overview.statedata.providers = this.statedata.contacts.map(x => x.provider)
-            this.statedata.contact_edit_index ??= 0;
-        }
-        this.statedata.$0.addEventListener('contacts-change', contacts_on_change)
-        this.statedata.$0.addEventListener('contacts-$array-item-change', (event) => {
-            // this.overview.statedata.providers ||= this.statedata.contacts.map(x => x.provider)
-            if (this.overview.statedata.providers[0] !== this.statedata.contacts[event.detail.field]) {
-                this.overview.statedata.providers[event.detail.field] = this.statedata.contacts[event.detail.field].provider
-            }
-        })
-
-        this.create_new_contact = () => {
-            this.statedata.contacts.push({
-                data: {},
-                provider: this.providerWidgets[this.providerWidgets.length - 1].provider
-            });
-
-            this.overview.statedata.highlight = this.statedata.contacts.length - 1;
-        }
-
-        this.overview.addEventListener('new', this.create_new_contact);
-
-        this.overview.statedata.$0.addEventListener('highlight-change', () => {
-            //If the user clicked on a contact, then we make that contact the subject of our editing
-            this.statedata.contact_edit_index = this.overview.statedata.highlight;
-        })
-
-        this.statedata.$0.addEventListener('contact_edit_index-change', () => {
-            //When the contact we're editing changes, we update the UI accordingly
-            const selected_contact = this.statedata.contacts[this.statedata.contact_edit_index];
-            const selected_contact_provider_widget = this.providerWidgets.find(x => x.provider === selected_contact.provider);
-
+        this.statedata.$0.addEventListener('contact-change', () => {
             setTimeout(() => {
-
-                try {
-                    //So let's make the given provider the selected provider
-                    selected_contact_provider_widget.selected = true
-                    selected_contact_provider_widget.value = selected_contact.data
-                } catch (e) {
-                    console.log(`The error `, e, `\nOccurred. And the selected contact is `, selected_contact)
-                }
-
-            }, 50)
+                this.dispatchEvent(new CustomEvent('change'))
+                onProviderChange()
+                onCaptionChange()
+            }, 250)
         })
+        /** @type {(event: 'change', cb: (event: CustomEvent)=> void, opts?:AddEventListenerOptions)=> void} */ this.addEventListener
 
+        const onCaptionChange = () => {
+            this.html.$(':scope >.container >.main >.caption').innerHTML = this.value?.caption
+        }
+        this.statedata.$0.addEventListener('contact.caption-change', onCaptionChange);
 
-
+        const onProviderChange = () => {
+            if (!this.statedata.contact.provider) return;
+            this.icon = `/$/modernuser/$plugins/${this.statedata.contact.provider}/@public/icon.png`
+        }
+        this.statedata.$0.addEventListener('contact.provider-change', onProviderChange)
 
         Object.assign(this, arguments[0])
 
-        this.populateUI()
+
 
     }
 
+    static PopupContent = class extends Widget {
 
+        /**
+         * 
+         * @param {ContactInput['statedata']} statedata 
+         */
+        constructor(statedata) {
+            super();
 
-    async populateUI() {
+            super.html = hc.spawn({
+                classes: ContactInput.PopupContent.classList,
+                innerHTML: `
+                    <div class='container'>
+                        <div class='select-provider'>
+                            <div class='label'>Select Type of Contact</div>
+                            <div class='main'></div>
+                        </div>
+                        <div class='form'></div>
+                        <div class='action'></div>
+                    </div>
+                `
+            });
 
-        this.blockWithAction(
+            const onProviderchange = new DelayedAction(() => {
+                this.dispatchEvent(new CustomEvent('provider-change'))
+            }, 250)
+            /** @type {(event: 'provider-change'|'done', cb: (event: CustomEvent)=> void, opts?:AddEventListenerOptions)=> void} */ this.addEventListener
 
-            async () => {
+            /** @type {string[]} */ this.providers
+            this.pluralWidgetProperty({
+                selector: ['', ...ContactInput.PopupContent.ProviderItem.classList].join("."),
+                parentSelector: ':scope >.container >.select-provider >.main',
+                transforms: {
+                    set: (input) => {
+                        const itemW = new ContactInput.PopupContent.ProviderItem(input);
+                        itemW.html.addEventListener('click', () => {
+                            if (itemW.html.classList.contains('selected')) {
+                                this.providerWidgets.forEach(wid => wid.html != itemW.html ? wid.html.classList.remove('selected') : undefined)
+                                setTimeout(() => {
+                                    (this.statedata.contact ||= {}).provider = input
+                                    onProviderchange();
+                                }, 250)
+                            }
+                        })
+                        return itemW.html
+                    },
+                    get: ({ widgetObject: widget }) => widget.provider
+                },
+            }, 'providers');
 
-                //Fetch all providers
-                let providers = await hcRpc.modernuser.notification.getProviders()
-                this.providers = providers.map(x => {
-                    return {
-                        provider: x.name,
-                        icon: `/$/${x.faculty}/$plugins/${x.name}/@public/icon.png`,
-                        form: x.form,
-                        label: x.label
+            /** @type {(typeof ContactInput)['PopupContent']['ProviderItem']['prototype'][]} */ this.providerWidgets
+
+            this.pluralWidgetProperty({
+                selector: ['', ...ContactInput.PopupContent.ProviderItem.classList].join("."),
+                parentSelector: ':scope >.container >.select-provider >.main',
+                childType: 'widget'
+            }, 'providerWidgets');
+
+            /** @type {MultiFlexForm} */ this.form
+            this.widgetProperty({
+                parentSelector: ":scope >.container >.form",
+                selector: ['', ...MultiFlexForm.classList].join("."),
+                childType: 'widget'
+            }, 'form');
+
+            this.form = new MultiFlexForm();
+
+            const done = new ActionButton({
+                content: `Save`,
+                onclick: async () => {
+                    try {
+                        // The process of captioning the contact too would validate the correctness of the contact.
+                        this.statedata.contact.caption = (await hcRpc.modernuser.notification.captionContact({ contact: this.statedata.$0data.contact })).html
+                        this.dispatchEvent(new CustomEvent('done'))
+                    } catch (e) {
+                        handle(e)
                     }
-                });
+                },
+                state: 'disabled'
+            })
 
+            this.html.$(':scope >.container >.action').appendChild(done.html)
 
-                await Promise.race( //For any of the providers that load first...
-                    [
-                        ...this.providerWidgets.map(x => x.ready()),
-                        ...(providers.length == 0 ? [Promise.resolve()] : [])
-                    ]
-                )
+            /** @type {modernuser.ui.notification.contact_input.Statedata} */ this.statedata = statedata
 
-                //Create a new contact if necessary (This is for reasons of user experience. Instead of allowing the user to discover the create button)
-                //Because, he might never find it
-                setTimeout(async () => {
+            const updateFormStructure = () => {
+                this.form.quickStructure = this.statedata.providers.find(x => x.name == this.statedata.$0data.contact?.provider)?.contactForm || []
+                setTimeout(() => this.form.values = this.statedata.contact?.data, 250)
+            }
+            this.addEventListener('provider-change', updateFormStructure)
 
-                    if (this.statedata.contacts.length === 0 && this.providers.length > 0) {
-                        this.create_new_contact()
-                    }
-                }, 500)
+            this.form.addEventListener('change', () => {
+                done.state = Reflect.ownKeys(this.form.value).some(key => this.form.value[key]) ? 'initial' : 'disabled';
+                (this.statedata.$0data.contact ||= {}).data = this.form.value
+            })
+
+            this.statedata.$0.addEventListener('providers-change', () => {
+                this.providers = this.statedata.$0data.providers.map(x => x.name)
+            });
+
+            const contactProviderChange = () => {
+                setTimeout(() => {
+                    this.providerWidgets.forEach(provider => provider.html.classList.toggle('selected', provider.provider == this.statedata.$0data.contact?.provider))
+                }, 250)
             }
 
-        )
+            this.statedata.$0.addEventListener('contact.provider-change', contactProviderChange)
 
+            this.refresh = () => {
+                contactProviderChange()
+                updateFormStructure()
+            }
+
+            this.blockWithAction(async () => {
+                this.statedata.providers = await hcRpc.modernuser.notification.getProviders()
+            })
+
+
+        }
+
+        static ProviderItem = class extends Widget {
+
+            /**
+             * 
+             * @param {string} provider 
+             */
+            constructor(provider) {
+                super();
+
+                super.html = hc.spawn({
+                    classes: ContactInput.PopupContent.ProviderItem.classList,
+                    innerHTML: `
+                        <div class='container'>
+                            <div class='icon'></div>
+                        </div>
+                    `
+                });
+
+                this.html.addEventListener('click', () => {
+                    this.html.classList.toggle('selected')
+                })
+
+                /** @type {string} */ this.provider
+
+                const icon = Symbol()
+
+                this.defineImageProperty({
+                    selector: ':scope >.container >.icon',
+                    property: icon,
+                    mode: 'background',
+                })
+
+                Reflect.defineProperty(this, 'provider', {
+                    set: (v) => {
+                        this[icon] = `/$/modernuser/$plugins/${v}/@public/icon.png`
+                    },
+                    get: () => this[icon]?.split('$plugins')[1]?.split('/@public')[0]?.split('/')[1],
+                    configurable: true,
+                    enumerable: true
+                })
+
+                this.provider = provider
+            }
+
+            /** @readonly */
+            static classList = ['hc-modernuser-notification-contact-input-popup-content-provider']
+        }
+
+        /** @readonly */
+        static classList = ['hc-modernuser-notification-contact-input-popup-content']
     }
 
+    set value(value) {
+        this.statedata.contact = value
+    }
 
-    /**
-     * @returns {modernuser.notification.Contact[]}
-     */
     get value() {
-        return this.statedata.contacts
-    }
-    set value(v) {
-        this.statedata.contacts = [...v]
+        return this.statedata.$0data.contact
     }
 
+    /** @readonly */
+    static classList = ['hc-modernuser-notification-contact-input']
 
 }

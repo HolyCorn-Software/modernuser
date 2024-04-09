@@ -43,6 +43,20 @@ export default class NotificationInternalMethods {
     async notifyUser({ userid, template, language, data }) {
         return await this[controller].notifyUser(arguments[1])
     }
+
+
+    /**
+     * This method is used to directly notify a contact
+     * @param {object} param0 
+     * @param {modernuser.notification.MinContactData<{}>} param0.contact
+     * @param {string} param0.template
+     * @param {string} param0.language
+     * @param {string[]} param0.data
+     * @returns {Promise<void>}
+     */
+    async notify({ contact, template, language, data }) {
+        return await this[controller].notify(arguments[1])
+    }
 }
 
 class NotificationEventsInternalMethods {

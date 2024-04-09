@@ -563,6 +563,7 @@ export default class NotificationController {
      */
     async getContactCaption(data) {
         const provider = await modernuserPlugins.loaded.namespaces.notification.find(x => x.descriptor.name === data.provider)
+        await this.checkContactData(data.provider, data.data)
         if (!provider) {
             return await NotificationPlugin.prototype.captionContact.apply(undefined, [data.data])
         }

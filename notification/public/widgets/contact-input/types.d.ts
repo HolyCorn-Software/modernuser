@@ -1,18 +1,20 @@
 /**
- * Copyright 2022 HolyCorn Software
- * The CAYOFED People System
+ * Copyright 2024 HolyCorn Software
  * The Modern Faculty of Users
- * This module (types) contains type definitions for it's parent module (contact-input)
+ * This module contains type definitions for the contact-input widget
  */
 
+import ''
+import NotificationPublicMethods from "faculty/modernuser/notification/terminals/public.mjs"
+import hcRpc from "/$/system/static/comm/rpc/aggregate-rpc.mjs"
 
+global {
 
-
-export declare interface StateDataStructure {
-    contacts: modernuser.notification.Contact[]
-    /** The current contact visible for editing */
-    contact_edit_index: number
+    namespace modernuser.ui.notification.contact_input {
+        type Statedata = htmlhc.lib.alarm.AlarmObject<{
+            contact: modernuser.notification.ContactExtra
+            providers: Awaited<ReturnType<(typeof hcRpc)['modernuser']['notification']['getProviders']>>
+            caption: string
+        }>
+    }
 }
-
-
-export type StateData = htmlhc.lib.alarm.AlarmObject<StateDataStructure>

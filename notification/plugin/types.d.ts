@@ -17,6 +17,7 @@ global {
     namespace faculty.plugin {
         interface plugins {
             auth: modernuser.plugins.authentication.plugins
+            notification: modernuser.plugins.notification.plugins
         }
     }
 }

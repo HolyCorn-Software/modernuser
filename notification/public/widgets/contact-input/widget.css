@@ -1,22 +1,72 @@
 /*  
-    Copyright 2022 HolyCorn Software
-    The CAYOFED People System
-    This stylesheet determines how the contact-input widget of the notification module of the Modern Faculty of Users looks
+    Copyright 2024 HolyCorn Software
+    The Modern Faculty of Users
+    This stylesheet works on the contact-input widget, where the user can input a contact
 */
 
 
-
-.hc-cayofedpeople-notification-contact-input >.container{
-    display:flex;
-    gap:1.5em;
-    padding-left:1.5em;
-    flex-direction:column;
+.hc-modernuser-notification-contact-input>.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
+.hc-modernuser-notification-contact-input>.container>.main {
+    display: flex;
+    gap: 1.5em;
+    cursor: pointer;
+    border: 0.0625em solid currentColor;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    align-items: center;
+}
 
+.hc-modernuser-notification-contact-input>.container>.main>.icon {
+    position: relative;
+    width: 2em;
+    height: 2em;
+}
 
-.hc-cayofedpeople-notification-contact-input >.container >.icons-select{
-    display:flex;
-    justify-content:space-between;
-    gap:1.5em;
+.hc-modernuser-notification-contact-input>.container>.main>.icon:empty {
+    display: none;
+}
+
+.hc-modernuser-notification-contact-input-popup-content>.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.hc-modernuser-notification-contact-input-popup-content>.container>.select-provider {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.hc-modernuser-notification-contact-input-popup-content>.container>.select-provider>.main {
+    display: flex;
+    gap: 1em;
+    overflow: hidden;
+    overflow-x: auto;
+    padding: 0.25em;
+}
+
+.hc-modernuser-notification-contact-input-popup-content-provider>.container {
+    display: inline-flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 0.25em rgb(199, 199, 199);
+    border-radius: 0.5em;
+    padding: 0.125em;
+    cursor: pointer;
+}
+
+.hc-modernuser-notification-contact-input-popup-content-provider>.container>.icon {
+    width: 3em;
+    height: 3em;
+    background-size: 100%;
+    transition: 0.5s 0.125s;
+    filter: grayscale(1) brightness(0.7);
+}
+
+.hc-modernuser-notification-contact-input-popup-content-provider:is(:hover, .selected)>.container>.icon {
+    filter: grayscale(0) brightness(1.1);
 }
