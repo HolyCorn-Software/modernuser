@@ -113,6 +113,12 @@ export default class UserAndRoleInput extends SearchInput {
     set value(value) {
         super.setValue(value)
     }
+    get idOnly() {
+        return this.value?.id
+    }
+    set idOnly(id) {
+        this.value = { id }
+    }
 
 
     static get classList() {
