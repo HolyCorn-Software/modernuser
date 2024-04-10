@@ -98,6 +98,8 @@ export default class OnboardingController {
                 provider: 'string'
             }, 'notification')
 
+            console.log(`a contact `, notification)
+
             await this[notification_controller_symbol].createContact(
                 {
                     provider: notification.provider,
