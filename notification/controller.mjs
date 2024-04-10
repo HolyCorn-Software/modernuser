@@ -306,6 +306,8 @@ export default class NotificationController {
      */
     async createContact({ data, provider, userid }) {
 
+        console.log(`At this point, arguments are `, ...arguments)
+
         await this.checkContactData(provider, data);
 
 
