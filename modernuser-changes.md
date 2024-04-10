@@ -1,3 +1,3 @@
 .
 
-Debugging an onboarding bug.
+Fixed minor bug related to validating contacts during onboarding.

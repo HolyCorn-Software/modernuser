@@ -306,29 +306,25 @@ export default class NotificationController {
      */
     async createContact({ data, provider, userid }) {
 
-        console.log(`At this point, arguments are `, ...arguments)
-
-        await this.checkContactData(provider, data);
-
 
         const id = shortUUID.generate()
 
-        await this[collections].contacts.insertOne(
-            {
-                id,
-                data,
-                provider,
-                userid
-            }
-        )
 
-        return {
+        /** @type {modernuser.notification.ContactExtra} */
+        const fullContact = {
             id,
-            caption: await this.getContactCaption({ data }),
+            // during the process of captioning, the contact will be checked.
+            caption: await this.getContactCaption({ data, provider }),
             data,
             provider,
             userid
         }
+
+        await this[collections].contacts.insertOne(
+            fullContact
+        )
+
+        return fullContact
 
 
     }
