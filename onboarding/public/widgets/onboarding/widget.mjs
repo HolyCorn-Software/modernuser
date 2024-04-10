@@ -76,14 +76,13 @@ export default class CAYOFEDOnboarding extends Widget {
 
         this.action = new ActionButton({
             content: 'Next',
-            onclick: () => {
+            onclick: async () => {
                 try {
                     this.slider.screens[this.navigation.value].widgetObject.isComplete();
 
                     if (this.navigation.value === this.navigation.length - 1) {
-                        hcRpc.modernuser.onboarding.onboard(this.value).then(() => this.postOnboarding(), (e) => {
-                            handle(e)
-                        })
+                        await hcRpc.modernuser.onboarding.onboard(this.value)
+                        this.postOnboarding()
                     } else {
                         this.navigation.value = Math.min(this.navigation.value + 1, this.navigation.length - 1)
                     }
