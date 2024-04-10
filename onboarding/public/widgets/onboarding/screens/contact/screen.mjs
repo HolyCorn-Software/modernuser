@@ -50,8 +50,8 @@ export default class ContactsScreen extends Widget {
 
 
     }
-    get value(){
-        return this.form.value.contact_input
+    get value() {
+        return [this.form.value.contact_input]
     }
 
     isComplete() {

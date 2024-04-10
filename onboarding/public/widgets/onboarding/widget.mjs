@@ -81,7 +81,7 @@ export default class CAYOFEDOnboarding extends Widget {
                     this.slider.screens[this.navigation.value].widgetObject.isComplete();
 
                     if (this.navigation.value === this.navigation.length - 1) {
-                        hcRpc.modernuser.onboarding.onboard([this.value]).then(() => this.postOnboarding(), (e) => {
+                        hcRpc.modernuser.onboarding.onboard(this.value).then(() => this.postOnboarding(), (e) => {
                             handle(e)
                         })
                     } else {
