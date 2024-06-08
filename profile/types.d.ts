@@ -50,7 +50,31 @@ declare global {
                 temporal: boolean
                 /** Additional fields that may be added to a user profile */
                 meta: UserProfileMeta
+                /** Additional internally provisioned and used data, for identifying users. Modules are responsible for this data. */
+                tags: UserProfileTags
             }
+
+
+            type UserProfileTags = {
+                [key: string]: string | number | boolean | UserProfileTags
+            }
+
+            type UserProfileTagsSearch = {
+                [K in keyof UserProfileTags]: {
+                    $value: UserProfileTags[K]
+                    $exists: boolean
+                }
+            }
+
+
+            type UserProfileTagsUpdate = {
+                [K in keyof UserProfileTags]: {
+                    $set: UserProfileTags[K]
+                    $unset: boolean
+                }
+            }
+            
+
 
             /** 
              * This field can be expanded by multiple ts modules,

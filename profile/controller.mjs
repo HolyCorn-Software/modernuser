@@ -108,10 +108,12 @@ export default class UserProfileController {
 
         const id = shortUUID.generate();
 
+        data ||= {}
+
         await this[collection_symbol].insertOne({
             id,
             time: Date.now(),
-            ...soulUtils.pickOnlyDefined(data || {}, ['label', 'icon'])
+            ...soulUtils.pickOnlyDefined(data, ['label', 'icon', 'tags'])
         })
 
         //Now, if this is the first profile, then let the other components know. They could need this information, for example, to automatically grant permissions
@@ -196,6 +198,26 @@ export default class UserProfileController {
         let users = await this[collection_symbol].find(query).toArray();
 
         return users;
+    }
+
+    /**
+     * This method searches for users whose accounts have the given tags
+     * @param {modernuser.profile.UserProfileTagsSearch} tags 
+     */
+    async *searchUsersByTags(tags) {
+        soulUtils.checkArgs(tags, 'object', 'tags')
+        /** @type {Parameters<this[collection_symbol]['find']>['0']} */
+        const query = {}
+
+        for (const key in tags) {
+            query[`tags.${key}`] = (typeof tags[key].$exists) != 'undefined' ? { $exists: tags[key].$exists } : tags[key].$value
+        }
+
+        for await (const item of this[collection_symbol].find(query)) {
+            delete item._id
+            yield item
+        }
+
     }
 
     /**

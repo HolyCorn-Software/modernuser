@@ -1,3 +1,5 @@
 .
 
-Fixed minor UX bug with onboarding widget.
+Added account tagging.
+
+Added feature to notify users according to role.

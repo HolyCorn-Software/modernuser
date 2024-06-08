@@ -116,6 +116,15 @@ export default class UserProfileInternalMethods {
 
     }
 
+
+    /**
+     * This method searches for users whose accounts have the given tags
+     * @param {modernuser.profile.UserProfileTagsSearch} tags 
+     */
+    async searchUsersByTags(tags) {
+        return await this[controller_symbol].searchUsersByTags(tags)
+    }
+
 }
 
 

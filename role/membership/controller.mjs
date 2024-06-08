@@ -78,7 +78,7 @@ export default class RolePlayController {
     /**
      * This gets all the users who play a given set of roles
      * @param {object} param0 
-     * @param {string} param0.roles
+     * @param {string[]} param0.roles
      * @param {string[]} param0.zones
      * @param {string[]} param0.userids If specified, only the user's info in the given list will be fetched
      */

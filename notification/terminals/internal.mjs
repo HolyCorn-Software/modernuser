@@ -57,6 +57,21 @@ export default class NotificationInternalMethods {
     async notify({ contact, template, language, data }) {
         return await this[controller].notify(arguments[1])
     }
+
+
+    /**
+     * This method sends a message to all engineers of the platform
+     * @param {object} param0 
+     * @param {string} param0.message
+     */
+    async notifyEngineers({ message }) {
+
+        return await this[controller].notifyEngineers(arguments[1])
+
+    }
+
+
+
 }
 
 class NotificationEventsInternalMethods {

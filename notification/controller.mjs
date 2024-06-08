@@ -13,11 +13,13 @@ import "./plugin/model.mjs"; //Just Import this, so that the NotificationPlugin 
 import ModernuserEventsServer from "./events.mjs";
 import WorkerWorld from "../../../system/util/worker-world/main.mjs";
 import nodeUtil from 'node:util'
+import RoleController from "../role/controller.mjs";
 
 
 const collections = Symbol()
 const processor = Symbol()
 const instance = Symbol()
+const controllers = Symbol()
 
 export default class NotificationController {
 
@@ -32,10 +34,14 @@ export default class NotificationController {
      * @param {object} args.collections.inApp
      * @param {modernuser.notification.InAppNotificationsCollection} args.collections.inApp.unread
      * @param {modernuser.notification.InAppNotificationsCollection} args.collections.inApp.read
+     * @param {object} args.controllers
+     * @param {RoleController} args.controllers.role
      */
     constructor(args) {
 
         this[collections] = args.collections
+        this[controllers] = args.controllers
+
         NotificationController[instance] = this
         this.events = new ModernuserEventsServer()
 
@@ -159,6 +165,10 @@ export default class NotificationController {
         );
 
         this[processor].start()
+
+        this.createTemplate(ENGINEER_NOTIFY_TEMPLATE).catch(e => {
+            console.warn(`Failed to create engineer notification template\n`, e)
+        })
 
     }
 
@@ -541,6 +551,12 @@ export default class NotificationController {
      * @returns {Promise<void>}
      */
     async notifyUser({ userid, template, language, data }) {
+
+
+        soulUtils.checkArgs(template, 'string', 'template')
+        soulUtils.checkArgs(language, 'string', 'language')
+        soulUtils.checkArgs(userid, 'string', 'userid')
+
         this[processor].insertOne(
             {
                 data,
@@ -566,6 +582,52 @@ export default class NotificationController {
             return await NotificationPlugin.prototype.captionContact.apply(undefined, [data.data])
         }
         return await provider.instance.captionContact(data.data)
+    }
+
+    /**
+     * This method notifies members of a given role
+     * @param {object} param0 
+     * @param {string} param0.roleId
+     * @param {string} param0.template
+     * @param {string} param0.language
+     * @param {object} param0.data
+     */
+    async notifyRole({ roleId, template, language, data }) {
+        soulUtils.checkArgs(roleId, 'string', 'roleId')
+
+        const members = await this[controllers].role.roleplay.getMembers({ roles: [roleId] })
+        for await (const member of members) {
+            this.notifyUser({ userid: member.userid, template, language, data })
+        }
+    }
+
+    /**
+     * This method sends a message to all engineers of the platform
+     * @param {object} param0 
+     * @param {string} param0.message
+     */
+    async notifyEngineers({ message }) {
+
+        soulUtils.checkArgs(message, 'string', 'message')
+
+        const [engRole] = await this[controllers].role.data.fetchRoles('Engineer')
+        if (!engRole) {
+            throw new Error(`Could not find the Engineer role`)
+        }
+
+
+        await this.notifyRole({
+            roleId: engRole.id,
+            language: 'en',
+            template: ENGINEER_NOTIFY_TEMPLATE.name,
+            data: [
+                message || 'No message'
+            ]
+
+        })
+
+
+
     }
 
 
@@ -598,6 +660,43 @@ const PERMISSIONS = [
         name: 'permissions.modernuser.notification.inApp.delete'
     }
 ]
+
+
+/**
+ * @type {modernuser.notification.Template}
+ */
+const ENGINEER_NOTIFY_TEMPLATE = {
+    name: 'modernuser_engineer_notify',
+    label: `Engineer Notification`,
+    fields: {
+        en: {
+            text: `Hello Engineer, you have a notification from the platform, that goes thus:\n{{1}}.\nPlease, check immediately.`,
+            html: `Hello Engineer, you have a notification from the platform, that goes thus:\n{{1}}.\nPlease, check immediately.`,
+            inApp: {
+                title: `Engineer Notification`,
+                text: `Hello Engineer, you have a notification from the platform, that goes thus:\n{{1}}.\nPlease, check immediately.`,
+                caption: `You have a notification that concerns you as an engineer.`
+            },
+            whatsapp: {
+                category: 'UTILITY',
+                components: [
+                    {
+                        type: 'BODY',
+                        text: `Hello Engineer, you have a notification from the platform, that goes thus:\n{{1}}.\nPlease, check immediately.`,
+                        example: {
+                            body_text: [
+                                [
+                                    "Payment plugin failed to start",
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+
+        }
+    }
+}
 
 
 export { PERMISSIONS }
