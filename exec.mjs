@@ -71,7 +71,10 @@ export default async function init() {
 
     const notification_controller = new NotificationController(
         {
-            collections: collections.notification
+            collections: collections.notification,
+            controllers: {
+                role: role_controller
+            }
         }
 
     )
