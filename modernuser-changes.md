@@ -1,3 +1,3 @@
 .
 
-Fixed minor bug.
+Fixed minor bug with account search.
