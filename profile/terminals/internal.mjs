@@ -122,7 +122,7 @@ export default class UserProfileInternalMethods {
      * @param {modernuser.profile.UserProfileTagsSearch} tags 
      */
     async searchUsersByTags(tags) {
-        return await this[controller_symbol].searchUsersByTags(tags)
+        return await this[controller_symbol].searchUsersByTags(arguments[1])
     }
 
 }

@@ -205,7 +205,6 @@ export default class UserProfileController {
      * @param {modernuser.profile.UserProfileTagsSearch} tags 
      */
     async *searchUsersByTags(tags) {
-        tags = arguments[1];
         soulUtils.checkArgs(tags, 'object', 'tags')
         /** @type {Parameters<this[collection_symbol]['find']>['0']} */
         const query = {}
