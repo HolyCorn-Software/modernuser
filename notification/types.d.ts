@@ -174,7 +174,13 @@ global {
         }
     }
 
+
+    namespace modernuser.ui.notification {
+        interface ClientFrontendEvents {
+            'modernuser-notification-new-inApp-notification': modernuser.notification.InAppNotification
+        }
+    }
 }
 
 
-export class EventServer extends JSONRPC.EventChannel.Server<undefined>{ }
+export class EventServer extends JSONRPC.EventChannel.Server<undefined> { }

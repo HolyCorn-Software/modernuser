@@ -94,8 +94,9 @@ export default class NotificationController {
                         inAppData.text = interpolate(inAppData.text)
 
 
+                        let data;
                         await this[collections].inApp.unread.insertOne(
-                            {
+                            data = {
                                 ...inAppData,
                                 time: Date.now(),
                                 target: task.userid,
@@ -103,6 +104,27 @@ export default class NotificationController {
                                 id: shortUUID.generate()
                             }
                         );
+
+                        // Now let the frontend know, that there's a new inApp notification
+
+
+                        this.events.inform(
+                            [task.userid],
+                            new CustomEvent(
+                                'modernuser-notification-new-inApp-notification',
+                                {
+                                    detail: { data }
+                                }
+                            ),
+                            {
+                                expectedClientLen: 1,
+                                retries: 3,
+                                retryDelay: 2000,
+                                timeout: 10_000
+                            }
+                        ).catch(e => {
+                            console.warn(`Could not send notification ${data.id} to user ${task.userid}\n`, e)
+                        });
 
 
                     }
@@ -272,9 +294,11 @@ export default class NotificationController {
      * @param {object} param0 
      * @param {string} param0.target The user whose notifications are being fetched.
      * @param {string} param0.userid The user fetching the notifications.
+     * @param {number} param0.modifiedStart This time parameter if present, tells us that only notifications that were modified after a given time, would be returned
+     * @param {number} param0.limit The maximum number of notifications to fetch at once.
      * 
      */
-    async *getInAppNotifications({ userid, target }) {
+    async *getInAppNotifications({ userid, target, modifiedStart, limit }) {
 
         await muser_common.whitelisted_permission_check(
             {
@@ -284,13 +308,27 @@ export default class NotificationController {
             }
         );
 
-        const cursorU = this[collections].inApp.unread.find({ target })
+        /** @type {Parameters<this[collections]['inApp']['unread']['find']>['0']} */
+        const query = typeof modifiedStart == 'undefined' ? { target } : {
+            $or: [
+                {
+                    time: { $gt: modifiedStart },
+                    target
+                },
+                {
+                    seen: { $gt: modifiedStart },
+                    target
+                }
+            ]
+        }
+
+        const cursorU = this[collections].inApp.unread.find(query, { limit: limit || 100 })
         while (await cursorU.hasNext()) {
             yield await cursorU.next()
         }
         cursorU.close()
 
-        const cursorR = this[collections].inApp.read.find({ target })
+        const cursorR = this[collections].inApp.read.find(query, { limit: limit || 50 })
         while (await cursorR.hasNext()) {
             yield await cursorR.next()
         }

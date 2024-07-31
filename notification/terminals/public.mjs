@@ -134,11 +134,15 @@ export default class NotificationPublicMethods {
      * This method gets the inApp notifications for a given target user
      * @param {object} param0 
      * @param {string} param0.target Pass the id of the user whose notifications are being retrieved. If left blank, the calling user's would be fetched
+     * @param {number} param0.modifiedStart This time parameter if present, tells us that only notifications that were modified after a given time, would be returned
+     * @param {number} param0.limit The maximum number of notifications to fetch at once.
+     * 
      */
-    async getInAppNotifications({ target } = {}) {
+    async getInAppNotifications({ target, modifiedStart, limit } = {}) {
         const userid = (await muser_common.getUser(arguments[0])).id;
         return await this[controller_symbol].getInAppNotifications({
-            target: arguments[1].target || userid,
+            ...arguments[1],
+            target: arguments[1]?.target || userid,
             userid: userid,
         })
     }

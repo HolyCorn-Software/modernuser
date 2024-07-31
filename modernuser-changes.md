@@ -1,3 +1,3 @@
 .
 
-Fixed minor bug with account search.
+Improved management of inApp notifications.
