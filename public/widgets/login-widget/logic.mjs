@@ -57,7 +57,8 @@ async function executeAction({ action, provider, data }) {
             // provider knows that the login requires activation
             if (profiles.length == 1 && !profiles[0].active) {
                 return {
-                    active: false
+                    active: false,
+                    onboarded: profiles[0].onboarded,
                 }
             }
 
@@ -70,11 +71,13 @@ async function executeAction({ action, provider, data }) {
                 if (!login.active) {
                     return {
                         active: false,
+                        onboarded: login.onboarded,
                     }
                 }
                 await hcRpc.modernuser.authentication.advancedLogin({ provider, data, userid: login.profile.id })
                 return {
-                    active: true
+                    active: true,
+                    onboarded: login.onboarded,
                 }
             }
 

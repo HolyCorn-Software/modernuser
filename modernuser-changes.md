@@ -1,3 +1,3 @@
 .
 
-Improved management of inApp notifications.
+Improved authentication algorithm, to ensure proper user onboarding.

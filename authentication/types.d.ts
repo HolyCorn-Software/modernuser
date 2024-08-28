@@ -85,6 +85,7 @@ global {
         interface LoginProfileInfo {
             profile: modernuser.profile.UserProfileData
             active: boolean
+            onboarded: boolean
         }
 
 

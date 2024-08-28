@@ -130,9 +130,11 @@ export default class UserAuthenticationController {
                 plugin: provider,
                 ...Object.fromEntries(Reflect.ownKeys(unique_data).map(x => [`data.${x}`, unique_data[x]]))
             }).toArray()).map(async login => {
+                const profile = await this[user_profile_controller_symbol].getProfile({ id: login.userid });
                 return {
                     active: login.active,
-                    profile: await this[user_profile_controller_symbol].getProfile({ id: login.userid })
+                    profile: profile,
+                    onboarded: typeof profile.label !== 'undefined' && typeof profile.icon !== 'undefined',
                 }
             })
         );

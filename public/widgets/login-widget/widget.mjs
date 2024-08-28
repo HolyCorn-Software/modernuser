@@ -158,7 +158,7 @@ export default class LoginWidget extends Widget {
     async onAction(widget, action, data) {
         await widget.onSystemAction({ action, data });
         if (action === 'login') {
-            if (data.active) {
+            if (data.active && data.onboarded) {
                 await this.continue()
             } //else, the login was not active
         }

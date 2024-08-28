@@ -28,6 +28,7 @@ global {
     namespace modernuser.authentication.frontend {
         interface LoginStatus {
             active: boolean
+            onboarded: boolean
         }
     }
 }
